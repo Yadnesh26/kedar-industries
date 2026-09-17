@@ -1,0 +1,189 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Breadcrumb from '@/components/Breadcrumb.astro';
+import SpecTable from '@/components/SpecTable.astro';
+import FAQAccordion from '@/components/FAQAccordion.astro';
+import ProductCard from '@/components/ProductCard.astro';
+import CTABand from '@/components/CTABand.astro';
+import { Image } from 'astro:assets';
+import { CircleCheck, ArrowRight, FileCheck2 } from '@lucide/astro';
+import { img } from '@/lib/images';
+import { getCollection, render } from 'astro:content';
+import projectsData from '@/data/projects.json';
+
+export async function getStaticPaths() {
+  const products = await getCollection('products');
+  return products.map((product) => ({
+    params: { slug: product.id },
+    props: { product, allProducts: products },
+  }));
+}
+
+const { product, allProducts } = Astro.props;
+const { data, id } = product;
+const { Content } = await render(product);
+
+const related = allProducts
+  .filter((p) => p.id !== id && p.data.category === data.category)
+  .slice(0, 3);
+
+const relatedProjects = projectsData.filter((p) => p.productType === id).slice(0, 6);
+
+const productSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name: data.name,
+  description: data.tagline,
+  brand: { '@type': 'Brand', name: 'Kedar Industries' },
+  manufacturer: {
+    '@type': 'Organization',
+    name: 'Kedar Industries',
+    url: 'https://kedarindustries.net/',
+  },
+};
+---
+
+<BaseLayout
+  title={`${data.name} | Kedar Industries`}
+  description={data.tagline}
+  path={`/products/${id}/`}
+>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(productSchema)} />
+
+  <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Products', href: '/products/' }, { label: data.name }]} />
+
+  <section class="relative bg-ink-900 overflow-hidden">
+    <div class="absolute inset-0">
+      <Image src={img(data.heroImage)} alt="" width={1600} height={700} class="w-full h-full object-cover opacity-25" />
+      <div class="absolute inset-0 bg-gradient-to-t from-ink-900 via-ink-900/85 to-ink-900/60"></div>
+    </div>
+    <div class="container-page relative py-16 sm:py-24">
+      <h1 class="text-paper text-3xl sm:text-5xl max-w-2xl leading-[1.1]">{data.name}</h1>
+      <p class="mt-5 text-lg text-ink-200 max-w-xl leading-relaxed">{data.tagline}</p>
+      <div class="mt-8 flex flex-wrap gap-4">
+        <a href="/contact/" class="btn btn-primary">Request a Quote <ArrowRight class="size-4" /></a>
+        <a href="#specifications" class="btn btn-outline-dark">View Specifications</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-y">
+    <div class="container-page grid lg:grid-cols-3 gap-6 -mt-2 mb-12">
+      {data.keySpecs.map((spec) => (
+        <div class="card p-5 text-center">
+          <p class="font-mono-figure text-2xl text-amber-600 font-semibold">{spec.value}</p>
+          <p class="text-xs text-ink-400 mt-1">{spec.label}</p>
+        </div>
+      ))}
+    </div>
+
+    <div class="grid lg:grid-cols-3 gap-12">
+      <div class="lg:col-span-2 flex flex-col gap-12">
+        <div>
+          <h2 class="text-2xl text-ink-900 mb-4">Overview</h2>
+          <div class="prose-content text-ink-400 leading-relaxed">
+            <Content />
+          </div>
+        </div>
+
+        <div id="specifications">
+          <h2 class="text-2xl text-ink-900 mb-4">Technical Specification</h2>
+          <SpecTable specs={data.specTable} title="" />
+        </div>
+
+        <div>
+          <h2 class="text-2xl text-ink-900 mb-4">Features</h2>
+          <ul class="grid sm:grid-cols-2 gap-3">
+            {data.features.map((f: string) => (
+              <li class="flex items-start gap-2.5 text-sm text-ink-600">
+                <CircleCheck class="size-4 text-signal-green shrink-0 mt-0.5" /> {f}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div>
+          <h2 class="text-2xl text-ink-900 mb-4">Applications</h2>
+          <ul class="flex flex-wrap gap-2">
+            {data.applications.map((a: string) => (
+              <li class="px-3 py-1.5 rounded-full bg-ink-100 text-sm text-ink-900">{a}</li>
+            ))}
+          </ul>
+        </div>
+
+        {data.relatedTestEvidence && (
+          <div class="card bg-ink-900 border-white/10 p-6 flex items-start gap-4">
+            <FileCheck2 class="size-6 text-amber-500 shrink-0" />
+            <div>
+              <h3 class="font-display font-bold text-paper text-base mb-1.5">Backed by CPRI type-test evidence</h3>
+              <p class="text-sm text-ink-200 leading-relaxed mb-3">
+                This panel's busbar and enclosure construction follows the same principles
+                independently type-tested at 4000 A / 70 kA short-circuit withstand, temperature
+                rise, and IP55 enclosure protection.
+              </p>
+              <a href="/about/certifications/" class="inline-flex items-center gap-1.5 text-amber-500 font-semibold text-sm hover:gap-2.5 transition-all">
+                See the CPRI reports <ArrowRight class="size-4" />
+              </a>
+            </div>
+          </div>
+        )}
+
+        {relatedProjects.length > 0 && (
+          <div>
+            <h2 class="text-2xl text-ink-900 mb-4">Related Projects Delivered</h2>
+            <div class="card overflow-hidden">
+              <table class="w-full text-sm">
+                <tbody>
+                  {relatedProjects.map((p, i) => (
+                    <tr class:list={[i % 2 === 1 && 'bg-ink-100/40']}>
+                      <td class="px-5 py-3 font-medium text-ink-900">{p.client}</td>
+                      <td class="px-5 py-3 text-ink-400">{p.location}</td>
+                      <td class="px-5 py-3 text-ink-600 text-xs">{p.project}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <a href="/projects/" class="inline-flex items-center gap-1.5 text-amber-600 font-semibold text-sm mt-4 hover:gap-2.5 transition-all">
+              View all projects <ArrowRight class="size-4" />
+            </a>
+          </div>
+        )}
+
+        <div>
+          <h2 class="text-2xl text-ink-900 mb-4">Frequently Asked Questions</h2>
+          <FAQAccordion faqs={data.faqs} />
+        </div>
+      </div>
+
+      <aside class="flex flex-col gap-6">
+        <div class="card p-6 sticky top-24">
+          <h3 class="font-display font-bold text-ink-900 text-base mb-2">Standards Compliance</h3>
+          <ul class="flex flex-col gap-2 mb-6">
+            {data.standards.map((s: string) => (
+              <li class="text-xs font-mono-figure text-ink-600 flex items-center gap-2">
+                <CircleCheck class="size-3.5 text-signal-green shrink-0" /> {s}
+              </li>
+            ))}
+          </ul>
+          <a href="/contact/" class="btn btn-primary w-full justify-center">Request a Quote</a>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  {related.length > 0 && (
+    <section class="section-y bg-ink-100/50">
+      <div class="container-page">
+        <h2 class="text-2xl sm:text-3xl text-ink-900 mb-8">Related Products</h2>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {related.map((p) => (
+            <ProductCard href={`/products/${p.id}/`} name={p.data.name} tagline={p.data.tagline} heroImage={p.data.heroImage} />
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <CTABand />
+</BaseLayout>

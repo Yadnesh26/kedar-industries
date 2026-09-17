@@ -1,0 +1,98 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Breadcrumb from '@/components/Breadcrumb.astro';
+import SectionHeading from '@/components/SectionHeading.astro';
+import IndustryChip from '@/components/IndustryChip.astro';
+import CTABand from '@/components/CTABand.astro';
+import * as icons from '@lucide/astro';
+import { ArrowRight } from '@lucide/astro';
+import company from '@/data/company.json';
+import clients from '@/data/clients.json';
+
+const coreServices = [
+  { icon: 'Cpu' as const, title: 'Precision Soldering', description: 'Precision soldering activity for capacitor components and electrical assemblies, to tight dimensional and contact-quality tolerances.' },
+  { icon: 'Flame' as const, title: 'Silver Brazing / Electrical Joints Brazing', description: 'Silver brazing and electrical joint brazing for reliable, low-resistance high-current connections.' },
+  { icon: 'PackagePlus' as const, title: 'Capacitor Component Assembly', description: 'Full component assembly for capacitor manufacturers, from terminals and busbars to finished sub-assemblies.' },
+  { icon: 'Wrench' as const, title: 'Installation & Commissioning', description: 'Professional installation by qualified engineers — setup, alignment, testing, performance verification and operator guidance.' },
+  { icon: 'CalendarClock' as const, title: 'Annual Maintenance Contract (AMC)', description: 'Planned preventive maintenance, routine inspections, and performance optimisation to extend equipment life.' },
+  { icon: 'PackageCheck' as const, title: 'Genuine Spare Parts', description: 'High-quality genuine replacement parts, quickly supplied to avoid interrupted operations.' },
+];
+
+const whyChoose = [
+  'Experienced technical team',
+  'Cost-effective, transparent pricing',
+  'Integrated end-to-end capability — design to dispatch',
+  'Compliance with IS/IEC industry safety standards',
+  'Timely execution and dependable support',
+  'Deep application expertise across sectors',
+];
+---
+
+<BaseLayout
+  title="Services | Kedar Industries"
+  description="Precision soldering, silver brazing, capacitor component assembly, installation & commissioning, AMC and genuine spares from Kedar Industries — plus 24×7 remote technical support."
+  path="/services/"
+>
+  <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Services' }]} />
+
+  <section class="section-y">
+    <div class="container-page">
+      <SectionHeading
+        eyebrow="What we do beyond the panel"
+        title="Services"
+        lead="From precision fabrication activities to full lifecycle support after the panel is installed."
+      />
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {coreServices.map((s) => {
+          const Icon = icons[s.icon];
+          return (
+            <div class="card p-6 flex flex-col gap-4">
+              <div class="size-11 rounded-md bg-amber-100 flex items-center justify-center">
+                <Icon class="size-5 text-amber-600" />
+              </div>
+              <div>
+                <h3 class="font-display font-bold text-ink-900 text-base mb-1.5">{s.title}</h3>
+                <p class="text-sm text-ink-400 leading-relaxed">{s.description}</p>
+              </div>
+              <a href="/contact/" class="inline-flex items-center gap-1.5 text-amber-600 font-semibold text-sm hover:gap-2.5 transition-all mt-auto">
+                Submit enquiry <ArrowRight class="size-3.5" />
+              </a>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <section class="section-y bg-ink-900">
+    <div class="container-page">
+      <SectionHeading eyebrow="24×7 support" title="Remote & round-the-clock technical support" dark
+        lead="Assistance via phone, email and online support — immediate troubleshooting guidance and round-the-clock support for critical service requirements." />
+      <a href={`tel:${company.phoneHref}`} class="btn btn-primary">Call {company.phone}</a>
+    </div>
+  </section>
+
+  <section class="section-y">
+    <div class="container-page">
+      <SectionHeading eyebrow="Why choose our services" title="Built around dependability" />
+      <ul class="grid sm:grid-cols-2 gap-4">
+        {whyChoose.map((item) => (
+          <li class="flex items-start gap-3 text-sm text-ink-900 card p-4">
+            <icons.CircleCheck class="size-4 text-signal-green shrink-0 mt-0.5" /> {item}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section-y bg-ink-100/50">
+    <div class="container-page">
+      <SectionHeading eyebrow="Sectors served" title="Trusted across industrial sectors" />
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+        {clients.industries.map((ind) => <IndustryChip name={ind.name} icon={ind.icon as any} />)}
+      </div>
+    </div>
+  </section>
+
+  <CTABand />
+</BaseLayout>

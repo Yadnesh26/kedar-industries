@@ -1,0 +1,100 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Breadcrumb from '@/components/Breadcrumb.astro';
+import SectionHeading from '@/components/SectionHeading.astro';
+import CTABand from '@/components/CTABand.astro';
+import { CircleCheck, ArrowRight } from '@lucide/astro';
+import company from '@/data/company.json';
+import certifications from '@/data/certifications.json';
+import equipment from '@/data/equipment.json';
+---
+
+<BaseLayout
+  title="Quality Assurance & Testing | Kedar Industries"
+  description="Every Kedar Industries panel is inspected, tested and documented before dispatch — 10 electrical test procedures, 12 calibrated instruments, and independent CPRI type testing per IEC 61439."
+  path="/about/quality/"
+>
+  <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'About Us', href: '/about/' }, { label: 'Quality Assurance' }]} />
+
+  <section class="section-y">
+    <div class="container-page">
+      <SectionHeading
+        eyebrow="Quality assurance"
+        title="Every panel tested. Every standard met."
+        lead="Quality runs through every stage of manufacturing — from incoming material inspection to final testing and documented traceability."
+      />
+
+      <ol class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {company.qualityProcess.map((step, i) => (
+          <li class="card p-5 flex items-start gap-4">
+            <span class="font-mono-figure text-2xl font-bold text-amber-500 shrink-0">{String(i + 1).padStart(2, '0')}</span>
+            <span class="text-sm text-ink-900 font-medium pt-1">{step}</span>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section-y bg-ink-100/50">
+    <div class="container-page">
+      <SectionHeading eyebrow="Final inspection & testing" title="10 electrical testing procedures" lead="Every panel undergoes Factory Acceptance Testing against the approved drawing and bill of materials before it is cleared for dispatch." />
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+        {company.electricalTestingFacilities.map((test) => (
+          <div class="flex items-center gap-3 p-4 rounded-md bg-paper border border-ink-100">
+            <CircleCheck class="size-4 text-signal-green shrink-0" />
+            <span class="text-sm text-ink-900">{test}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section-y">
+    <div class="container-page">
+      <SectionHeading eyebrow="Calibrated instruments" title="Panel testing & measuring equipment" />
+      <div class="card overflow-hidden">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="bg-ink-100/60 text-left">
+              <th class="px-5 py-3 font-mono-figure text-ink-400 w-16">No.</th>
+              <th class="px-5 py-3 text-ink-400 font-medium">Instrument</th>
+              <th class="px-5 py-3 text-ink-400 font-medium w-24 text-right">Qty.</th>
+            </tr>
+          </thead>
+          <tbody>
+            {equipment.map((eq, i) => (
+              <tr class:list={[i % 2 === 1 && 'bg-ink-100/30']}>
+                <td class="px-5 py-3 font-mono-figure text-ink-400">{eq.no}</td>
+                <td class="px-5 py-3 text-ink-900">{eq.instrument}</td>
+                <td class="px-5 py-3 text-right font-mono-figure text-ink-900">{eq.qty}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-y bg-ink-900">
+    <div class="container-page">
+      <SectionHeading eyebrow="CPRI type testing" title="Independently verified, per IEC 61439-1 & 2" dark />
+      <div class="card bg-ink-800 border-white/10 overflow-hidden">
+        <table class="w-full text-sm">
+          <tbody>
+            {certifications.cpriSummary.map((row, i) => (
+              <tr class:list={[i % 2 === 1 && 'bg-white/[0.03]']}>
+                <td class="px-5 py-3.5 text-ink-200">{row.parameter}</td>
+                <td class="px-5 py-3.5 text-right font-mono-figure text-amber-500 font-semibold">{row.status}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <a href="/about/certifications/" class="inline-flex items-center gap-1.5 text-amber-500 font-semibold text-sm mt-8 hover:gap-2.5 transition-all">
+        See the full CPRI reports <ArrowRight class="size-4" />
+      </a>
+    </div>
+  </section>
+
+  <CTABand />
+</BaseLayout>

@@ -1,0 +1,88 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Breadcrumb from '@/components/Breadcrumb.astro';
+import SectionHeading from '@/components/SectionHeading.astro';
+import CTABand from '@/components/CTABand.astro';
+import { Image } from 'astro:assets';
+import * as icons from '@lucide/astro';
+import { img } from '@/lib/images';
+import company from '@/data/company.json';
+
+const sections = [
+  { icon: 'Hammer' as const, title: 'Dedicated Fabrication Section', description: 'Sheet-metal cutting, bending and structural fabrication for enclosures and busbar supports.' },
+  { icon: 'LayoutGrid' as const, title: 'Electrical Panel Assembly Area', description: 'Component mounting, busbar installation and wiring across the full panel range.' },
+  { icon: 'Flame' as const, title: 'Soldering & Brazing Section', description: 'Precision soldering and silver brazing for capacitor parts and electrical joints.' },
+  { icon: 'SearchCheck' as const, title: 'Quality Inspection Area', description: 'Dimensional checks, electrical testing and documentation before dispatch clearance.' },
+  { icon: 'PackageCheck' as const, title: 'Packing & Dispatch Department', description: 'Protective packing and dispatch coordination for safe, on-time delivery.' },
+  { icon: 'Warehouse' as const, title: 'Material Storage Area', description: 'Organised raw-material and component storage supporting lean production flow.' },
+];
+---
+
+<BaseLayout
+  title="Manufacturing Infrastructure | Kedar Industries"
+  description="8,000 sq ft manufacturing facility with 25 ft clear height — dedicated fabrication, panel assembly, soldering & brazing, quality inspection, and dispatch sections, all in-house at Kedar Industries, Nashik."
+  path="/about/infrastructure/"
+>
+  <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'About Us', href: '/about/' }, { label: 'Infrastructure' }]} />
+
+  <section class="relative bg-ink-900 overflow-hidden">
+    <div class="absolute inset-0">
+      <Image src={img('panel-mcc-lineup-shop-floor.png')} alt="" width={1600} height={700} class="w-full h-full object-cover opacity-20" />
+      <div class="absolute inset-0 bg-gradient-to-t from-ink-900 via-ink-900/90 to-ink-900/70"></div>
+    </div>
+    <div class="container-page relative py-20 sm:py-28">
+      <p class="eyebrow mb-4">Manufacturing facility</p>
+      <h1 class="text-paper text-4xl sm:text-5xl max-w-2xl leading-[1.1]">
+        {company.facility.areaSqFt.toLocaleString('en-IN')} sq ft. Every stage in-house.
+      </h1>
+      <p class="mt-6 text-lg text-ink-200 max-w-xl leading-relaxed">
+        A {company.facility.clearHeightFt} ft clear-height covered shed engineered for panel
+        fabrication end to end — from raw sheet metal to a tested, dispatch-ready panel.
+      </p>
+    </div>
+  </section>
+
+  <section class="section-y">
+    <div class="container-page">
+      <SectionHeading eyebrow="Layout" title="Six dedicated production areas" />
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {sections.map((s) => {
+          const Icon = icons[s.icon];
+          return (
+            <div class="card p-6 flex flex-col gap-4">
+              <div class="size-11 rounded-md bg-amber-100 flex items-center justify-center">
+                <Icon class="size-5 text-amber-600" />
+              </div>
+              <div>
+                <h3 class="font-display font-bold text-ink-900 text-base mb-1.5">{s.title}</h3>
+                <p class="text-sm text-ink-400 leading-relaxed">{s.description}</p>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <section class="section-y bg-ink-100/50">
+    <div class="container-page">
+      <SectionHeading eyebrow="Manufacturing strengths" title="What keeps production reliable" />
+      <div class="flex flex-wrap gap-3">
+        {company.manufacturingStrengths.map((item) => (
+          <span class="px-4 py-2 rounded-full bg-paper border border-ink-100 text-sm font-medium text-ink-900">
+            {item}
+          </span>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section-y">
+    <div class="container-page grid sm:grid-cols-2 gap-4">
+      <Image src={img('panel-apfc-batch-ready-for-dispatch-2.jpg')} alt="Panels ready for dispatch" width={640} height={480} class="rounded-md object-cover w-full aspect-[4/3]" />
+      <Image src={img('panel-mcc-buckets-doors-open.png')} alt="MCC panel assembly, doors open" width={640} height={480} class="rounded-md object-cover w-full aspect-[4/3]" />
+    </div>
+  </section>
+
+  <CTABand />
+</BaseLayout>

@@ -1,0 +1,108 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Breadcrumb from '@/components/Breadcrumb.astro';
+import SectionHeading from '@/components/SectionHeading.astro';
+import Timeline from '@/components/Timeline.astro';
+import IndustryChip from '@/components/IndustryChip.astro';
+import CTABand from '@/components/CTABand.astro';
+import { Image } from 'astro:assets';
+import { CircleCheck } from '@lucide/astro';
+import { img } from '@/lib/images';
+import company from '@/data/company.json';
+import clients from '@/data/clients.json';
+
+const milestones = [
+  { period: '2019', title: 'Production commenced', description: 'Kedar Industries began manufacturing electrical control panels and capacitor parts at Plot No. M-20, Siemens Road, MIDC Ambad, Nashik.' },
+  { period: 'FY 2022–23', title: 'Vishay continuous production line', description: 'Established an ongoing capacitor-parts production line for Vishay Components India, including a 200-set export order for 690 V WECS capacitors.' },
+  { period: '2023', title: 'Management-system certification', description: 'Certified to ISO 9001:2015, ISO 14001:2015, ISO 45001:2018, and IATF 16949:2016 — audited quality, environmental, safety and automotive management systems.' },
+  { period: '2025', title: 'Authorised partnerships', description: 'Appointed Vishay’s Partner & System Integrator for APFC and Passive Harmonic Filtering panels, and C&S Electric’s licensed CX Partner for TTA switchgear per IEC 61439.' },
+  { period: '2025', title: 'ZED Silver certification', description: 'Achieved MSME ZED Silver — the government’s Zero Defect Zero Effect sustainable manufacturing certification.' },
+  { period: '2026', title: 'CPRI type testing', description: 'A 4000 A, 415 V Power-cum-Motor Control Centre underwent full type testing at CPRI, Bhopal & Noida, per IEC 61439-1 & 2 — short-circuit, temperature rise and IP55.' },
+];
+---
+
+<BaseLayout
+  title="About Kedar Industries — Six Years of Certified Panel Manufacturing"
+  description="Kedar Industries is a proprietary electrical control panel manufacturer in Nashik, Maharashtra, led by CEO Sandip Patil. ISO/IATF certified, CPRI type-tested, and an authorised Vishay & C&S Electric partner."
+  path="/about/"
+>
+  <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'About Us' }]} />
+
+  <section class="section-y">
+    <div class="container-page">
+      <SectionHeading
+        eyebrow="Built on proof"
+        title="Built on proof. Driven by engineering."
+        lead={company.about}
+      />
+    </div>
+  </section>
+
+  <section class="section-y bg-ink-100/50">
+    <div class="container-page">
+      <SectionHeading eyebrow="Our journey" title="From first panel to CPRI-tested engineering" />
+      <Timeline milestones={milestones} />
+    </div>
+  </section>
+
+  <section class="section-y">
+    <div class="container-page grid md:grid-cols-2 gap-12">
+      <div class="card p-8">
+        <h3 class="font-display font-bold text-xl text-ink-900 mb-3">Vision</h3>
+        <p class="text-ink-400 leading-relaxed">{company.vision}</p>
+      </div>
+      <div class="card p-8">
+        <h3 class="font-display font-bold text-xl text-ink-900 mb-3">Mission</h3>
+        <ul class="flex flex-col gap-2.5">
+          {company.mission.map((m) => (
+            <li class="flex items-start gap-2 text-sm text-ink-400">
+              <CircleCheck class="size-4 text-signal-green shrink-0 mt-0.5" /> {m}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-y bg-ink-900">
+    <div class="container-page grid md:grid-cols-[auto_1fr] gap-8 items-center">
+      <Image src={img('logo-kedar-industries.jpeg')} alt="Kedar Industries" width={96} height={96} class="rounded-full" />
+      <div>
+        <p class="eyebrow mb-2">Leadership</p>
+        <h3 class="font-display font-bold text-2xl text-paper">Sandip Patil</h3>
+        <p class="text-ink-200 mt-1">Chief Executive Officer, Kedar Industries</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-y">
+    <div class="container-page">
+      <SectionHeading eyebrow="Company snapshot" title="At a glance" />
+      <div class="card overflow-hidden">
+        <table class="w-full text-sm">
+          <tbody>
+            <tr><th scope="row" class="text-left font-medium text-ink-400 px-5 py-3 w-1/3">Business constitution</th><td class="px-5 py-3 text-ink-900">{company.constitution}</td></tr>
+            <tr class="bg-ink-100/40"><th scope="row" class="text-left font-medium text-ink-400 px-5 py-3">Year established</th><td class="px-5 py-3 text-ink-900 font-mono-figure">{company.establishedFull}</td></tr>
+            <tr><th scope="row" class="text-left font-medium text-ink-400 px-5 py-3">Manufacturing facility</th><td class="px-5 py-3 text-ink-900">{company.facility.description}</td></tr>
+            <tr class="bg-ink-100/40"><th scope="row" class="text-left font-medium text-ink-400 px-5 py-3">Annual turnover ({company.turnover.fiscalYear})</th><td class="px-5 py-3 text-ink-900 font-mono-figure">{company.turnover.amountINR}</td></tr>
+            <tr><th scope="row" class="text-left font-medium text-ink-400 px-5 py-3">Registered address</th><td class="px-5 py-3 text-ink-900">{company.address.full}</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-y bg-ink-100/50">
+    <div class="container-page">
+      <SectionHeading eyebrow="Sectors served" title="Trusted across industrial sectors" />
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+        {clients.industries.map((ind) => <IndustryChip name={ind.name} icon={ind.icon as any} />)}
+      </div>
+    </div>
+  </section>
+
+  <CTABand
+    title="Want the full picture?"
+    lead="See the CPRI type-test reports and every certification behind these numbers."
+  />
+</BaseLayout>

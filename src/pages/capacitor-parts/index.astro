@@ -1,0 +1,50 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Breadcrumb from '@/components/Breadcrumb.astro';
+import SectionHeading from '@/components/SectionHeading.astro';
+import CTABand from '@/components/CTABand.astro';
+import { Image } from 'astro:assets';
+import { img } from '@/lib/images';
+import { getCollection } from 'astro:content';
+
+const parts = (await getCollection('parts')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout
+  title="Capacitor Part Fabrication | Kedar Industries"
+  description="Kedar Industries fabricates LVAC copper bands, PLC tubulars, GLI terminals, laminated and DC link busbars, and snubber terminals — supplied on a continuous basis to Vishay Components India."
+  path="/capacitor-parts/"
+>
+  <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Capacitor Parts' }]} />
+
+  <section class="section-y">
+    <div class="container-page">
+      <SectionHeading
+        eyebrow="Second business line"
+        title="Capacitor Part Fabrication"
+        lead="Precision components supplied on a continuous production basis to Vishay Components India since FY 2022–23, including a 200-set export order for 690 V WECS capacitors."
+      />
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {parts.map((part) => (
+          <a href={`/capacitor-parts/${part.id}/`} class="card group flex flex-col overflow-hidden">
+            <div class="aspect-[4/3] overflow-hidden bg-ink-100 p-8 flex items-center justify-center">
+              <Image
+                src={img(part.data.heroImage)}
+                alt={part.data.name}
+                width={300}
+                height={300}
+                class="max-w-full max-h-full object-contain transition-transform duration-300 group-hover:scale-105"
+              />
+            </div>
+            <div class="p-5">
+              <h3 class="font-display font-bold text-lg text-ink-900">{part.data.name}</h3>
+              <p class="text-sm text-ink-400 leading-relaxed mt-1">{part.data.tagline}</p>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CTABand />
+</BaseLayout>

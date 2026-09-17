@@ -1,0 +1,79 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Breadcrumb from '@/components/Breadcrumb.astro';
+import CTABand from '@/components/CTABand.astro';
+import { Image } from 'astro:assets';
+import { CircleCheck, ArrowRight } from '@lucide/astro';
+import { img } from '@/lib/images';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const parts = await getCollection('parts');
+  return parts.map((part) => ({
+    params: { slug: part.id },
+    props: { part, allParts: parts },
+  }));
+}
+
+const { part, allParts } = Astro.props;
+const { data, id } = part;
+const { Content } = await render(part);
+const others = allParts.filter((p) => p.id !== id).slice(0, 4);
+---
+
+<BaseLayout
+  title={`${data.name} | Kedar Industries`}
+  description={data.tagline}
+  path={`/capacitor-parts/${id}/`}
+>
+  <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Capacitor Parts', href: '/capacitor-parts/' }, { label: data.name }]} />
+
+  <section class="section-y">
+    <div class="container-page grid lg:grid-cols-2 gap-12 items-start">
+      <div class="card p-10 flex items-center justify-center bg-ink-100/50">
+        <Image src={img(data.heroImage)} alt={data.name} width={400} height={400} class="max-w-full object-contain" />
+      </div>
+      <div>
+        <h1 class="text-3xl sm:text-4xl text-ink-900 mb-4">{data.name}</h1>
+        <p class="text-lg text-ink-400 mb-6">{data.tagline}</p>
+        <div class="prose-content text-ink-400 leading-relaxed mb-8">
+          <Content />
+        </div>
+
+        <h2 class="font-display font-bold text-ink-900 text-lg mb-3">Features</h2>
+        <ul class="flex flex-col gap-2 mb-8">
+          {data.features.map((f: string) => (
+            <li class="flex items-start gap-2.5 text-sm text-ink-600">
+              <CircleCheck class="size-4 text-signal-green shrink-0 mt-0.5" /> {f}
+            </li>
+          ))}
+        </ul>
+
+        <h2 class="font-display font-bold text-ink-900 text-lg mb-3">Applications</h2>
+        <ul class="flex flex-wrap gap-2 mb-8">
+          {data.applications.map((a: string) => (
+            <li class="px-3 py-1.5 rounded-full bg-ink-100 text-sm text-ink-900">{a}</li>
+          ))}
+        </ul>
+
+        <a href="/contact/" class="btn btn-primary">Request a Quote <ArrowRight class="size-4" /></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-y bg-ink-100/50">
+    <div class="container-page">
+      <h2 class="text-2xl text-ink-900 mb-8">Other Capacitor Parts</h2>
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        {others.map((p) => (
+          <a href={`/capacitor-parts/${p.id}/`} class="card p-4 flex flex-col items-center text-center gap-3">
+            <Image src={img(p.data.heroImage)} alt={p.data.name} width={100} height={100} class="w-full aspect-square object-contain" />
+            <span class="text-xs font-medium text-ink-900">{p.data.name}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CTABand />
+</BaseLayout>

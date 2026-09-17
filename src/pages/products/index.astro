@@ -1,0 +1,98 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Breadcrumb from '@/components/Breadcrumb.astro';
+import SectionHeading from '@/components/SectionHeading.astro';
+import ProductCard from '@/components/ProductCard.astro';
+import CTABand from '@/components/CTABand.astro';
+import { getCollection } from 'astro:content';
+
+const products = (await getCollection('products')).sort((a, b) => a.data.order - b.data.order);
+
+const categories: Record<string, string> = {
+  'power-distribution': 'Power Distribution',
+  'motor-control': 'Motor Control',
+  'power-quality': 'Power Quality',
+  automation: 'Automation',
+  capacitor: 'Capacitor',
+  custom: 'Custom Engineering',
+};
+---
+
+<BaseLayout
+  title="Electrical Control Panels | Kedar Industries"
+  description="Kedar Industries manufactures PCC, MCC, APFC, RTPFC, hybrid power factor, PLC automation, VFD, distribution, and custom electrical control panels — CPRI type-tested, IEC 61439 compliant."
+  path="/products/"
+>
+  <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Products' }]} />
+
+  <section class="section-y">
+    <div class="container-page">
+      <SectionHeading
+        eyebrow="Engineered for safety, efficiency & performance"
+        title="Our Electrical Panel Solutions"
+        lead="Every panel is engineered to IEC 61439, built in-house, and tested before dispatch — from small in-feed units to a 7400 A PCC panel."
+      />
+
+      <div
+        class="flex flex-wrap gap-2 mb-10"
+        role="tablist"
+        aria-label="Filter products by category"
+        id="category-filter"
+      >
+        <button type="button" class="px-4 py-2 rounded-full text-sm font-medium bg-ink-900 text-paper" data-filter="all">
+          All ({products.length})
+        </button>
+        {Object.entries(categories).map(([key, label]) => {
+          const count = products.filter((p) => p.data.category === key).length;
+          return count > 0 ? (
+            <button type="button" class="px-4 py-2 rounded-full text-sm font-medium bg-ink-100 text-ink-900 hover:bg-ink-200 transition-colors" data-filter={key}>
+              {label} ({count})
+            </button>
+          ) : null;
+        })}
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6" id="product-grid">
+        {products.map((product) => (
+          <div data-category={product.data.category}>
+            <ProductCard
+              href={`/products/${product.id}/`}
+              name={product.data.name}
+              tagline={product.data.tagline}
+              heroImage={product.data.heroImage}
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section-y bg-ink-100/50">
+    <div class="container-page text-center">
+      <p class="text-ink-400 mb-3">Also fabricating precision components for capacitor manufacturers</p>
+      <a href="/capacitor-parts/" class="btn btn-outline">View Capacitor Parts</a>
+    </div>
+  </section>
+
+  <CTABand />
+</BaseLayout>
+
+<script>
+  const buttons = document.querySelectorAll<HTMLButtonElement>('#category-filter [data-filter]');
+  const cards = document.querySelectorAll<HTMLElement>('#product-grid [data-category]');
+
+  buttons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const filter = btn.dataset.filter;
+      buttons.forEach((b) => b.classList.remove('bg-ink-900', 'text-paper'));
+      buttons.forEach((b) => b.classList.add('bg-ink-100', 'text-ink-900'));
+      btn.classList.remove('bg-ink-100');
+      btn.classList.add('bg-ink-900', 'text-paper');
+
+      cards.forEach((card) => {
+        const show = filter === 'all' || card.dataset.category === filter;
+        card.style.display = show ? '' : 'none';
+      });
+    });
+  });
+</script>
