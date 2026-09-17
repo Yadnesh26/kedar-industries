@@ -1,0 +1,173 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Breadcrumb from '@/components/Breadcrumb.astro';
+import SectionHeading from '@/components/SectionHeading.astro';
+import { MapPin, Phone, Mail, Clock, FileText } from '@lucide/astro';
+import company from '@/data/company.json';
+import { getCollection } from 'astro:content';
+
+const products = (await getCollection('products')).sort((a, b) => a.data.order - b.data.order);
+const parts = (await getCollection('parts')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout
+  title="Contact Us | Kedar Industries"
+  description="Get in touch with Kedar Industries — Plot No. M-20, Siemens Road, MIDC, Ambad, Nashik. Call +91 96575 19210 or send an enquiry for electrical control panels, capacitor parts, or services."
+  path="/contact/"
+>
+  <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Contact' }]} />
+
+  <section class="section-y">
+    <div class="container-page">
+      <SectionHeading
+        eyebrow="Get in touch"
+        title="Tell us what you need built"
+        lead="Send your load requirement, single-line diagram, or service request — our engineering team responds with a costed proposal."
+      />
+
+      <div class="grid lg:grid-cols-[1.3fr_1fr] gap-12">
+        <form
+          class="card p-6 sm:p-8 flex flex-col gap-5"
+          action="https://api.web3forms.com/submit"
+          method="POST"
+        >
+          <!--
+            TODO before launch: replace this Web3Forms access key with the client's own
+            (free at web3forms.com, no backend needed), or swap the form action for the
+            client's preferred provider (Formspree, a Netlify/Cloudflare function, etc.).
+          -->
+          <input type="hidden" name="access_key" value="REPLACE_WITH_WEB3FORMS_ACCESS_KEY" />
+          <input type="hidden" name="subject" value="New enquiry from kedarindustries.net" />
+          <input type="checkbox" name="botcheck" class="hidden" style="display:none" />
+
+          <div class="grid sm:grid-cols-2 gap-5">
+            <div>
+              <label for="name" class="block text-sm font-medium text-ink-900 mb-1.5">Full Name *</label>
+              <input type="text" id="name" name="name" required class="w-full px-4 py-2.5 rounded-md border border-ink-200 text-sm focus:border-amber-500 outline-none" />
+            </div>
+            <div>
+              <label for="company" class="block text-sm font-medium text-ink-900 mb-1.5">Company Name *</label>
+              <input type="text" id="company" name="company" required class="w-full px-4 py-2.5 rounded-md border border-ink-200 text-sm focus:border-amber-500 outline-none" />
+            </div>
+          </div>
+
+          <div class="grid sm:grid-cols-2 gap-5">
+            <div>
+              <label for="phone" class="block text-sm font-medium text-ink-900 mb-1.5">Phone *</label>
+              <input type="tel" id="phone" name="phone" required class="w-full px-4 py-2.5 rounded-md border border-ink-200 text-sm focus:border-amber-500 outline-none" />
+            </div>
+            <div>
+              <label for="email" class="block text-sm font-medium text-ink-900 mb-1.5">Email *</label>
+              <input type="email" id="email" name="email" required class="w-full px-4 py-2.5 rounded-md border border-ink-200 text-sm focus:border-amber-500 outline-none" />
+            </div>
+          </div>
+
+          <fieldset>
+            <legend class="block text-sm font-medium text-ink-900 mb-2">I'm enquiring about</legend>
+            <div class="flex gap-6">
+              <label class="flex items-center gap-2 text-sm text-ink-600">
+                <input type="radio" name="enquiry_type" value="Product" checked class="accent-amber-500" /> A product
+              </label>
+              <label class="flex items-center gap-2 text-sm text-ink-600">
+                <input type="radio" name="enquiry_type" value="Service" class="accent-amber-500" /> A service
+              </label>
+            </div>
+          </fieldset>
+
+          <div class="grid sm:grid-cols-2 gap-5">
+            <div>
+              <label for="product" class="block text-sm font-medium text-ink-900 mb-1.5">Product</label>
+              <select id="product" name="product" class="w-full px-4 py-2.5 rounded-md border border-ink-200 text-sm focus:border-amber-500 outline-none bg-paper">
+                <option value="">Select a product (optional)</option>
+                {products.map((p) => <option value={p.data.name}>{p.data.name}</option>)}
+                {parts.map((p) => <option value={p.data.name}>{p.data.name} (capacitor part)</option>)}
+              </select>
+            </div>
+            <div>
+              <label for="service" class="block text-sm font-medium text-ink-900 mb-1.5">Service</label>
+              <select id="service" name="service" class="w-full px-4 py-2.5 rounded-md border border-ink-200 text-sm focus:border-amber-500 outline-none bg-paper">
+                <option value="">Select a service (optional)</option>
+                <option>Precision Soldering</option>
+                <option>Silver Brazing / Electrical Joints Brazing</option>
+                <option>Capacitor Component Assembly</option>
+                <option>Installation & Commissioning</option>
+                <option>Annual Maintenance Contract (AMC)</option>
+                <option>Genuine Spare Parts</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label for="message" class="block text-sm font-medium text-ink-900 mb-1.5">Message</label>
+            <textarea id="message" name="message" rows="4" class="w-full px-4 py-2.5 rounded-md border border-ink-200 text-sm focus:border-amber-500 outline-none resize-y" placeholder="Load requirement, ratings, quantity, timeline..."></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary self-start">Submit Enquiry</button>
+        </form>
+
+        <div class="flex flex-col gap-4">
+          <div class="card p-6">
+            <div class="flex items-start gap-3 mb-1">
+              <MapPin class="size-5 text-amber-600 shrink-0 mt-0.5" />
+              <div>
+                <h3 class="font-display font-bold text-ink-900 text-sm mb-1">Headquarters & Manufacturing</h3>
+                <p class="text-sm text-ink-400">{company.address.full}</p>
+              </div>
+            </div>
+          </div>
+          <div class="card p-6">
+            <div class="flex items-start gap-3">
+              <Phone class="size-5 text-amber-600 shrink-0 mt-0.5" />
+              <div>
+                <h3 class="font-display font-bold text-ink-900 text-sm mb-1">Phone</h3>
+                <a href={`tel:${company.phoneHref}`} class="text-sm text-ink-400 hover:text-amber-600 font-mono-figure">{company.phone}</a>
+              </div>
+            </div>
+          </div>
+          <div class="card p-6">
+            <div class="flex items-start gap-3">
+              <Mail class="size-5 text-amber-600 shrink-0 mt-0.5" />
+              <div>
+                <h3 class="font-display font-bold text-ink-900 text-sm mb-1">Email</h3>
+                {company.emails.map((e) => <a href={`mailto:${e}`} class="block text-sm text-ink-400 hover:text-amber-600">{e}</a>)}
+              </div>
+            </div>
+          </div>
+          <div class="card p-6">
+            <div class="flex items-start gap-3">
+              <Clock class="size-5 text-amber-600 shrink-0 mt-0.5" />
+              <div>
+                <h3 class="font-display font-bold text-ink-900 text-sm mb-1">Working Hours</h3>
+                <p class="text-sm text-ink-400">{company.hours.weekdays}</p>
+                <p class="text-sm text-ink-400">Saturday: {company.hours.saturday}</p>
+              </div>
+            </div>
+          </div>
+          <div class="card p-6">
+            <div class="flex items-start gap-3">
+              <FileText class="size-5 text-amber-600 shrink-0 mt-0.5" />
+              <div>
+                <h3 class="font-display font-bold text-ink-900 text-sm mb-1">GSTIN</h3>
+                <p class="text-sm text-ink-400 font-mono-figure">27CLYPP3257R1ZR</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pb-16">
+    <div class="container-page">
+      <div class="rounded-md overflow-hidden border border-ink-100 h-80">
+        <iframe
+          title="Kedar Industries location map"
+          src="https://www.google.com/maps?q=Plot+No.+M-20,+Siemens+Road,+MIDC,+Ambad,+Nashik,+Maharashtra+422010&output=embed"
+          class="w-full h-full border-0"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+        ></iframe>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

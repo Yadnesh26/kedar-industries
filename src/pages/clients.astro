@@ -1,0 +1,67 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Breadcrumb from '@/components/Breadcrumb.astro';
+import SectionHeading from '@/components/SectionHeading.astro';
+import LogoWall from '@/components/LogoWall.astro';
+import CTABand from '@/components/CTABand.astro';
+import { Image } from 'astro:assets';
+import { Building2 } from '@lucide/astro';
+import { img } from '@/lib/images';
+import clients from '@/data/clients.json';
+import projects from '@/data/projects.json';
+---
+
+<BaseLayout
+  title="Clients & Associations | Kedar Industries"
+  description="Kedar Industries is a registered vendor of Vishay Components India, Bedmutha Industries, Dalmia Polypro, Vardhman Textiles, Sonepar India, Belrise Industries and others."
+  path="/clients/"
+>
+  <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Clients' }]} />
+
+  <section class="section-y">
+    <div class="container-page">
+      <SectionHeading
+        eyebrow="Who we work with"
+        title="Trusted relationships"
+        lead={`Registered vendor of ${clients.registeredVendorOf.length} major industrial groups, with ${projects.length}+ projects delivered across automotive, textile, chemical, steel and polymer sectors.`}
+      />
+      <LogoWall logos={clients.logos} />
+    </div>
+  </section>
+
+  <section class="section-y bg-ink-100/50">
+    <div class="container-page grid md:grid-cols-2 gap-10">
+      <div>
+        <h2 class="font-display font-bold text-ink-900 text-xl mb-5 flex items-center gap-2">
+          <Building2 class="size-5 text-amber-600" /> Registered Vendor Of
+        </h2>
+        <ul class="flex flex-col gap-2.5">
+          {clients.registeredVendorOf.map((c) => (
+            <li class="text-sm text-ink-900 py-2.5 px-4 rounded-md bg-paper border border-ink-100">{c}</li>
+          ))}
+        </ul>
+      </div>
+      <div>
+        <h2 class="font-display font-bold text-ink-900 text-xl mb-5">Associated Consultants</h2>
+        <ul class="flex flex-col gap-2.5">
+          {clients.associatedConsultants.map((c) => (
+            <li class="text-sm text-ink-900 py-2.5 px-4 rounded-md bg-paper border border-ink-100">{c}</li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-y">
+    <div class="container-page">
+      <SectionHeading eyebrow="Vishay supplier meet" title="Recognised for reliable, consistent supply" />
+      <div class="grid sm:grid-cols-2 gap-4">
+        {clients.supplierMeetPhotos.map((photo) => (
+          <Image src={img(photo)} alt="Kedar Industries at the Vishay supplier meet" width={640} height={480} class="rounded-md object-cover w-full aspect-[4/3]" />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CTABand />
+</BaseLayout>

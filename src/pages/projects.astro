@@ -1,0 +1,90 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Breadcrumb from '@/components/Breadcrumb.astro';
+import SectionHeading from '@/components/SectionHeading.astro';
+import CTABand from '@/components/CTABand.astro';
+import { Search } from '@lucide/astro';
+import projects from '@/data/projects.json';
+
+const featured = projects.filter((p) => p.featured);
+---
+
+<BaseLayout
+  title="Projects Executed | Kedar Industries"
+  description={`${projects.length}+ electrical control panel projects delivered by Kedar Industries for clients including Mahindra & Mahindra, SKF India, Bedmutha Industries, TDK, Vertiv and Vishay Components India.`}
+  path="/projects/"
+>
+  <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Projects' }]} />
+
+  <section class="section-y">
+    <div class="container-page">
+      <SectionHeading
+        eyebrow="The track record"
+        title={`${projects.length} projects. Named clients. Stated ratings.`}
+        lead="Every row below is a delivered project — not a case-study sample. Search by client, location or panel type."
+      />
+
+      <div class="grid sm:grid-cols-3 gap-6 mb-10">
+        {featured.map((p) => (
+          <div class="card p-5">
+            <p class="text-xs eyebrow mb-2">Marquee project</p>
+            <p class="font-display font-bold text-ink-900 text-sm mb-1">{p.client}</p>
+            <p class="text-xs text-ink-400 mb-2">{p.location}</p>
+            <p class="text-sm text-ink-600">{p.project}</p>
+          </div>
+        ))}
+      </div>
+
+      <div class="relative mb-6 max-w-md">
+        <Search class="absolute left-3.5 top-1/2 -translate-y-1/2 size-4 text-ink-400" />
+        <input
+          type="search"
+          id="project-search"
+          placeholder="Search by client, location, or panel type..."
+          class="w-full pl-10 pr-4 py-2.5 rounded-md border border-ink-200 text-sm focus:border-amber-500 outline-none"
+        />
+      </div>
+
+      <div class="card overflow-hidden">
+        <table class="w-full text-sm" id="project-table">
+          <thead>
+            <tr class="bg-ink-900 text-left">
+              <th class="px-5 py-3 font-medium text-paper">Client</th>
+              <th class="px-5 py-3 font-medium text-paper">Location</th>
+              <th class="px-5 py-3 font-medium text-paper">Project Executed</th>
+            </tr>
+          </thead>
+          <tbody>
+            {projects.map((p, i) => (
+              <tr class:list={[i % 2 === 1 && 'bg-ink-100/40']} data-row>
+                <td class="px-5 py-3 font-medium text-ink-900 align-top">{p.client}</td>
+                <td class="px-5 py-3 text-ink-400 align-top whitespace-nowrap">{p.location}</td>
+                <td class="px-5 py-3 text-ink-600 align-top">{p.project}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <p id="no-results" class="hidden px-5 py-8 text-center text-ink-400 text-sm">No projects match your search.</p>
+      </div>
+    </div>
+  </section>
+
+  <CTABand />
+</BaseLayout>
+
+<script>
+  const input = document.getElementById('project-search') as HTMLInputElement;
+  const rows = document.querySelectorAll<HTMLTableRowElement>('[data-row]');
+  const noResults = document.getElementById('no-results');
+
+  input?.addEventListener('input', () => {
+    const query = input.value.trim().toLowerCase();
+    let visibleCount = 0;
+    rows.forEach((row) => {
+      const match = row.textContent?.toLowerCase().includes(query);
+      row.style.display = match ? '' : 'none';
+      if (match) visibleCount++;
+    });
+    noResults?.classList.toggle('hidden', visibleCount > 0);
+  });
+</script>

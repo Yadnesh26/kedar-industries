@@ -1,0 +1,57 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Breadcrumb from '@/components/Breadcrumb.astro';
+import company from '@/data/company.json';
+
+const updated = 'September 2026';
+---
+
+<BaseLayout
+  title="Terms & Conditions | Kedar Industries"
+  description="Terms and conditions for using the Kedar Industries website."
+  path="/terms/"
+>
+  <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Terms & Conditions' }]} />
+  <section class="section-y">
+    <div class="container-page max-w-3xl">
+      <h1 class="text-3xl text-ink-900 mb-2">Terms &amp; Conditions</h1>
+      <p class="text-sm text-ink-400 mb-10">Last updated: {updated}</p>
+
+      <div class="prose-content flex flex-col gap-6 text-ink-600 leading-relaxed">
+        <p>
+          These terms govern your use of kedarindustries.net, operated by Kedar Industries,
+          {company.address.full}.
+        </p>
+
+        <h2 class="text-xl font-display font-bold text-ink-900 mt-4">Website content</h2>
+        <p>
+          Product specifications, certifications, and project information on this site are
+          provided for general reference. While we take care to keep this information accurate,
+          formal quotations, drawings, and purchase orders govern the specific terms of any
+          supply. Please confirm exact specifications and ratings with our engineering team
+          before placing an order.
+        </p>
+
+        <h2 class="text-xl font-display font-bold text-ink-900 mt-4">Intellectual property</h2>
+        <p>
+          The Kedar Industries name, logo, and all photographs and content on this site are the
+          property of Kedar Industries unless otherwise credited, and may not be reproduced
+          without permission.
+        </p>
+
+        <h2 class="text-xl font-display font-bold text-ink-900 mt-4">Enquiries and quotations</h2>
+        <p>
+          Submitting an enquiry through this website does not constitute a binding order. All
+          quotations are subject to Kedar Industries' standard terms of sale, confirmed
+          separately in writing.
+        </p>
+
+        <h2 class="text-xl font-display font-bold text-ink-900 mt-4">Contact</h2>
+        <p>
+          Questions about these terms can be sent to{' '}
+          <a href={`mailto:${company.emails[0]}`} class="text-amber-600 hover:underline">{company.emails[0]}</a>.
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
