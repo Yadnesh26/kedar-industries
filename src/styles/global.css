@@ -1,0 +1,172 @@
+@import "tailwindcss";
+@import "@fontsource-variable/manrope";
+@import "@fontsource-variable/inter";
+@import "@fontsource-variable/jetbrains-mono";
+
+@theme {
+  /* ---- Color: derived from the Kedar Industries logo mark ---- */
+  --color-ink-900: #0e1116;
+  --color-ink-800: #171b22;
+  --color-ink-700: #232a34;
+  --color-ink-600: #3a424e;
+  --color-ink-400: #6b7684;
+  --color-ink-200: #d7dce2;
+  --color-ink-100: #eef1f4;
+  --color-paper: #ffffff;
+
+  --color-amber-100: #fff4d1;
+  --color-amber-500: #ffc629;
+  --color-amber-600: #e0a800;
+
+  --color-signal-red: #ee3137;
+  --color-signal-red-100: #fde6e6;
+  --color-signal-green: #00a85a;
+  --color-signal-green-100: #e2f6ec;
+
+  /* ---- Type ---- */
+  --font-display: "Manrope Variable", "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Inter Variable", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono Variable", "JetBrains Mono", ui-monospace, monospace;
+
+  /* ---- Radius: sharp, industrial ---- */
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 6px;
+
+  /* ---- Container ---- */
+  --container-page: 1280px;
+
+  /* ---- Motion ---- */
+  --ease-out-standard: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@layer base {
+  html {
+    font-family: var(--font-sans);
+    color: var(--color-ink-600);
+    background: var(--color-paper);
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--color-paper);
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    color: var(--color-ink-900);
+    letter-spacing: -0.02em;
+    font-weight: 800;
+  }
+
+  .font-mono-figure {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+  }
+
+  ::selection {
+    background: var(--color-amber-500);
+    color: var(--color-ink-900);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-amber-500);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  .container-page {
+    max-width: var(--container-page);
+    margin-inline: auto;
+    padding-inline: clamp(1rem, 5vw, 3rem);
+  }
+
+  .section-y {
+    padding-block: clamp(4rem, 9vw, 8rem);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    font-size: 0.9375rem;
+    transition: transform 180ms var(--ease-out-standard), background-color 180ms var(--ease-out-standard);
+    white-space: nowrap;
+  }
+
+  .btn-primary {
+    background: var(--color-amber-500);
+    color: var(--color-ink-900);
+  }
+  .btn-primary:hover {
+    background: var(--color-amber-600);
+    transform: translateY(-1px);
+  }
+
+  .btn-outline {
+    border: 1px solid var(--color-ink-200);
+    color: var(--color-ink-900);
+    background: transparent;
+  }
+  .btn-outline:hover {
+    border-color: var(--color-amber-500);
+    transform: translateY(-1px);
+  }
+
+  .btn-outline-dark {
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: var(--color-paper);
+    background: transparent;
+  }
+  .btn-outline-dark:hover {
+    border-color: var(--color-amber-500);
+    transform: translateY(-1px);
+  }
+
+  .card {
+    background: var(--color-paper);
+    border: 1px solid var(--color-ink-100);
+    border-radius: var(--radius-md);
+    transition: border-color 200ms var(--ease-out-standard), transform 200ms var(--ease-out-standard);
+  }
+  .card:hover {
+    border-color: var(--color-amber-500);
+    transform: translateY(-2px);
+  }
+
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-amber-600);
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 600ms var(--ease-out-standard), transform 600ms var(--ease-out-standard);
+  }
+  .reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

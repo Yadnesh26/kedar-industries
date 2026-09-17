@@ -1,0 +1,37 @@
+---
+import { Image } from 'astro:assets';
+import { ShieldCheck } from '@lucide/astro';
+import { img, hasImg } from '@/lib/images';
+
+interface Props {
+  partner: string;
+  role: string;
+  scope: string;
+  validTill?: string | null;
+  logo?: string;
+}
+const { partner, role, scope, validTill, logo } = Astro.props;
+---
+
+<div class="card p-6 flex flex-col gap-4">
+  <div class="flex items-center justify-between">
+    {logo && hasImg(logo) ? (
+      <Image src={img(logo)} alt={partner} width={120} height={40} class="h-8 w-auto object-contain" />
+    ) : (
+      <span class="font-display font-bold text-ink-900">{partner}</span>
+    )}
+    <span class="flex items-center gap-1.5 text-xs font-mono-figure text-signal-green bg-signal-green-100 px-2.5 py-1 rounded-full">
+      <ShieldCheck class="size-3.5" /> Authorised
+    </span>
+  </div>
+  <div>
+    <p class="font-display font-bold text-ink-900 text-base">{partner}</p>
+    <p class="text-sm text-amber-600 font-medium mb-2">{role}</p>
+    <p class="text-sm text-ink-400 leading-relaxed">{scope}</p>
+  </div>
+  {validTill && (
+    <p class="text-xs text-ink-400 font-mono-figure pt-3 border-t border-ink-100">
+      Valid till {validTill}
+    </p>
+  )}
+</div>

@@ -1,0 +1,15 @@
+---
+import * as icons from '@lucide/astro';
+
+interface Props {
+  name: string;
+  icon: keyof typeof icons;
+}
+const { name, icon } = Astro.props;
+const Icon = (icons[icon] ?? icons.Factory) as typeof icons.Factory;
+---
+
+<div class="flex items-center gap-3 p-4 rounded-md border border-ink-100 bg-paper hover:border-amber-500 transition-colors">
+  <Icon class="size-5 text-amber-600 shrink-0" />
+  <span class="text-sm font-medium text-ink-900">{name}</span>
+</div>

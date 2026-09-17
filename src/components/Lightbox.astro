@@ -1,0 +1,105 @@
+---
+import { Image } from 'astro:assets';
+import { Expand, X, ChevronLeft, ChevronRight } from '@lucide/astro';
+import { img } from '@/lib/images';
+
+interface Props {
+  images: string[];
+  /** Unique id so multiple lightbox groups can live on one page. */
+  groupId: string;
+  captionPrefix?: string;
+}
+const { images, groupId, captionPrefix = 'Page' } = Astro.props;
+---
+
+<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3" data-lightbox-group={groupId}>
+  {images.map((file, i) => (
+    <button
+      type="button"
+      class="group relative aspect-[3/4] rounded-md overflow-hidden border border-ink-100 bg-ink-100"
+      data-lightbox-trigger
+      data-index={i}
+    >
+      <Image
+        src={img(file)}
+        alt={`${captionPrefix} ${i + 1}`}
+        width={300}
+        height={400}
+        class="w-full h-full object-cover"
+      />
+      <span class="absolute inset-0 bg-ink-900/0 group-hover:bg-ink-900/40 transition-colors flex items-center justify-center">
+        <Expand class="size-5 text-paper opacity-0 group-hover:opacity-100 transition-opacity" />
+      </span>
+    </button>
+  ))}
+</div>
+
+<dialog
+  data-lightbox-dialog={groupId}
+  class="backdrop:bg-ink-900/90 bg-transparent p-0 max-w-none max-h-none w-screen h-screen m-0 open:flex items-center justify-center"
+>
+  <div class="relative w-full h-full flex items-center justify-center p-6">
+    <button
+      type="button"
+      data-lightbox-close
+      class="absolute top-4 right-4 text-paper/80 hover:text-amber-500 p-2"
+      aria-label="Close"
+    >
+      <X class="size-7" />
+    </button>
+    <button
+      type="button"
+      data-lightbox-prev
+      class="absolute left-2 sm:left-6 text-paper/80 hover:text-amber-500 p-2"
+      aria-label="Previous image"
+    >
+      <ChevronLeft class="size-8" />
+    </button>
+    <img data-lightbox-img class="max-h-[85vh] max-w-[90vw] object-contain rounded-md" alt="" />
+    <button
+      type="button"
+      data-lightbox-next
+      class="absolute right-2 sm:right-6 text-paper/80 hover:text-amber-500 p-2"
+      aria-label="Next image"
+    >
+      <ChevronRight class="size-8" />
+    </button>
+  </div>
+</dialog>
+
+<script define:vars={{ groupId, images }}>
+  const group = document.querySelector(`[data-lightbox-group="${groupId}"]`);
+  const dialog = document.querySelector(`[data-lightbox-dialog="${groupId}"]`);
+  if (group && dialog) {
+    const imgEl = dialog.querySelector('[data-lightbox-img]');
+    // Read the already-optimized <img src> straight from the thumbnail buttons
+    // so the lightbox reuses Astro's generated URLs rather than raw filenames.
+    const fullSrcs = Array.from(group.querySelectorAll('[data-lightbox-trigger] img')).map(
+      (el) => el.getAttribute('src')
+    );
+    let current = 0;
+
+    function show(index) {
+      current = (index + fullSrcs.length) % fullSrcs.length;
+      imgEl.setAttribute('src', fullSrcs[current]);
+    }
+
+    group.querySelectorAll('[data-lightbox-trigger]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        show(Number(btn.dataset.index));
+        dialog.showModal();
+      });
+    });
+
+    dialog.querySelector('[data-lightbox-close]')?.addEventListener('click', () => dialog.close());
+    dialog.querySelector('[data-lightbox-prev]')?.addEventListener('click', () => show(current - 1));
+    dialog.querySelector('[data-lightbox-next]')?.addEventListener('click', () => show(current + 1));
+    dialog.addEventListener('click', (e) => {
+      if (e.target === dialog) dialog.close();
+    });
+    dialog.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') show(current - 1);
+      if (e.key === 'ArrowRight') show(current + 1);
+    });
+  }
+</script>

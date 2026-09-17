@@ -1,0 +1,52 @@
+{
+  "logos": [
+    { "name": "Vishay Components India Pvt. Ltd.", "file": "client-logo-vishay.png" },
+    { "name": "Bedmutha Industries Ltd.", "file": "client-logo-bedmutha-group.png" },
+    { "name": "Shubhada Polymers Products Pvt. Ltd.", "file": "client-logo-shubhada-polymers.jpeg" },
+    { "name": "Dalmia Polypro Industries Pvt. Ltd.", "file": "client-logo-dalmia-polypro.jpeg" },
+    { "name": "KOSO India Pvt. Ltd.", "file": "client-logo-koso-india.jpeg" },
+    { "name": "Kimplas Piping Systems Pvt. Ltd.", "file": "client-logo-kimplas-piping-systems.jpeg" },
+    { "name": "Sonepar India Pvt. Ltd.", "file": "client-logo-sonepar-india.png" },
+    { "name": "Vardhman Textiles Ltd.", "file": "client-logo-vardhman-textiles.png" },
+    { "name": "Indo Rama Synthetics (India) Ltd.", "file": "client-logo-indo-rama-synthetics.jpeg" },
+    { "name": "Mahindra & Mahindra Ltd.", "file": "client-logo-mahindra.png" },
+    { "name": "Innova Rubber Pvt. Ltd.", "file": "client-logo-innova-rubbers.jpeg" },
+    { "name": "TDK India Pvt. Ltd.", "file": "client-logo-tdk.png" }
+  ],
+  "registeredVendorOf": [
+    "Vishay Components India Pvt. Ltd.",
+    "Indo Rama Synthetics (India) Ltd.",
+    "Dalmia Polypro Industries Pvt. Ltd.",
+    "Shubhada Polymers Products (Pvt.) Ltd.",
+    "Bedmutha Industries Ltd.",
+    "Vardhman Textiles Ltd.",
+    "Sonepar India Pvt. Ltd.",
+    "Belrise Industries Ltd."
+  ],
+  "associatedConsultants": [
+    "Dr. B.E. Kushare and Associates",
+    "ubTECH Consulting Engineers Pvt. Ltd.",
+    "Interics Designs Pvt. Ltd.",
+    "ERA Design Consultancy",
+    "Nashwin Electric Pvt. Ltd.",
+    "Sonepar India Pvt. Ltd.",
+    "Belrise Industries Ltd.",
+    "Maars Tecn Engineers, Andheri (W), Mumbai"
+  ],
+  "industries": [
+    { "name": "Automotive", "icon": "car" },
+    { "name": "Textile & Yarns", "icon": "shirt" },
+    { "name": "Chemical & Process", "icon": "flask-conical" },
+    { "name": "Steel & Metal", "icon": "factory" },
+    { "name": "Polymer & Plastics", "icon": "recycle" },
+    { "name": "Electronics & Components", "icon": "cpu" },
+    { "name": "Infrastructure & EPC", "icon": "building-2" },
+    { "name": "Commercial & Residential", "icon": "home" },
+    { "name": "Data Centre & Critical Power", "icon": "server" },
+    { "name": "Education & Institutions", "icon": "graduation-cap" }
+  ],
+  "supplierMeetPhotos": [
+    "event-vishay-supplier-meet-certificate-handover.jpg",
+    "event-vishay-supplier-meet-group-photo.jpeg"
+  ]
+}

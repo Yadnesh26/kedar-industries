@@ -1,0 +1,14 @@
+[
+  { "no": 1, "instrument": "High Voltage Tester, 5 kV", "qty": 1 },
+  { "no": 2, "instrument": "500 V Megger Tester", "qty": 1 },
+  { "no": 3, "instrument": "Fluke 87-V Digital Multimeter", "qty": 1 },
+  { "no": 4, "instrument": "Rish Clamp Meter, 300 A AC/DC", "qty": 1 },
+  { "no": 5, "instrument": "Dial Torque Wrench, range 2–12 Nm", "qty": 1 },
+  { "no": 6, "instrument": "Surface Plate, granite, Grade 0, 630 × 400 mm", "qty": 1 },
+  { "no": 7, "instrument": "Digital Height Gauge, range 0–300 mm, L.C. 0.01 mm", "qty": 1 },
+  { "no": 8, "instrument": "Digital Vernier Calliper", "qty": 3 },
+  { "no": 9, "instrument": "30-Degree Protractor", "qty": 1 },
+  { "no": 10, "instrument": "Digital Outside Micrometer, 0–25 mm", "qty": 1 },
+  { "no": 11, "instrument": "Tong Tester", "qty": 1 },
+  { "no": 12, "instrument": "Phase Sequence Meter", "qty": 1 }
+]

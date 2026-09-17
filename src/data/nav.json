@@ -1,0 +1,34 @@
+{
+  "main": [
+    { "label": "Home", "href": "/" },
+    {
+      "label": "About",
+      "href": "/about/",
+      "children": [
+        { "label": "About Us", "href": "/about/" },
+        { "label": "Infrastructure", "href": "/about/infrastructure/" },
+        { "label": "Quality Assurance", "href": "/about/quality/" },
+        { "label": "Certifications & CPRI Reports", "href": "/about/certifications/" }
+      ]
+    },
+    { "label": "Products", "href": "/products/" },
+    { "label": "Capacitor Parts", "href": "/capacitor-parts/" },
+    { "label": "Services", "href": "/services/" },
+    { "label": "Projects", "href": "/projects/" },
+    { "label": "Clients", "href": "/clients/" },
+    { "label": "Contact", "href": "/contact/" }
+  ],
+  "footerQuickLinks": [
+    { "label": "About Us", "href": "/about/" },
+    { "label": "Products", "href": "/products/" },
+    { "label": "Capacitor Parts", "href": "/capacitor-parts/" },
+    { "label": "Services", "href": "/services/" },
+    { "label": "Projects Executed", "href": "/projects/" },
+    { "label": "Clients", "href": "/clients/" },
+    { "label": "Contact Us", "href": "/contact/" }
+  ],
+  "footerLegal": [
+    { "label": "Privacy Policy", "href": "/privacy-policy/" },
+    { "label": "Terms & Conditions", "href": "/terms/" }
+  ]
+}

@@ -1,0 +1,147 @@
+{
+  "shortCircuit": {
+    "reportNumber": "CPRIBPLSTNBMISC26T0141",
+    "reportDate": "15 June 2026",
+    "lab": "Station-2, 100 MVA Online Testing Station, Switchgear Testing & Development Station, Govindpura, Bhopal – 462023, M.P.",
+    "sample": "415 V, 4000 A, LT Panel (Extendable)",
+    "type": "Power Cum Motor Control Centre",
+    "serialNumber": "LT/PCC/2526/038",
+    "cpriSampleCode": "STNBMISC26S0197",
+    "tested": "20 May 2026",
+    "standard": "Cl. 10.11.5.3.3 & 10.11.5.3.5 of IEC 61439-1:2020 & IEC 61439-2:2020",
+    "requirement": "SCWS test on main busbar only",
+    "testEngineer": "Prabhanshu Jain (Test Engineer) / Himangshu Roy (Head of Division)",
+    "results": [
+      {
+        "oscillogram": "CPRIBPLSTNBMISC26T0141S002",
+        "peakKa": 91.67,
+        "ir": "42.99 (single-phase)",
+        "iy": "—",
+        "ib": "—",
+        "durationS": 1.0,
+        "equivalentKaRms": 42.99,
+        "configuration": "Single-phase SCWS on neutral & nearest phase of main circuit busbars (HBB+VBB)"
+      },
+      {
+        "oscillogram": "CPRIBPLSTNBMISC26T0141S004",
+        "peakKa": "160.18 (R-phase)",
+        "ir": 70.64,
+        "iy": 71.20,
+        "ib": 70.17,
+        "durationS": 1.0,
+        "equivalentKaRms": 71.20,
+        "configuration": "Three-phase SCWS on main circuit busbars (HBB+VBB)"
+      }
+    ],
+    "observations": "No abnormality during or after test. Fine wire fuse found intact; all busbars & supports intact.",
+    "remarks": "After test the sample withstood HV test at 1.0 kV rms for 60 seconds.",
+    "conclusion": "The sample tested complies with the requirement of the customer for the test conducted.",
+    "reportPages": [
+      "cpri-short-circuit-4000A-70kA-report-page1.png",
+      "cpri-short-circuit-4000A-70kA-report-page2.png",
+      "cpri-short-circuit-4000A-70kA-report-page3.png"
+    ]
+  },
+  "temperatureRise": {
+    "reportNumber": "CPRINOAHVMISC26T0222",
+    "reportDate": "21 April 2026",
+    "lab": "High Voltage Laboratory, Regional Testing Laboratory, Plot No. 3A, Institutional Area, Sector-62, Noida – 201309, U.P.",
+    "sample": "415 V, 4000 A, 3-Phase, LT Panel (Power cum Motor Control Center)",
+    "type": "PCC cum Main Distribution Panel",
+    "serialNumber": "LT/PCC/2526/037",
+    "cpriSampleCode": "NOAHVMISC26S0214",
+    "testedDates": "15–16 April 2026",
+    "standard": "General procedure of IS/IEC 61439-1:2020 & IS/IEC 61439-2:2020",
+    "requirement": "Max. temperature rise on busbar & busbar joints ≤ 70 K",
+    "testEngineer": "Satish Kumar (Test Engineer) / L.N. Giri (Engineering Officer Gr. 4)",
+    "testCurrentA": 4000,
+    "maxRiseK": 45.4,
+    "maxRiseLimitK": 70,
+    "maxRiseLocation": "HBB Joint – R2 (T22)",
+    "ambientAtShutdownC": 34.4,
+    "readings": [
+      { "location": "Incoming Terminal – R1", "tc": "T01", "maxTempC": 69.3, "riseK": 34.9 },
+      { "location": "Incoming Terminal – Y1", "tc": "T02", "maxTempC": 68.6, "riseK": 34.2 },
+      { "location": "Incoming Terminal – B1", "tc": "T03", "maxTempC": 61.5, "riseK": 27.1 },
+      { "location": "Incoming Terminal – R2", "tc": "T04", "maxTempC": 62.7, "riseK": 28.3 },
+      { "location": "Incoming Terminal – Y2", "tc": "T05", "maxTempC": 67.8, "riseK": 33.4 },
+      { "location": "Incoming Terminal – B2", "tc": "T06", "maxTempC": 70.6, "riseK": 36.2 },
+      { "location": "VBB Middle – R1", "tc": "T07", "maxTempC": 61.7, "riseK": 27.3 },
+      { "location": "VBB Middle – Y1", "tc": "T08", "maxTempC": 69.8, "riseK": 35.4 },
+      { "location": "VBB Middle – B1", "tc": "T09", "maxTempC": 59.6, "riseK": 25.2 },
+      { "location": "VBB Middle – R2", "tc": "T10", "maxTempC": 55.4, "riseK": 21.0 },
+      { "location": "VBB Middle – Y2", "tc": "T11", "maxTempC": 64.6, "riseK": 30.2 },
+      { "location": "VBB Middle – B2", "tc": "T12", "maxTempC": 62.4, "riseK": 28.0 },
+      { "location": "VBB + HBB Joint – R1", "tc": "T13", "maxTempC": 63.5, "riseK": 29.1 },
+      { "location": "VBB + HBB Joint – Y1", "tc": "T14", "maxTempC": 65.8, "riseK": 31.4 },
+      { "location": "VBB + HBB Joint – B1", "tc": "T15", "maxTempC": 70.8, "riseK": 36.4 },
+      { "location": "VBB + HBB Joint – R2", "tc": "T16", "maxTempC": 71.3, "riseK": 36.9 },
+      { "location": "VBB + HBB Joint – Y2", "tc": "T17", "maxTempC": 63.5, "riseK": 29.1 },
+      { "location": "VBB + HBB Joint – B2", "tc": "T18", "maxTempC": 59.8, "riseK": 25.4 },
+      { "location": "HBB Joint – R1", "tc": "T19", "maxTempC": 56.8, "riseK": 22.4 },
+      { "location": "HBB Joint – Y1", "tc": "T20", "maxTempC": 64.1, "riseK": 29.7 },
+      { "location": "HBB Joint – B1", "tc": "T21", "maxTempC": 71.8, "riseK": 37.4 },
+      { "location": "HBB Joint – R2", "tc": "T22", "maxTempC": 79.8, "riseK": 45.4 },
+      { "location": "HBB Joint – Y2", "tc": "T23", "maxTempC": 62.0, "riseK": 27.6 },
+      { "location": "HBB Joint – B2", "tc": "T24", "maxTempC": 67.9, "riseK": 33.5 },
+      { "location": "Outgoing Terminal – R1", "tc": "T25", "maxTempC": 58.7, "riseK": 24.3 },
+      { "location": "Outgoing Terminal – Y1", "tc": "T26", "maxTempC": 67.2, "riseK": 32.8 },
+      { "location": "Outgoing Terminal – B1", "tc": "T27", "maxTempC": 62.8, "riseK": 28.4 },
+      { "location": "Outgoing Terminal – R2", "tc": "T28", "maxTempC": 62.3, "riseK": 27.9 },
+      { "location": "Outgoing Terminal – Y2", "tc": "T29", "maxTempC": 63.6, "riseK": 29.2 },
+      { "location": "Outgoing Terminal – B2", "tc": "T30", "maxTempC": 64.9, "riseK": 30.5 },
+      { "location": "Enclosure Top", "tc": "T31", "maxTempC": 38.1, "riseK": 3.7 },
+      { "location": "Enclosure Side", "tc": "T32", "maxTempC": 37.0, "riseK": 2.6 }
+    ],
+    "hvWithstand": {
+      "voltageKvRms": 1.89,
+      "durationS": 60,
+      "configurations": [
+        "R → (Y, B, N & Frame)",
+        "Y → (R, B, N & Frame)",
+        "B → (R, Y, N & Frame)",
+        "N → (R, Y, B & Frame)",
+        "R, Y, B & N → Frame"
+      ]
+    },
+    "clearanceMm": 30,
+    "creepageMm": 34,
+    "reportPages": [
+      "cpri-temperature-rise-hv-clearance-report-page1.png",
+      "cpri-temperature-rise-hv-clearance-report-page2.png",
+      "cpri-temperature-rise-hv-clearance-report-page3.png",
+      "cpri-temperature-rise-hv-clearance-report-page4.png",
+      "cpri-temperature-rise-hv-clearance-report-page5.png"
+    ]
+  },
+  "ip55": {
+    "reportNumber": "CPRINOAHV26T0221",
+    "ulr": "ULR-TC5223260HVLT0221F",
+    "reportDate": "21 April 2026",
+    "lab": "High Voltage Laboratory, Regional Testing Laboratory, Sector-62, Noida – 201309, U.P.",
+    "sample": "415 V, 630 A, 3-Phase, LT Control Panel",
+    "type": "Distribution Panel",
+    "serialNumber": "LT/PCC/2526/036",
+    "cpriSampleCode": "NOAHV26S0213",
+    "testedDates": "15–16 April 2026",
+    "standard": "Clause 10.3 of IS/IEC 61439-1:2020 & IS/IEC 61439-2:2020",
+    "testEngineer": "Satish Kumar (Test Engineer) / L.N. Giri (Engineering Officer Gr. 4)",
+    "ip5x": {
+      "date": "15 April 2026",
+      "method": "Sample placed in a closed chamber with unscented talcum powder held in suspension by air current, 8 hours.",
+      "result": "No traces of talcum powder observed inside the sample."
+    },
+    "ipx5": {
+      "date": "16 April 2026",
+      "method": "Washed from all directions with a 6.3 mm hose nozzle held at 3 m, delivery 12.5 litres/min, 3.0 minutes.",
+      "result": "No traces of water observed inside the sample."
+    },
+    "conclusion": "The sample tested complies with the requirements of clause no. 10.3 of IS/IEC 61439-1: 2020 & IS/IEC 61439-2: 2020 for the test conducted.",
+    "reportPages": [
+      "cpri-ip55-enclosure-protection-report-page1.png",
+      "cpri-ip55-enclosure-protection-report-page2.png",
+      "cpri-ip55-enclosure-protection-report-page3.png",
+      "cpri-ip55-enclosure-protection-report-page4.png"
+    ]
+  }
+}

@@ -1,0 +1,37 @@
+---
+import { ChevronDown } from '@lucide/astro';
+
+interface FAQ {
+  q: string;
+  a: string;
+}
+interface Props {
+  faqs: FAQ[];
+}
+const { faqs } = Astro.props;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+<div class="flex flex-col divide-y divide-ink-100 border border-ink-100 rounded-md overflow-hidden">
+  {faqs.map((faq) => (
+    <details class="group">
+      <summary class="flex items-center justify-between gap-4 px-5 py-4 cursor-pointer list-none font-display font-semibold text-ink-900 text-sm hover:bg-ink-100/40 transition-colors">
+        {faq.q}
+        <ChevronDown class="size-4 shrink-0 text-ink-400 transition-transform group-open:rotate-180" />
+      </summary>
+      <div class="px-5 pb-4 text-sm text-ink-400 leading-relaxed">
+        {faq.a}
+      </div>
+    </details>
+  ))}
+</div>

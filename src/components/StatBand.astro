@@ -1,0 +1,68 @@
+---
+interface Stat {
+  value: string;
+  numericValue?: number;
+  suffix?: string;
+  label: string;
+}
+interface Props {
+  stats: Stat[];
+}
+const { stats } = Astro.props;
+---
+
+<section class="bg-ink-800 border-y border-white/10">
+  <div class="container-page py-12">
+    <dl class="grid grid-cols-2 md:grid-cols-5 gap-8">
+      {stats.map((stat) => (
+        <div class="text-center md:text-left">
+          <dt class="sr-only">{stat.label}</dt>
+          <dd
+            class="font-mono-figure text-3xl sm:text-4xl text-amber-500 font-semibold"
+            data-stat
+            data-target={stat.numericValue ?? ''}
+            data-suffix={stat.suffix ?? ''}
+          >
+            {stat.value}
+          </dd>
+          <p class="mt-1 text-sm text-ink-400">{stat.label}</p>
+        </div>
+      ))}
+    </dl>
+  </div>
+</section>
+
+<script>
+  // Count up from 0 to the real value already rendered server-side, so the
+  // page never shows an unstyled "0+" before JS loads (unlike a client-only
+  // counter). Skipped entirely for prefers-reduced-motion.
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (!prefersReducedMotion) {
+    const els = document.querySelectorAll<HTMLElement>('[data-stat][data-target]');
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          const el = entry.target as HTMLElement;
+          const target = Number(el.dataset.target);
+          const suffix = el.dataset.suffix ?? '';
+          if (!target) continue;
+          const duration = 1200;
+          const start = performance.now();
+          function tick(now: number) {
+            const progress = Math.min((now - start) / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            const current = Math.round(target * eased);
+            el.textContent = current.toLocaleString('en-IN') + suffix;
+            if (progress < 1) requestAnimationFrame(tick);
+          }
+          requestAnimationFrame(tick);
+          observer.unobserve(el);
+        }
+      },
+      { threshold: 0.4 }
+    );
+    els.forEach((el) => observer.observe(el));
+  }
+</script>

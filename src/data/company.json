@@ -1,0 +1,130 @@
+{
+  "name": "Kedar Industries",
+  "legalName": "Kedar Industries",
+  "constitution": "Proprietary Firm",
+  "ceo": "Sandip Patil",
+  "established": "2019",
+  "establishedFull": "June 2019",
+  "tagline": "Engineering Excellence through Quality, Innovation & Reliability.",
+  "pillars": ["Quality", "Innovation", "Excellence"],
+  "businessActivities": "Manufacturing of Electrical Control Panels, Capacitor Part Fabrication, Precision Soldering & Brazing",
+  "address": {
+    "line1": "Plot No. M-20, Siemens Road",
+    "line2": "MIDC, Ambad",
+    "city": "Nashik",
+    "state": "Maharashtra",
+    "postalCode": "422010",
+    "country": "India",
+    "full": "Plot No. M-20, Siemens Road, MIDC, Ambad, Nashik – 422010, Maharashtra, India"
+  },
+  "geo": {
+    "lat": 20.0117,
+    "lng": 73.7517
+  },
+  "facility": {
+    "areaSqFt": 8000,
+    "clearHeightFt": 25,
+    "description": "8,000 sq. ft. covered production shed with 25 ft. clear height"
+  },
+  "turnover": {
+    "fiscalYear": "FY 2025–26",
+    "amountINR": "₹8.04 Crore"
+  },
+  "phone": "+91 96575 19210",
+  "phoneHref": "+919657519210",
+  "emails": ["info@kedarindustries.net", "kedarind2019@gmail.com"],
+  "website": "kedarindustries.net",
+  "hours": {
+    "weekdays": "Sunday – Friday: 8:00 AM – 6:00 PM",
+    "saturday": "Closed",
+    "schemaOpeningHours": "Su,Mo,Tu,We,Th,Fr 08:00-18:00"
+  },
+  "about": "KEDAR INDUSTRIES is a trusted manufacturer of Electrical Control Panels, specializing in Capacitor Part Fabrication and Precision Soldering & Brazing activities. The firm delivers engineering solutions for a range of industrial sectors through innovation, precision, and customer-focused service. The manufacturing facility is equipped with advanced machinery, skilled technicians, and modern quality-control systems, enabling production of reliable and durable products in compliance with national and international standards. As a quality-focused organization, Kedar Industries continuously invests in technology, process improvement, and workforce development for superior performance, safety, and environmental responsibility.",
+  "vision": "To become a leading manufacturer of electrical control panels and precision fabricated components by delivering innovative, reliable, and sustainable engineering solutions.",
+  "mission": [
+    "Manufacture superior-quality electrical control panels and fabricated components.",
+    "Achieve complete customer satisfaction through quality, innovation, and timely delivery.",
+    "Continually improve manufacturing processes and technology.",
+    "Maintain the highest standards of safety, environmental responsibility, and operational excellence.",
+    "Build long-term partnerships based on trust, integrity, and performance."
+  ],
+  "manufacturingAreas": [
+    "Dedicated Fabrication Section",
+    "Electrical Panel Assembly Area",
+    "Soldering & Brazing Section",
+    "Quality Inspection Area",
+    "Packing & Dispatch Department",
+    "Material Storage Area"
+  ],
+  "manufacturingStrengths": [
+    "Modern machinery",
+    "Skilled workforce",
+    "Lean manufacturing practices",
+    "Efficient production planning",
+    "Timely delivery",
+    "Customized manufacturing"
+  ],
+  "whyChoosePanels": [
+    "Tested and validated by CPRI as per IEC 61439-1 & 2",
+    "Proven performance under severe fault conditions (70 kA short circuit)",
+    "Verified thermal performance for continuous full-load operation",
+    "High electrical insulation and dielectric strength",
+    "IP55 protection for harsh industrial environments",
+    "Suitable for critical industrial, commercial, and infrastructure applications"
+  ],
+  "qualityProcess": [
+    "Incoming material inspection",
+    "In-process quality checks",
+    "Final testing",
+    "Documentation & traceability",
+    "Customer-specific inspection",
+    "Continuous improvement"
+  ],
+  "electricalTestingFacilities": [
+    "Insulation Resistance Test",
+    "High Voltage (HV) Withstand Test",
+    "Power Frequency Withstand Voltage Test",
+    "Continuity & Circuit Verification Test",
+    "Functional Performance Testing",
+    "Polarity & Wiring Verification",
+    "Earth Continuity Test",
+    "Protection System Verification",
+    "Temperature Rise Performance Verification",
+    "Routine Testing as per IEC Standards"
+  ],
+  "afterSales": [
+    {
+      "title": "Installation & Commissioning",
+      "description": "Professional installation by qualified engineers; machine setup, alignment, testing and performance verification; operator guidance for safe and efficient operation."
+    },
+    {
+      "title": "Annual Maintenance Contract (AMC)",
+      "description": "Planned preventive maintenance and routine inspections; performance optimization and equipment health checks; increased equipment life and reduced maintenance costs."
+    },
+    {
+      "title": "Genuine Spare Parts",
+      "description": "High-quality genuine replacement parts, quickly supplied to avoid interrupted operations."
+    },
+    {
+      "title": "Remote & 24×7 Technical Support",
+      "description": "Assistance via phone, email and online support; immediate troubleshooting guidance; round-the-clock support for critical service requirements."
+    }
+  ],
+  "otherServices": [
+    "Precision soldering activity",
+    "Silver brazing / electrical joints brazing",
+    "Capacitor component assembly"
+  ],
+  "registrations": [
+    { "name": "Factory Act License", "number": "1920600313117041" },
+    { "name": "GSTIN", "number": "27CLYPP3257R1ZR" },
+    { "name": "MSME Registration (Udyog Aadhaar)", "number": "MH23A0036687" },
+    { "name": "Udyam Registration", "number": "UDYAM-MH-23-0025607" },
+    { "name": "PAN", "number": "CLYPP3257R" },
+    { "name": "TAN", "number": "NSKS41290E" },
+    { "name": "TIN", "number": "27203137777P" },
+    { "name": "EPF / P.F. Registration", "number": "KDNSK3920716000" },
+    { "name": "ESI Registration", "number": "36000276010000999" },
+    { "name": "Importer Exporter Code (IEC)", "number": "ZD270825078965J" }
+  ]
+}

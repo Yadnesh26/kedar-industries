@@ -1,0 +1,29 @@
+---
+import { ArrowRight, Phone } from '@lucide/astro';
+import company from '@/data/company.json';
+
+interface Props {
+  title?: string;
+  lead?: string;
+}
+const {
+  title = 'Need a type-tested panel built to your spec?',
+  lead = 'Send us your load requirement or single-line diagram — our engineering team will respond with a costed proposal.',
+} = Astro.props;
+---
+
+<section class="bg-ink-900 relative overflow-hidden">
+  <div class="absolute inset-0 opacity-[0.04] bg-[radial-gradient(circle_at_20%_20%,#FFC629,transparent_50%)]"></div>
+  <div class="container-page section-y relative text-center max-w-2xl mx-auto">
+    <h2 class="text-3xl sm:text-4xl text-paper leading-tight">{title}</h2>
+    <p class="mt-4 text-lg text-ink-200">{lead}</p>
+    <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
+      <a href="/contact/" class="btn btn-primary">
+        Get a Quote <ArrowRight class="size-4" />
+      </a>
+      <a href={`tel:${company.phoneHref}`} class="btn btn-outline-dark">
+        <Phone class="size-4" /> Call {company.phone}
+      </a>
+    </div>
+  </div>
+</section>

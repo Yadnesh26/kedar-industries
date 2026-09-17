@@ -1,0 +1,128 @@
+---
+import { Phone, Menu, X, ChevronDown } from '@lucide/astro';
+import company from '@/data/company.json';
+import nav from '@/data/nav.json';
+import { img } from '@/lib/images';
+import { Image } from 'astro:assets';
+
+const logo = img('logo-kedar-industries.jpeg');
+const currentPath = Astro.url.pathname;
+---
+
+<header class="sticky top-0 z-50 bg-ink-900/95 backdrop-blur border-b border-white/10">
+  <div class="container-page flex items-center justify-between h-[76px] gap-6">
+    <a href="/" class="flex items-center gap-3 shrink-0 group">
+      <Image src={logo} alt="Kedar Industries logo" width={44} height={44} class="rounded-full" />
+      <span class="font-display font-extrabold text-paper text-lg leading-tight tracking-tight">
+        Kedar<span class="text-amber-500"> Industries</span>
+      </span>
+    </a>
+
+    <nav aria-label="Primary" class="hidden lg:flex items-center gap-1">
+      {nav.main.map((item) => (
+        item.children ? (
+          <div class="relative group">
+            <button
+              class="flex items-center gap-1 px-3 py-2 text-sm font-medium text-ink-200 hover:text-amber-500 transition-colors rounded-md aria-expanded:text-amber-500"
+              aria-haspopup="true"
+            >
+              {item.label}
+              <ChevronDown class="size-3.5 transition-transform group-hover:rotate-180" />
+            </button>
+            <div
+              class="absolute left-0 top-full pt-2 opacity-0 invisible translate-y-1 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-150"
+            >
+              <div class="w-72 bg-ink-800 border border-white/10 rounded-md shadow-xl py-2">
+                {item.children.map((child) => (
+                  <a
+                    href={child.href}
+                    class="block px-4 py-2.5 text-sm text-ink-200 hover:text-amber-500 hover:bg-white/5 transition-colors"
+                  >
+                    {child.label}
+                  </a>
+                ))}
+              </div>
+            </div>
+          </div>
+        ) : (
+          <a
+            href={item.href}
+            class:list={[
+              'px-3 py-2 text-sm font-medium rounded-md transition-colors',
+              currentPath === item.href
+                ? 'text-amber-500'
+                : 'text-ink-200 hover:text-amber-500',
+            ]}
+          >
+            {item.label}
+          </a>
+        )
+      ))}
+    </nav>
+
+    <div class="hidden lg:flex items-center gap-4 shrink-0">
+      <a
+        href={`tel:${company.phoneHref}`}
+        class="flex items-center gap-2 text-sm text-ink-200 hover:text-amber-500 transition-colors font-mono-figure"
+      >
+        <Phone class="size-4" />
+        {company.phone}
+      </a>
+      <a href="/contact/" class="btn btn-primary">Get a Quote</a>
+    </div>
+
+    <button
+      id="mobile-menu-toggle"
+      class="lg:hidden text-paper p-2 -mr-2"
+      aria-label="Open menu"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+    >
+      <Menu class="size-6" id="menu-icon-open" />
+      <X class="size-6 hidden" id="menu-icon-close" />
+    </button>
+  </div>
+
+  <div id="mobile-menu" class="lg:hidden hidden border-t border-white/10 bg-ink-900">
+    <nav aria-label="Mobile" class="container-page py-4 flex flex-col gap-1">
+      {nav.main.map((item) => (
+        <>
+          <a
+            href={item.href}
+            class="px-2 py-2.5 text-ink-200 hover:text-amber-500 font-medium"
+          >
+            {item.label}
+          </a>
+          {item.children && (
+            <div class="pl-4 flex flex-col gap-1 mb-1">
+              {item.children.map((child) => (
+                <a href={child.href} class="px-2 py-2 text-sm text-ink-400 hover:text-amber-500">
+                  {child.label}
+                </a>
+              ))}
+            </div>
+          )}
+        </>
+      ))}
+      <a href={`tel:${company.phoneHref}`} class="px-2 py-2.5 text-ink-200 font-mono-figure">
+        {company.phone}
+      </a>
+      <a href="/contact/" class="btn btn-primary mt-2 justify-center">Get a Quote</a>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const toggle = document.getElementById('mobile-menu-toggle');
+  const menu = document.getElementById('mobile-menu');
+  const iconOpen = document.getElementById('menu-icon-open');
+  const iconClose = document.getElementById('menu-icon-close');
+
+  toggle?.addEventListener('click', () => {
+    const expanded = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.setAttribute('aria-expanded', String(!expanded));
+    menu?.classList.toggle('hidden');
+    iconOpen?.classList.toggle('hidden');
+    iconClose?.classList.toggle('hidden');
+  });
+</script>
