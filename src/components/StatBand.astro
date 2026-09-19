@@ -113,9 +113,9 @@ const { stats } = Astro.props;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    const LINE = 'rgba(255, 255, 255, 0.09)';
-    const BUS = 'rgba(255, 198, 60, 0.24)';
-    const SYMBOL = 'rgba(255, 255, 255, 0.15)';
+    const LINE = 'rgba(255, 255, 255, 0.05)';
+    const BUS = 'rgba(255, 198, 60, 0.13)';
+    const SYMBOL = 'rgba(255, 255, 255, 0.08)';
     const PULSE = '255, 198, 60';
 
     let w = 0;
@@ -225,7 +225,7 @@ const { stats } = Astro.props;
       const tailLen = 26;
       const g = ctx!.createLinearGradient(x - dx * tailLen, y - dy * tailLen, x, y);
       g.addColorStop(0, `rgba(${PULSE}, 0)`);
-      g.addColorStop(1, `rgba(${PULSE}, ${0.4 * intensity})`);
+      g.addColorStop(1, `rgba(${PULSE}, ${0.22 * intensity})`);
       ctx!.strokeStyle = g;
       ctx!.lineWidth = 2.4;
       ctx!.beginPath();
@@ -233,11 +233,11 @@ const { stats } = Astro.props;
       ctx!.lineTo(x, y);
       ctx!.stroke();
 
-      ctx!.fillStyle = `rgba(${PULSE}, ${0.55 * intensity})`;
-      ctx!.shadowColor = `rgba(${PULSE}, 0.5)`;
-      ctx!.shadowBlur = 9;
+      ctx!.fillStyle = `rgba(${PULSE}, ${0.3 * intensity})`;
+      ctx!.shadowColor = `rgba(${PULSE}, 0.28)`;
+      ctx!.shadowBlur = 7;
       ctx!.beginPath();
-      ctx!.arc(x, y, 2.1, 0, Math.PI * 2);
+      ctx!.arc(x, y, 1.8, 0, Math.PI * 2);
       ctx!.fill();
       ctx!.shadowBlur = 0;
     }
