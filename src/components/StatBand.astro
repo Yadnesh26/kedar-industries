@@ -18,30 +18,24 @@ const { stats } = Astro.props;
   sitting as a plain full-width bar.
 */}
 <div class="relative z-10 container-page -mt-12 sm:-mt-16">
-  <div class="stat-card relative rounded-2xl bg-ink-800 shadow-2xl shadow-ink-900/30 border border-white/10 overflow-hidden">
+  <div class="stat-card relative rounded-2xl bg-ink-900 shadow-2xl shadow-ink-900/40 border border-white/10 overflow-hidden">
     {/*
-      A slow-flowing gradient-mesh ("aurora") behind the figures — the
-      technique behind most of today's premium AI-product hero sections:
-      a handful of large, heavily blurred colour fields drifting on
-      independent, offset timers so the motion never looks like a loop.
-      Scoped to this component's own <style> block by Astro — it cannot
-      reach any other card or section on the site.
+      A fine field of drifting embers — modelled on how antigravity.google
+      actually does it (inspected in a real browser): very small, dense,
+      low-contrast specks with slow motion and NO connecting lines. Here
+      they rise like sparks off a shop floor, which suits an electrical
+      manufacturer rather than being a generic tech-site effect.
+      Scoped to this card only.
     */}
-    <div class="stat-card__aurora" aria-hidden="true">
-      <span class="stat-card__blob stat-card__blob--amber"></span>
-      <span class="stat-card__blob stat-card__blob--red"></span>
-      <span class="stat-card__blob stat-card__blob--green"></span>
-      <span class="stat-card__blob stat-card__blob--amber-2"></span>
-    </div>
-    <div class="stat-card__grain" aria-hidden="true"></div>
-    <div class="stat-card__vignette" aria-hidden="true"></div>
+    <div class="stat-card__heat" aria-hidden="true"></div>
+    <canvas class="stat-card__canvas" aria-hidden="true"></canvas>
 
     <dl class="relative grid grid-cols-2 md:grid-cols-4 gap-8 px-6 py-8 sm:px-10 sm:py-10">
       {stats.map((stat) => (
         <div class="text-center md:text-left">
           <dt class="sr-only">{stat.label}</dt>
           <dd
-            class="font-mono-figure text-3xl sm:text-4xl text-amber-500 font-semibold [text-shadow:0_1px_12px_rgba(0,0,0,0.55)]"
+            class="font-mono-figure text-3xl sm:text-4xl text-amber-500 font-semibold"
             data-stat
             data-target={stat.numericValue ?? ''}
             data-suffix={stat.suffix ?? ''}
@@ -58,115 +52,40 @@ const { stats } = Astro.props;
 <style>
   /* Scoped to this component by Astro — cannot leak to any other card. */
 
-  .stat-card__aurora {
+  /* A faint warm wash along the bottom edge, so the embers read as rising
+     off a heat source rather than floating in an empty box. */
+  .stat-card__heat {
     position: absolute;
     inset: 0;
-    overflow: hidden;
-    filter: blur(32px) saturate(1.6) brightness(1.15);
+    background:
+      radial-gradient(90% 120% at 18% 118%, rgba(255, 198, 60, 0.16) 0%, transparent 62%),
+      radial-gradient(70% 110% at 82% 122%, rgba(255, 160, 40, 0.1) 0%, transparent 60%);
+    pointer-events: none;
   }
 
-  .stat-card__blob {
-    position: absolute;
-    border-radius: 50%;
-    opacity: 0.85;
-    will-change: transform;
-  }
-
-  .stat-card__blob--amber {
-    width: 50%;
-    aspect-ratio: 1;
-    left: -8%;
-    top: -35%;
-    background: radial-gradient(circle, var(--color-amber-500) 0%, transparent 68%);
-    animation: drift-a 16s ease-in-out infinite;
-  }
-
-  .stat-card__blob--amber-2 {
-    width: 38%;
-    aspect-ratio: 1;
-    right: -6%;
-    bottom: -40%;
-    background: radial-gradient(circle, var(--color-amber-500) 0%, transparent 68%);
-    opacity: 0.7;
-    animation: drift-b 21s ease-in-out infinite;
-  }
-
-  .stat-card__blob--red {
-    width: 26%;
-    aspect-ratio: 1;
-    left: 38%;
-    bottom: -45%;
-    background: radial-gradient(circle, var(--color-signal-red) 0%, transparent 68%);
-    opacity: 0.5;
-    animation: drift-c 18s ease-in-out infinite;
-  }
-
-  .stat-card__blob--green {
-    width: 28%;
-    aspect-ratio: 1;
-    right: 22%;
-    top: -40%;
-    background: radial-gradient(circle, var(--color-signal-green) 0%, transparent 68%);
-    opacity: 0.45;
-    animation: drift-d 24s ease-in-out infinite;
-  }
-
-  @keyframes drift-a {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    33% { transform: translate(18%, 12%) scale(1.15); }
-    66% { transform: translate(6%, 22%) scale(0.95); }
-  }
-  @keyframes drift-b {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    40% { transform: translate(-14%, -16%) scale(1.1); }
-    75% { transform: translate(-4%, -6%) scale(0.9); }
-  }
-  @keyframes drift-c {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    50% { transform: translate(-16%, -14%) scale(1.2); }
-  }
-  @keyframes drift-d {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    50% { transform: translate(10%, 18%) scale(1.1); }
-  }
-
-  /* Fine grain over the gradients so they read as a premium, textured
-     surface instead of a flat blurred blob — the same trick behind most
-     high-end gradient-mesh heroes. Pure CSS, no image request. */
-  .stat-card__grain {
+  .stat-card__canvas {
     position: absolute;
     inset: 0;
-    opacity: 0.05;
-    mix-blend-mode: overlay;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  }
-
-  /* Just enough darkening along the edges (where the blobs are strongest)
-     to keep the figures at AA contrast — the text's own shadow does most
-     of the legibility work, so this stays light instead of muddying the
-     colour underneath it. */
-  .stat-card__vignette {
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(120% 130% at 50% 45%, transparent 45%, rgba(14, 17, 22, 0.4) 100%);
+    width: 100%;
+    height: 100%;
+    display: block;
+    pointer-events: none;
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .stat-card__blob {
-      animation: none;
+    .stat-card__canvas {
+      display: none;
     }
   }
 </style>
 
 <script>
-  // Count up from 0 to the real value already rendered server-side, so the
-  // page never shows an unstyled "0+" before JS loads (unlike a client-only
-  // counter). Skipped entirely for prefers-reduced-motion.
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  // ---- Count-up ------------------------------------------------------
   if (!prefersReducedMotion) {
     const els = document.querySelectorAll<HTMLElement>('[data-stat][data-target]');
-    const observer = new IntersectionObserver(
+    const countObserver = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
           if (!entry.isIntersecting) continue;
@@ -179,16 +98,141 @@ const { stats } = Astro.props;
           function tick(now: number) {
             const progress = Math.min((now - start) / duration, 1);
             const eased = 1 - Math.pow(1 - progress, 3);
-            const current = Math.round(target * eased);
-            el.textContent = current.toLocaleString('en-IN') + suffix;
+            el.textContent = Math.round(target * eased).toLocaleString('en-IN') + suffix;
             if (progress < 1) requestAnimationFrame(tick);
           }
           requestAnimationFrame(tick);
-          observer.unobserve(el);
+          countObserver.unobserve(el);
         }
       },
       { threshold: 0.4 }
     );
-    els.forEach((el) => observer.observe(el));
+    els.forEach((el) => countObserver.observe(el));
+  }
+
+  // ---- Ember field ---------------------------------------------------
+  if (!prefersReducedMotion) {
+    document.querySelectorAll<HTMLElement>('.stat-card').forEach((card) => {
+      const canvas = card.querySelector<HTMLCanvasElement>('.stat-card__canvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+
+      type Ember = {
+        x: number;
+        y: number;
+        size: number;
+        speed: number;
+        drift: number;
+        phase: number;
+        alpha: number;
+        warm: boolean;
+        glow: boolean;
+      };
+
+      let embers: Ember[] = [];
+      let w = 0;
+      let h = 0;
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      let running = false;
+      let rafId = 0;
+
+      function makeEmber(randomY: boolean): Ember {
+        const glow = Math.random() < 0.06; // a handful of brighter sparks
+        return {
+          x: Math.random() * w,
+          y: randomY ? Math.random() * h : h + Math.random() * 20,
+          // Deliberately tiny — the reference's specks are ~1px, not orbs
+          size: glow ? Math.random() * 1.2 + 1.1 : Math.random() * 0.8 + 0.4,
+          speed: (Math.random() * 0.22 + 0.08) * (glow ? 0.65 : 1),
+          drift: Math.random() * 0.22 + 0.05,
+          phase: Math.random() * Math.PI * 2,
+          alpha: glow ? Math.random() * 0.35 + 0.55 : Math.random() * 0.45 + 0.28,
+          warm: Math.random() < 0.72, // amber vs. near-white, for depth
+          glow,
+        };
+      }
+
+      function resize() {
+        const rect = card.getBoundingClientRect();
+        w = rect.width;
+        h = rect.height;
+        canvas!.width = Math.round(w * dpr);
+        canvas!.height = Math.round(h * dpr);
+        ctx!.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+        // Dense but fine, scaled to the card's area
+        const count = Math.round(Math.min(Math.max((w * h) / 1100, 160), 420));
+        embers = Array.from({ length: count }, () => makeEmber(true));
+      }
+
+      let t = 0;
+      function frame() {
+        if (!running) return;
+        t += 0.016;
+        ctx!.clearRect(0, 0, w, h);
+
+        for (let i = 0; i < embers.length; i++) {
+          const e = embers[i];
+
+          // Rise, with a slow sideways sway so it reads as air movement
+          e.y -= e.speed;
+          e.x += Math.sin(t * 0.6 + e.phase) * e.drift * 0.35;
+
+          if (e.y < -4) embers[i] = makeEmber(false);
+          if (e.x < -4) e.x = w + 4;
+          if (e.x > w + 4) e.x = -4;
+
+          // Fade in at the bottom and out at the top so nothing pops
+          const edgeFade = Math.min(1, Math.min(e.y / (h * 0.3), (h - e.y) / (h * 0.25), 1));
+          const twinkle = 0.75 + Math.sin(t * 1.6 + e.phase) * 0.25;
+          const a = e.alpha * Math.max(0, edgeFade) * twinkle;
+          if (a <= 0.01) continue;
+
+          const rgb = e.warm ? '255, 198, 60' : '255, 241, 214';
+
+          if (e.glow) {
+            ctx!.shadowColor = `rgba(${rgb}, ${a * 0.9})`;
+            ctx!.shadowBlur = 8;
+          }
+          ctx!.fillStyle = `rgba(${rgb}, ${a})`;
+          ctx!.beginPath();
+          ctx!.arc(e.x, e.y, e.size, 0, Math.PI * 2);
+          ctx!.fill();
+          if (e.glow) ctx!.shadowBlur = 0;
+        }
+
+        rafId = requestAnimationFrame(frame);
+      }
+
+      function start() {
+        if (running) return;
+        running = true;
+        rafId = requestAnimationFrame(frame);
+      }
+      function stop() {
+        running = false;
+        cancelAnimationFrame(rafId);
+      }
+
+      resize();
+      new ResizeObserver(() => resize()).observe(card);
+
+      // Only animate while the card is actually on screen and the tab is active.
+      const vis = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting && document.visibilityState === 'visible') start();
+          else stop();
+        },
+        { threshold: 0.01 }
+      );
+      vis.observe(card);
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible') {
+          const r = card.getBoundingClientRect();
+          if (r.bottom > 0 && r.top < window.innerHeight) start();
+        } else stop();
+      });
+    });
   }
 </script>
