@@ -1,6 +1,5 @@
 ---
-import { Phone, Menu, X, ChevronDown } from '@lucide/astro';
-import company from '@/data/company.json';
+import { Menu, X, ChevronDown } from '@lucide/astro';
 import nav from '@/data/nav.json';
 import { img } from '@/lib/images';
 import { Image } from 'astro:assets';
@@ -14,12 +13,12 @@ const parts = (await getCollection('parts')).sort((a, b) => a.data.order - b.dat
 ---
 
 <header class="sticky top-0 z-50 bg-paper/95 backdrop-blur border-b border-ink-100">
-  <div class="container-page flex items-center justify-between h-20 gap-6">
+  <div class="container-page grid grid-cols-[auto_1fr_auto] items-center h-20 gap-6">
     <a href="/" class="flex items-center shrink-0">
       <Image src={logo} alt="Kedar Industries" width={220} height={68} class="h-11 sm:h-12 w-auto object-contain" />
     </a>
 
-    <nav aria-label="Primary" class="hidden lg:flex items-center gap-1">
+    <nav aria-label="Primary" class="hidden lg:flex items-center gap-1 mx-auto">
       {nav.main.map((item) => (
         item.label === 'Products' ? (
           <div class="relative group">
@@ -101,20 +100,13 @@ const parts = (await getCollection('parts')).sort((a, b) => a.data.order - b.dat
       ))}
     </nav>
 
-    <div class="hidden lg:flex items-center gap-4 shrink-0">
-      <a
-        href={`tel:${company.phoneHref}`}
-        class="flex items-center gap-2 text-sm text-ink-600 hover:text-amber-600 transition-colors font-mono-figure"
-      >
-        <Phone class="size-4" />
-        {company.phone}
-      </a>
+    <div class="hidden lg:flex items-center shrink-0 justify-self-end">
       <a href="/contact/" class="btn btn-primary">Get a Quote</a>
     </div>
 
     <button
       id="mobile-menu-toggle"
-      class="lg:hidden text-ink-900 p-2 -mr-2"
+      class="lg:hidden col-start-3 justify-self-end text-ink-900 p-2 -mr-2"
       aria-label="Open menu"
       aria-expanded="false"
       aria-controls="mobile-menu"
@@ -158,9 +150,6 @@ const parts = (await getCollection('parts')).sort((a, b) => a.data.order - b.dat
           </a>
         )
       )}
-      <a href={`tel:${company.phoneHref}`} class="px-2 py-2.5 text-ink-600 font-mono-figure">
-        {company.phone}
-      </a>
       <a href="/contact/" class="btn btn-primary mt-2 justify-center">Get a Quote</a>
     </nav>
   </div>
