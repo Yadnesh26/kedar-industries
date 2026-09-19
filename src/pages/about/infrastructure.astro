@@ -3,7 +3,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import Breadcrumb from '@/components/Breadcrumb.astro';
 import SectionHeading from '@/components/SectionHeading.astro';
 import CTABand from '@/components/CTABand.astro';
-import { Image } from 'astro:assets';
+import { Image, Picture } from 'astro:assets';
 import * as icons from '@lucide/astro';
 import { img } from '@/lib/images';
 import company from '@/data/company.json';
@@ -27,7 +27,15 @@ const sections = [
 
   <section class="relative bg-ink-900 overflow-hidden">
     <div class="absolute inset-0">
-      <Image src={img('panel-mcc-lineup-shop-floor.png')} alt="" width={1600} height={700} class="w-full h-full object-cover opacity-20" />
+      <Picture
+        src={img('panel-mcc-lineup-shop-floor.png')}
+        alt=""
+        widths={[480, 768, 1024, 1440, 1920, 2560]}
+        sizes="100vw"
+        formats={['avif', 'webp']}
+        fallbackFormat="jpg"
+        class="w-full h-full object-cover opacity-20"
+      />
       <div class="absolute inset-0 bg-gradient-to-t from-ink-900 via-ink-900/90 to-ink-900/70"></div>
     </div>
     <div class="container-page relative py-20 sm:py-28">

@@ -8,7 +8,7 @@ import FeatureCard from '@/components/FeatureCard.astro';
 import IndustryChip from '@/components/IndustryChip.astro';
 import PartnerCard from '@/components/PartnerCard.astro';
 import LogoWall from '@/components/LogoWall.astro';
-import { Image } from 'astro:assets';
+import { Image, Picture } from 'astro:assets';
 import { ArrowRight, CircleCheck, ExternalLink } from '@lucide/astro';
 import { img } from '@/lib/images';
 import { getCollection } from 'astro:content';
@@ -51,7 +51,17 @@ const whyChoose = [
   <!-- 1. Hero -->
   <section class="relative bg-ink-900 overflow-hidden">
     <div class="absolute inset-0">
-      <Image src={heroBg} alt="" width={1600} height={900} class="w-full h-full object-cover opacity-55" />
+      <Picture
+        src={heroBg}
+        alt=""
+        widths={[480, 768, 1024, 1440, 1920, 2560]}
+        sizes="100vw"
+        formats={['avif', 'webp']}
+        fallbackFormat="jpg"
+        loading="eager"
+        fetchpriority="high"
+        class="w-full h-full object-cover object-[center_30%] sm:object-center opacity-55"
+      />
       <div class="absolute inset-0 bg-gradient-to-r from-ink-900 via-ink-900/85 to-ink-900/30"></div>
       <div class="absolute inset-0 bg-gradient-to-t from-ink-900 via-transparent to-transparent"></div>
     </div>
@@ -140,7 +150,7 @@ const whyChoose = [
           <p class="text-xs text-ink-400 mt-3 font-mono-figure">Report {cpriTests.ip55.reportNumber}</p>
         </div>
       </div>
-      <a href="/about/certifications/" class="inline-flex items-center gap-1.5 text-amber-500 font-semibold text-sm hover:gap-2.5 transition-all">
+      <a href="/about/quality/" class="inline-flex items-center gap-1.5 text-amber-500 font-semibold text-sm hover:gap-2.5 transition-all">
         See the full test reports <ArrowRight class="size-4" />
       </a>
     </div>
@@ -275,7 +285,7 @@ const whyChoose = [
       <SectionHeading eyebrow="Our clients" title="Trusted relationships" lead={`Registered vendor of ${clients.registeredVendorOf.length} major industrial groups, with ${projects.length}+ projects delivered.`} />
       <LogoWall logos={clients.logos} />
       <div class="mt-8 text-center">
-        <a href="/clients/" class="inline-flex items-center gap-1.5 text-amber-600 font-semibold text-sm hover:gap-2.5 transition-all">
+        <a href="/about/" class="inline-flex items-center gap-1.5 text-amber-600 font-semibold text-sm hover:gap-2.5 transition-all">
           View all clients &amp; associations <ExternalLink class="size-4" />
         </a>
       </div>

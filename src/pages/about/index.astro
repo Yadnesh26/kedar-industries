@@ -4,12 +4,16 @@ import Breadcrumb from '@/components/Breadcrumb.astro';
 import SectionHeading from '@/components/SectionHeading.astro';
 import Timeline from '@/components/Timeline.astro';
 import IndustryChip from '@/components/IndustryChip.astro';
+import LogoWall from '@/components/LogoWall.astro';
 import CTABand from '@/components/CTABand.astro';
 import { Image } from 'astro:assets';
-import { CircleCheck } from '@lucide/astro';
+import { CircleCheck, ArrowRight, Building2 } from '@lucide/astro';
 import { img } from '@/lib/images';
 import company from '@/data/company.json';
 import clients from '@/data/clients.json';
+import projects from '@/data/projects.json';
+
+const featuredProjects = projects.filter((p) => p.featured);
 
 const milestones = [
   { period: '2019', title: 'Production commenced', description: 'Kedar Industries began manufacturing electrical control panels and capacitor parts at Plot No. M-20, Siemens Road, MIDC Ambad, Nashik.' },
@@ -98,6 +102,66 @@ const milestones = [
       <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
         {clients.industries.map((ind) => <IndustryChip name={ind.name} icon={ind.icon as any} />)}
       </div>
+    </div>
+  </section>
+
+  <section class="section-y">
+    <div class="container-page">
+      <SectionHeading
+        eyebrow="The track record"
+        title={`${projects.length}+ projects delivered`}
+        lead="Named clients, stated ratings — not case-study samples."
+      />
+      <div class="grid sm:grid-cols-3 gap-6">
+        {featuredProjects.map((p) => (
+          <div class="card p-5">
+            <p class="text-xs eyebrow mb-2">Marquee project</p>
+            <p class="font-display font-bold text-ink-900 text-sm mb-1">{p.client}</p>
+            <p class="text-xs text-ink-400 mb-2">{p.location}</p>
+            <p class="text-sm text-ink-600">{p.project}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section-y bg-ink-100/50">
+    <div class="container-page">
+      <SectionHeading
+        eyebrow="Who we work with"
+        title="Clients & Associations"
+        lead={`Registered vendor of ${clients.registeredVendorOf.length} major industrial groups.`}
+      />
+      <LogoWall logos={clients.logos} />
+
+      <div class="grid md:grid-cols-2 gap-10 mt-10">
+        <div>
+          <h3 class="font-display font-bold text-ink-900 text-lg mb-4 flex items-center gap-2">
+            <Building2 class="size-5 text-amber-600" /> Registered Vendor Of
+          </h3>
+          <ul class="flex flex-col gap-2.5">
+            {clients.registeredVendorOf.map((c) => (
+              <li class="text-sm text-ink-900 py-2.5 px-4 rounded-md bg-paper border border-ink-100">{c}</li>
+            ))}
+          </ul>
+        </div>
+        <div>
+          <h3 class="font-display font-bold text-ink-900 text-lg mb-4">Associated Consultants</h3>
+          <ul class="flex flex-col gap-2.5">
+            {clients.associatedConsultants.map((c) => (
+              <li class="text-sm text-ink-900 py-2.5 px-4 rounded-md bg-paper border border-ink-100">{c}</li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-y">
+    <div class="container-page text-center">
+      <a href="/about/quality/" class="inline-flex items-center gap-1.5 text-amber-600 font-semibold text-sm hover:gap-2.5 transition-all">
+        See the CPRI type-test reports & certifications <ArrowRight class="size-4" />
+      </a>
     </div>
   </section>
 
