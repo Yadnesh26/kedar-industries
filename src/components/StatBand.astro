@@ -14,26 +14,18 @@ const { stats } = Astro.props;
 {/*
   A floating card overlapping the hero's bottom edge, matching the
   reference site's stat-band treatment — pulled up with a negative
-  margin so it straddles the hero/white-section boundary instead of
-  sitting as a plain full-width bar.
+  margin so it straddles the hero/white-section boundary.
 
-  No background animation: after several attempts, a moving pattern
-  behind four columns of figures on a short, wide card always competed
-  with the numbers. The card earns its presence from materials instead —
-  a lit top edge, a soft depth gradient, and hairline rules between the
-  figures, the way a well-made instrument panel reads.
+  Deliberately plain: a flat dark panel and the figures, nothing else.
 */}
 <div class="relative z-10 container-page -mt-12 sm:-mt-16">
-  <div class="stat-card relative rounded-2xl border border-white/10 shadow-2xl shadow-ink-900/40 overflow-hidden">
-    <div class="stat-card__surface" aria-hidden="true"></div>
-    <div class="stat-card__edge" aria-hidden="true"></div>
-
-    <dl class="stat-card__grid relative grid grid-cols-2 md:grid-cols-4 px-6 py-10 sm:px-10 sm:py-12">
+  <div class="stat-card relative rounded-2xl bg-ink-800 border border-white/10 shadow-2xl shadow-ink-900/40">
+    <dl class="grid grid-cols-2 md:grid-cols-4 gap-8 px-6 py-10 sm:px-10 sm:py-12">
       {stats.map((stat) => (
-        <div class="stat-card__cell text-center md:text-left">
+        <div class="text-center md:text-left">
           <dt class="sr-only">{stat.label}</dt>
           <dd
-            class="font-mono-figure text-3xl sm:text-4xl text-amber-500 font-semibold tracking-tight"
+            class="font-mono-figure text-3xl sm:text-4xl text-amber-500 font-semibold"
             data-stat
             data-target={stat.numericValue ?? ''}
             data-suffix={stat.suffix ?? ''}
@@ -46,77 +38,6 @@ const { stats } = Astro.props;
     </dl>
   </div>
 </div>
-
-<style>
-  /* Scoped to this component by Astro — cannot leak to any other card. */
-
-  /* Depth: slightly lifted at the top, settling darker toward the base,
-     with a faint warm cast pulled from the brand amber. */
-  .stat-card__surface {
-    position: absolute;
-    inset: 0;
-    background:
-      radial-gradient(120% 160% at 50% -20%, rgba(255, 198, 60, 0.07) 0%, transparent 60%),
-      linear-gradient(to bottom, #1b2029 0%, #12161d 55%, #0e1116 100%);
-  }
-
-  /* A single lit hairline along the top edge — the highlight you get on
-     a machined edge catching light. */
-  .stat-card__edge {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background: linear-gradient(
-      to right,
-      transparent 0%,
-      rgba(255, 255, 255, 0.16) 18%,
-      rgba(255, 198, 60, 0.3) 50%,
-      rgba(255, 255, 255, 0.16) 82%,
-      transparent 100%
-    );
-    height: 1px;
-    bottom: auto;
-  }
-
-  /* Hairline rules between figures, like divisions on a spec plate.
-     Only between columns, never on the outer edges. */
-  .stat-card__cell + .stat-card__cell {
-    position: relative;
-  }
-  .stat-card__cell + .stat-card__cell::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 1px;
-    height: 66%;
-    background: linear-gradient(
-      to bottom,
-      transparent,
-      rgba(255, 255, 255, 0.2),
-      transparent
-    );
-  }
-
-  /* On the 2-column mobile layout the rule would land mid-row on the
-     wrong cells, so only draw it where a real column break exists. */
-  @media (max-width: 767px) {
-    .stat-card__cell:nth-child(odd) + .stat-card__cell::before {
-      display: block;
-    }
-    .stat-card__cell:nth-child(even) + .stat-card__cell::before {
-      display: none;
-    }
-    .stat-card__grid {
-      row-gap: 2rem;
-    }
-  }
-
-  .stat-card__grid {
-    column-gap: 2rem;
-  }
-</style>
 
 <script>
   // Count up from 0 to the real value already rendered server-side, so the
