@@ -20,15 +20,15 @@ const { stats } = Astro.props;
 <div class="relative z-10 container-page -mt-12 sm:-mt-16">
   <div class="stat-card relative rounded-2xl bg-ink-900 shadow-2xl shadow-ink-900/40 border border-white/10 overflow-hidden">
     {/*
-      A fine field of drifting embers — modelled on how antigravity.google
-      actually does it (inspected in a real browser): very small, dense,
-      low-contrast specks with slow motion and NO connecting lines. Here
-      they rise like sparks off a shop floor, which suits an electrical
-      manufacturer rather than being a generic tech-site effect.
-      Scoped to this card only.
+      Three-phase AC waveform, drawn live: three sine waves 120° apart in
+      the R / Y / B phase colours, over a faint oscilloscope graticule.
+      This is literally what Kedar's panels distribute — 415 V, 3-phase,
+      50 Hz — and the R/Y/B phases are the same ones named throughout
+      their CPRI test reports. Scoped to this card only.
     */}
-    <div class="stat-card__heat" aria-hidden="true"></div>
-    <canvas class="stat-card__canvas" aria-hidden="true"></canvas>
+    <div class="stat-card__grid" aria-hidden="true"></div>
+    <canvas class="stat-card__scope" aria-hidden="true"></canvas>
+    <div class="stat-card__scrim" aria-hidden="true"></div>
 
     <dl class="relative grid grid-cols-2 md:grid-cols-4 gap-8 px-6 py-8 sm:px-10 sm:py-10">
       {stats.map((stat) => (
@@ -52,18 +52,20 @@ const { stats } = Astro.props;
 <style>
   /* Scoped to this component by Astro — cannot leak to any other card. */
 
-  /* A faint warm wash along the bottom edge, so the embers read as rising
-     off a heat source rather than floating in an empty box. */
-  .stat-card__heat {
+  /* Oscilloscope graticule: the measurement grid the waveform sits on,
+     echoing the CPRI test-report theme. Deliberately very faint. */
+  .stat-card__grid {
     position: absolute;
     inset: 0;
-    background:
-      radial-gradient(90% 120% at 18% 118%, rgba(255, 198, 60, 0.16) 0%, transparent 62%),
-      radial-gradient(70% 110% at 82% 122%, rgba(255, 160, 40, 0.1) 0%, transparent 60%);
+    background-image:
+      linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: radial-gradient(130% 110% at 50% 50%, #000 35%, transparent 85%);
     pointer-events: none;
   }
 
-  .stat-card__canvas {
+  .stat-card__scope {
     position: absolute;
     inset: 0;
     width: 100%;
@@ -72,9 +74,27 @@ const { stats } = Astro.props;
     pointer-events: none;
   }
 
+  /* Knocks the traces back through the horizontal band where the figures
+     sit, so the waveform stays vivid top and bottom but never fights the
+     text for legibility. */
+  .stat-card__scrim {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      transparent 0%,
+      rgba(14, 17, 22, 0.55) 40%,
+      rgba(14, 17, 22, 0.55) 62%,
+      transparent 100%
+    );
+    pointer-events: none;
+  }
+
+  /* No motion: keep a single static waveform frame (drawn by the script)
+     so the card still reads as intentional, just without animation. */
   @media (prefers-reduced-motion: reduce) {
-    .stat-card__canvas {
-      display: none;
+    .stat-card__scope {
+      opacity: 0.7;
     }
   }
 </style>
@@ -110,129 +130,118 @@ const { stats } = Astro.props;
     els.forEach((el) => countObserver.observe(el));
   }
 
-  // ---- Ember field ---------------------------------------------------
-  if (!prefersReducedMotion) {
-    document.querySelectorAll<HTMLElement>('.stat-card').forEach((card) => {
-      const canvas = card.querySelector<HTMLCanvasElement>('.stat-card__canvas');
-      if (!canvas) return;
-      const ctx = canvas.getContext('2d');
-      if (!ctx) return;
+  // ---- Three-phase waveform -----------------------------------------
+  document.querySelectorAll<HTMLElement>('.stat-card').forEach((card) => {
+    const canvas = card.querySelector<HTMLCanvasElement>('.stat-card__scope');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
 
-      type Ember = {
-        x: number;
-        y: number;
-        size: number;
-        speed: number;
-        drift: number;
-        phase: number;
-        alpha: number;
-        warm: boolean;
-        glow: boolean;
-      };
+    // R / Y / B — the three phases, in the order they appear in the CPRI
+    // reports (Ir, Iy, Ib). Yellow doubles as the brand amber.
+    const PHASES = [
+      { rgb: '236, 50, 55', shift: 0 }, // R
+      { rgb: '255, 198, 60', shift: (Math.PI * 2) / 3 }, // Y
+      { rgb: '0, 168, 90', shift: (Math.PI * 4) / 3 }, // B (brand green)
+    ];
 
-      let embers: Ember[] = [];
-      let w = 0;
-      let h = 0;
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      let running = false;
-      let rafId = 0;
+    let w = 0;
+    let h = 0;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    let running = false;
+    let rafId = 0;
+    let t = 0;
 
-      function makeEmber(randomY: boolean): Ember {
-        const glow = Math.random() < 0.06; // a handful of brighter sparks
-        return {
-          x: Math.random() * w,
-          y: randomY ? Math.random() * h : h + Math.random() * 20,
-          // Deliberately tiny — the reference's specks are ~1px, not orbs
-          size: glow ? Math.random() * 1.2 + 1.1 : Math.random() * 0.8 + 0.4,
-          speed: (Math.random() * 0.22 + 0.08) * (glow ? 0.65 : 1),
-          drift: Math.random() * 0.22 + 0.05,
-          phase: Math.random() * Math.PI * 2,
-          alpha: glow ? Math.random() * 0.35 + 0.55 : Math.random() * 0.45 + 0.28,
-          warm: Math.random() < 0.72, // amber vs. near-white, for depth
-          glow,
-        };
-      }
+    function resize() {
+      const rect = card.getBoundingClientRect();
+      w = rect.width;
+      h = rect.height;
+      canvas!.width = Math.round(w * dpr);
+      canvas!.height = Math.round(h * dpr);
+      ctx!.setTransform(dpr, 0, 0, dpr, 0, 0);
+      if (!running) draw(); // keep a frame on screen when paused
+    }
 
-      function resize() {
-        const rect = card.getBoundingClientRect();
-        w = rect.width;
-        h = rect.height;
-        canvas!.width = Math.round(w * dpr);
-        canvas!.height = Math.round(h * dpr);
-        ctx!.setTransform(dpr, 0, 0, dpr, 0, 0);
+    function draw() {
+      ctx!.clearRect(0, 0, w, h);
 
-        // Dense but fine, scaled to the card's area
-        const count = Math.round(Math.min(Math.max((w * h) / 1100, 160), 420));
-        embers = Array.from({ length: count }, () => makeEmber(true));
-      }
+      const mid = h * 0.5;
+      // Deliberately large: the traces should arc well above and below the
+      // text band, so the waveform still reads clearly on a short card.
+      const amp = h * 0.42;
+      // Two full cycles across the card, so it reads as a waveform rather
+      // than a single lazy curve.
+      const k = (Math.PI * 4) / w;
+      const step = 3;
 
-      let t = 0;
-      function frame() {
-        if (!running) return;
-        t += 0.016;
-        ctx!.clearRect(0, 0, w, h);
-
-        for (let i = 0; i < embers.length; i++) {
-          const e = embers[i];
-
-          // Rise, with a slow sideways sway so it reads as air movement
-          e.y -= e.speed;
-          e.x += Math.sin(t * 0.6 + e.phase) * e.drift * 0.35;
-
-          if (e.y < -4) embers[i] = makeEmber(false);
-          if (e.x < -4) e.x = w + 4;
-          if (e.x > w + 4) e.x = -4;
-
-          // Fade in at the bottom and out at the top so nothing pops
-          const edgeFade = Math.min(1, Math.min(e.y / (h * 0.3), (h - e.y) / (h * 0.25), 1));
-          const twinkle = 0.75 + Math.sin(t * 1.6 + e.phase) * 0.25;
-          const a = e.alpha * Math.max(0, edgeFade) * twinkle;
-          if (a <= 0.01) continue;
-
-          const rgb = e.warm ? '255, 198, 60' : '255, 241, 214';
-
-          if (e.glow) {
-            ctx!.shadowColor = `rgba(${rgb}, ${a * 0.9})`;
-            ctx!.shadowBlur = 8;
-          }
-          ctx!.fillStyle = `rgba(${rgb}, ${a})`;
-          ctx!.beginPath();
-          ctx!.arc(e.x, e.y, e.size, 0, Math.PI * 2);
-          ctx!.fill();
-          if (e.glow) ctx!.shadowBlur = 0;
+      for (const phase of PHASES) {
+        ctx!.beginPath();
+        for (let x = 0; x <= w; x += step) {
+          // Slight amplitude taper at the edges so the trace fades out
+          // instead of being cut off by the card border.
+          const edge = Math.min(1, Math.min(x, w - x) / (w * 0.12));
+          const y = mid + Math.sin(x * k - t + phase.shift) * amp * edge;
+          if (x === 0) ctx!.moveTo(x, y);
+          else ctx!.lineTo(x, y);
         }
-
-        rafId = requestAnimationFrame(frame);
+        ctx!.strokeStyle = `rgba(${phase.rgb}, 0.5)`;
+        ctx!.lineWidth = 1.6;
+        ctx!.shadowColor = `rgba(${phase.rgb}, 0.55)`;
+        ctx!.shadowBlur = 10;
+        ctx!.stroke();
+        ctx!.shadowBlur = 0;
       }
 
-      function start() {
-        if (running) return;
-        running = true;
-        rafId = requestAnimationFrame(frame);
+      // A brighter "sampling head" travelling along each trace — the point
+      // a meter would be reading, tying back to the type-testing story.
+      const headX = ((t * 0.16) % (Math.PI * 2)) / (Math.PI * 2) * w;
+      for (const phase of PHASES) {
+        const edge = Math.min(1, Math.min(headX, w - headX) / (w * 0.12));
+        const y = mid + Math.sin(headX * k - t + phase.shift) * amp * edge;
+        ctx!.beginPath();
+        ctx!.fillStyle = `rgba(${phase.rgb}, 0.95)`;
+        ctx!.shadowColor = `rgba(${phase.rgb}, 0.9)`;
+        ctx!.shadowBlur = 12;
+        ctx!.arc(headX, y, 2.4, 0, Math.PI * 2);
+        ctx!.fill();
+        ctx!.shadowBlur = 0;
       }
-      function stop() {
-        running = false;
-        cancelAnimationFrame(rafId);
-      }
+    }
 
-      resize();
-      new ResizeObserver(() => resize()).observe(card);
+    function frame() {
+      if (!running) return;
+      t += 0.022; // ~ a slow, readable 50 Hz stand-in
+      draw();
+      rafId = requestAnimationFrame(frame);
+    }
 
-      // Only animate while the card is actually on screen and the tab is active.
-      const vis = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting && document.visibilityState === 'visible') start();
-          else stop();
-        },
-        { threshold: 0.01 }
-      );
-      vis.observe(card);
-      document.addEventListener('visibilitychange', () => {
-        if (document.visibilityState === 'visible') {
-          const r = card.getBoundingClientRect();
-          if (r.bottom > 0 && r.top < window.innerHeight) start();
-        } else stop();
-      });
+    function start() {
+      if (running || prefersReducedMotion) return;
+      running = true;
+      rafId = requestAnimationFrame(frame);
+    }
+    function stop() {
+      running = false;
+      cancelAnimationFrame(rafId);
+    }
+
+    resize();
+    draw();
+    new ResizeObserver(() => resize()).observe(card);
+
+    const vis = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && document.visibilityState === 'visible') start();
+        else stop();
+      },
+      { threshold: 0.01 }
+    );
+    vis.observe(card);
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') {
+        const r = card.getBoundingClientRect();
+        if (r.bottom > 0 && r.top < window.innerHeight) start();
+      } else stop();
     });
-  }
+  });
 </script>
