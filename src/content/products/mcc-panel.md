@@ -4,7 +4,7 @@ category: "motor-control"
 tagline: "Motor Control Centre panels for centralized, safe control of multiple motor loads."
 heroImage: "panel-mcc-motor-control-centre-cutout.png"
 gallery:
-  - "panel-mcc-lineup-shop-floor.png"
+  - "panel-electrical-control-panels-lineup.png"
   - "panel-mcc-buckets-doors-open.png"
 overview: |
   Kedar's Motor Control Centre (MCC) panels group motor starters, protection devices and

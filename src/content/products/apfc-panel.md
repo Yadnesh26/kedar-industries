@@ -5,7 +5,7 @@ tagline: "Automatic Power Factor Correction panels that cut reactive-power penal
 heroImage: "panel-apfc-power-factor-cutout.png"
 gallery:
   - "panel-apfc-internal-wiring-doors-open.jpg"
-  - "panel-apfc-batch-ready-for-dispatch-1.jpg"
+  - "panel-apfc-batch-ready-for-dispatch-2.jpg"
   - "panel-capacitor-bank-doors-open.jpg"
 overview: |
   Kedar Industries is an authorised Vishay Components India Partner and System Integrator for

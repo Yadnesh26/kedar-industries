@@ -2,7 +2,7 @@
 name: "VFD Panel"
 category: "automation"
 tagline: "Variable Frequency Drive panels for precise motor speed control and energy savings."
-heroImage: "panel-mcc-lineup-shop-floor.png"
+heroImage: "panel-electrical-control-panels-lineup.png"
 gallery: []
 overview: |
   VFD panels house variable frequency drives with the input protection, output filtering,

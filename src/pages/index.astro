@@ -19,7 +19,7 @@ import projects from '@/data/projects.json';
 const allProducts = (await getCollection('products')).sort((a, b) => a.data.order - b.data.order);
 const featuredProducts = allProducts.slice(0, 3);
 
-const heroBg = img('panel-mcc-lineup-shop-floor.png');
+const heroBg = img('panel-apfc-batch-ready-for-dispatch-3.jpg');
 
 const stats = [
   { value: '2019', label: 'Production commenced' },
@@ -96,7 +96,7 @@ const infrastructureFeatures = [
       <div class="reveal order-2 lg:order-1">
         <div class="rounded-2xl overflow-hidden border border-ink-100 shadow-sm">
           <Image
-            src={img('panel-apfc-batch-ready-for-dispatch-1.jpg')}
+            src={img('panel-apfc-batch-ready-for-dispatch-2.jpg')}
             alt="APFC panels ready for dispatch at Kedar Industries"
             width={640}
             height={640}
@@ -169,7 +169,7 @@ const infrastructureFeatures = [
     <div class="container-page relative grid lg:grid-cols-2 gap-12 items-center">
       <div class="rounded-2xl overflow-hidden">
         <Image
-          src={img('panel-mcc-lineup-shop-floor.png')}
+          src={img('panel-mcc-buckets-doors-open.png')}
           alt="Panel assembly on the Kedar Industries shop floor"
           width={640}
           height={480}

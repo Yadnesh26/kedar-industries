@@ -2,7 +2,7 @@
 name: "Smart Switchboard"
 category: "power-distribution"
 tagline: "Switchboards with integrated metering and monitoring for smarter power management."
-heroImage: "panel-mcc-lineup-shop-floor.png"
+heroImage: "panel-mcc-buckets-doors-open.png"
 gallery: []
 overview: |
   Smart switchboards add digital metering, communication and monitoring capability to a
