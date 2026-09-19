@@ -1,7 +1,9 @@
 @import "tailwindcss";
-@import "@fontsource-variable/manrope";
-@import "@fontsource-variable/inter";
-@import "@fontsource-variable/jetbrains-mono";
+/* Matches the reference site (chandraelectricals.net) exactly — its
+   Elementor global typography (primary/secondary/accent/text) is set to
+   Montserrat throughout, weights 400/500/600. One family, used for both
+   headings and body copy, same as the reference. */
+@import "@fontsource-variable/montserrat";
 
 @theme {
   /* ---- Color: derived from the Kedar Industries logo mark ---- */
@@ -29,10 +31,10 @@
   --color-rust-600: #8a3c0c;
   --color-rust-100: #f7e9df;
 
-  /* ---- Type ---- */
-  --font-display: "Manrope Variable", "Manrope", ui-sans-serif, system-ui, sans-serif;
-  --font-sans: "Inter Variable", "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "JetBrains Mono Variable", "JetBrains Mono", ui-monospace, monospace;
+  /* ---- Type: Montserrat, matching the reference site ---- */
+  --font-display: "Montserrat Variable", "Montserrat", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Montserrat Variable", "Montserrat", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Montserrat Variable", "Montserrat", ui-monospace, monospace;
 
   /* ---- Radius: sharp, industrial ---- */
   --radius-sm: 2px;
@@ -63,14 +65,17 @@
   h1, h2, h3, h4 {
     font-family: var(--font-display);
     color: var(--color-ink-900);
-    letter-spacing: -0.02em;
-    font-weight: 800;
+    letter-spacing: -0.01em;
+    font-weight: 700;
   }
 
+  /* Tabular figures for spec/report numerals (kA, A, kV) — same family as
+     the rest of the site, just with lining/tabular numerals so figures in
+     tables line up. */
   .font-mono-figure {
-    font-family: var(--font-mono);
-    font-weight: 500;
-    font-variant-numeric: tabular-nums;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums lining-nums;
   }
 
   ::selection {
@@ -97,20 +102,43 @@
 }
 
 @layer components {
-  .container-page {
-    max-width: var(--container-page);
-    margin-inline: auto;
-    padding-inline: clamp(1rem, 3vw, 2.5rem);
-  }
-
+  /*
+   * Fixed, breakpoint-based spacing — deliberately NOT vw/clamp().
+   *
+   * A vw-based gutter is relative to the viewport, so it visually shifts
+   * against everything sized in rem/px (text, icons, buttons) whenever the
+   * browser's zoom level changes the CSS viewport width. That reads as
+   * "padding that moves independently of the content." Fixed rem steps
+   * per breakpoint scale in lockstep with browser zoom instead, which is
+   * the behavior of a conventional fixed-width site (and what the client
+   * asked for after comparing zoom levels against the reference site).
+   */
+  .container-page,
   .container-wide {
-    max-width: var(--container-wide);
     margin-inline: auto;
-    padding-inline: clamp(1rem, 3vw, 2.5rem);
+    padding-inline: 1rem;
+  }
+  .container-page { max-width: var(--container-page); }
+  .container-wide { max-width: var(--container-wide); }
+
+  @media (min-width: 640px) {
+    .container-page, .container-wide { padding-inline: 1.5rem; }
+  }
+  @media (min-width: 1024px) {
+    .container-page, .container-wide { padding-inline: 2rem; }
+  }
+  @media (min-width: 1280px) {
+    .container-page, .container-wide { padding-inline: 3rem; }
   }
 
   .section-y {
-    padding-block: clamp(4rem, 9vw, 8rem);
+    padding-block: 3rem;
+  }
+  @media (min-width: 640px) {
+    .section-y { padding-block: 4.5rem; }
+  }
+  @media (min-width: 1024px) {
+    .section-y { padding-block: 6rem; }
   }
 
   .btn {
