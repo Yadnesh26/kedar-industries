@@ -16,32 +16,31 @@ const { stats } = Astro.props;
   reference site's stat-band treatment — pulled up with a negative
   margin so it straddles the hero/white-section boundary instead of
   sitting as a plain full-width bar.
+
+  No background animation: after several attempts, a moving pattern
+  behind four columns of figures on a short, wide card always competed
+  with the numbers. The card earns its presence from materials instead —
+  a lit top edge, a soft depth gradient, and hairline rules between the
+  figures, the way a well-made instrument panel reads.
 */}
 <div class="relative z-10 container-page -mt-12 sm:-mt-16">
-  <div class="stat-card relative rounded-2xl bg-ink-900 shadow-2xl shadow-ink-900/40 border border-white/10 overflow-hidden">
-    {/*
-      A live single-line diagram: incomer -> breaker -> copper busbar ->
-      outgoing feeders, each with its own breaker, energising in sequence.
-      This is the schematic that ships with every panel Kedar builds, so
-      the card's background is a drawing of their actual product rather
-      than a generic effect. Scoped to this card only.
-    */}
-    <canvas class="stat-card__sld" aria-hidden="true"></canvas>
-    <div class="stat-card__scrim" aria-hidden="true"></div>
+  <div class="stat-card relative rounded-2xl border border-white/10 shadow-2xl shadow-ink-900/40 overflow-hidden">
+    <div class="stat-card__surface" aria-hidden="true"></div>
+    <div class="stat-card__edge" aria-hidden="true"></div>
 
-    <dl class="relative grid grid-cols-2 md:grid-cols-4 gap-8 px-6 py-11 sm:px-10 sm:py-14">
+    <dl class="stat-card__grid relative grid grid-cols-2 md:grid-cols-4 px-6 py-10 sm:px-10 sm:py-12">
       {stats.map((stat) => (
-        <div class="text-center md:text-left">
+        <div class="stat-card__cell text-center md:text-left">
           <dt class="sr-only">{stat.label}</dt>
           <dd
-            class="font-mono-figure text-3xl sm:text-4xl text-amber-500 font-semibold"
+            class="font-mono-figure text-3xl sm:text-4xl text-amber-500 font-semibold tracking-tight"
             data-stat
             data-target={stat.numericValue ?? ''}
             data-suffix={stat.suffix ?? ''}
           >
             {stat.value}
           </dd>
-          <p class="mt-1 text-sm text-ink-400">{stat.label}</p>
+          <p class="mt-1.5 text-sm text-ink-400">{stat.label}</p>
         </div>
       ))}
     </dl>
@@ -50,38 +49,84 @@ const { stats } = Astro.props;
 
 <style>
   /* Scoped to this component by Astro — cannot leak to any other card. */
-  .stat-card__sld {
+
+  /* Depth: slightly lifted at the top, settling darker toward the base,
+     with a faint warm cast pulled from the brand amber. */
+  .stat-card__surface {
     position: absolute;
     inset: 0;
-    width: 100%;
-    height: 100%;
-    display: block;
-    pointer-events: none;
+    background:
+      radial-gradient(120% 160% at 50% -20%, rgba(255, 198, 60, 0.07) 0%, transparent 60%),
+      linear-gradient(to bottom, #1b2029 0%, #12161d 55%, #0e1116 100%);
   }
 
-  /* Softens the diagram through the band where the figures sit, so the
-     schematic stays readable at top and bottom without fighting the text. */
-  .stat-card__scrim {
+  /* A single lit hairline along the top edge — the highlight you get on
+     a machined edge catching light. */
+  .stat-card__edge {
     position: absolute;
     inset: 0;
+    pointer-events: none;
     background: linear-gradient(
-      to bottom,
+      to right,
       transparent 0%,
-      rgba(14, 17, 22, 0.55) 42%,
-      rgba(14, 17, 22, 0.55) 68%,
+      rgba(255, 255, 255, 0.16) 18%,
+      rgba(255, 198, 60, 0.3) 50%,
+      rgba(255, 255, 255, 0.16) 82%,
       transparent 100%
     );
-    pointer-events: none;
+    height: 1px;
+    bottom: auto;
+  }
+
+  /* Hairline rules between figures, like divisions on a spec plate.
+     Only between columns, never on the outer edges. */
+  .stat-card__cell + .stat-card__cell {
+    position: relative;
+  }
+  .stat-card__cell + .stat-card__cell::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1px;
+    height: 66%;
+    background: linear-gradient(
+      to bottom,
+      transparent,
+      rgba(255, 255, 255, 0.2),
+      transparent
+    );
+  }
+
+  /* On the 2-column mobile layout the rule would land mid-row on the
+     wrong cells, so only draw it where a real column break exists. */
+  @media (max-width: 767px) {
+    .stat-card__cell:nth-child(odd) + .stat-card__cell::before {
+      display: block;
+    }
+    .stat-card__cell:nth-child(even) + .stat-card__cell::before {
+      display: none;
+    }
+    .stat-card__grid {
+      row-gap: 2rem;
+    }
+  }
+
+  .stat-card__grid {
+    column-gap: 2rem;
   }
 </style>
 
 <script>
+  // Count up from 0 to the real value already rendered server-side, so the
+  // page never shows an unstyled "0+" before JS loads. Skipped entirely
+  // for prefers-reduced-motion.
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // ---- Count-up ------------------------------------------------------
   if (!prefersReducedMotion) {
     const els = document.querySelectorAll<HTMLElement>('[data-stat][data-target]');
-    const countObserver = new IntersectionObserver(
+    const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
           if (!entry.isIntersecting) continue;
@@ -98,215 +143,11 @@ const { stats } = Astro.props;
             if (progress < 1) requestAnimationFrame(tick);
           }
           requestAnimationFrame(tick);
-          countObserver.unobserve(el);
+          observer.unobserve(el);
         }
       },
       { threshold: 0.4 }
     );
-    els.forEach((el) => countObserver.observe(el));
+    els.forEach((el) => observer.observe(el));
   }
-
-  // ---- Single-line diagram -------------------------------------------
-  document.querySelectorAll<HTMLElement>('.stat-card').forEach((card) => {
-    const canvas = card.querySelector<HTMLCanvasElement>('.stat-card__sld');
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    const LINE = 'rgba(255, 255, 255, 0.05)';
-    const BUS = 'rgba(255, 198, 60, 0.13)';
-    const SYMBOL = 'rgba(255, 255, 255, 0.08)';
-    const PULSE = '255, 198, 60';
-
-    let w = 0;
-    let h = 0;
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    let running = false;
-    let rafId = 0;
-    let t = 0;
-
-    // Feeder x-positions as fractions of width, nudged to fall in the gaps
-    // between the four stat columns rather than straight through a number.
-    const FEEDER_XS = [0.16, 0.305, 0.45, 0.595, 0.74, 0.885];
-
-    type Geo = {
-      busY: number;
-      incomerX: number;
-      busLeft: number;
-      busRight: number;
-      feederEndY: number;
-      feeders: number[];
-    };
-    let geo: Geo;
-
-    function computeGeo(): Geo {
-      return {
-        busY: h * 0.155,
-        incomerX: w * 0.07,
-        busLeft: w * 0.045,
-        busRight: w * 0.955,
-        feederEndY: h * 0.88,
-        feeders: FEEDER_XS.map((f) => w * f),
-      };
-    }
-
-    function resize() {
-      const rect = card.getBoundingClientRect();
-      w = rect.width;
-      h = rect.height;
-      canvas!.width = Math.round(w * dpr);
-      canvas!.height = Math.round(h * dpr);
-      ctx!.setTransform(dpr, 0, 0, dpr, 0, 0);
-      geo = computeGeo();
-      if (!running) draw();
-    }
-
-    /** IEC-style circuit-breaker mark: a small square with a diagonal. */
-    function breaker(x: number, y: number, size: number) {
-      const s = size / 2;
-      ctx!.strokeStyle = SYMBOL;
-      ctx!.lineWidth = 1;
-      ctx!.strokeRect(x - s, y - s, size, size);
-      ctx!.beginPath();
-      ctx!.moveTo(x - s, y + s);
-      ctx!.lineTo(x + s, y - s);
-      ctx!.stroke();
-    }
-
-    function drawDiagram() {
-      const { busY, incomerX, busLeft, busRight, feederEndY, feeders } = geo;
-
-      // Incomer drop into the busbar
-      ctx!.strokeStyle = LINE;
-      ctx!.lineWidth = 1.2;
-      ctx!.beginPath();
-      ctx!.moveTo(incomerX, 0);
-      ctx!.lineTo(incomerX, busY);
-      ctx!.stroke();
-      breaker(incomerX, busY * 0.5, 9);
-
-      // Copper busbar — the spine of the panel, drawn heavier
-      ctx!.strokeStyle = BUS;
-      ctx!.lineWidth = 2.6;
-      ctx!.beginPath();
-      ctx!.moveTo(busLeft, busY);
-      ctx!.lineTo(busRight, busY);
-      ctx!.stroke();
-
-      // Outgoing feeders
-      ctx!.strokeStyle = LINE;
-      ctx!.lineWidth = 1.2;
-      for (const fx of feeders) {
-        ctx!.beginPath();
-        ctx!.moveTo(fx, busY);
-        ctx!.lineTo(fx, feederEndY);
-        ctx!.stroke();
-
-        // Tap node where the feeder meets the busbar
-        ctx!.fillStyle = BUS;
-        ctx!.beginPath();
-        ctx!.arc(fx, busY, 2, 0, Math.PI * 2);
-        ctx!.fill();
-
-        breaker(fx, busY + (feederEndY - busY) * 0.3, 9);
-
-        // Load terminal at the bottom of the feeder
-        ctx!.strokeStyle = SYMBOL;
-        ctx!.beginPath();
-        ctx!.moveTo(fx - 5, feederEndY);
-        ctx!.lineTo(fx + 5, feederEndY);
-        ctx!.stroke();
-        ctx!.strokeStyle = LINE;
-      }
-    }
-
-    /** A travelling glow: bright head plus a short tail along the path. */
-    function pulse(x: number, y: number, dx: number, dy: number, intensity: number) {
-      const tailLen = 26;
-      const g = ctx!.createLinearGradient(x - dx * tailLen, y - dy * tailLen, x, y);
-      g.addColorStop(0, `rgba(${PULSE}, 0)`);
-      g.addColorStop(1, `rgba(${PULSE}, ${0.22 * intensity})`);
-      ctx!.strokeStyle = g;
-      ctx!.lineWidth = 2.4;
-      ctx!.beginPath();
-      ctx!.moveTo(x - dx * tailLen, y - dy * tailLen);
-      ctx!.lineTo(x, y);
-      ctx!.stroke();
-
-      ctx!.fillStyle = `rgba(${PULSE}, ${0.3 * intensity})`;
-      ctx!.shadowColor = `rgba(${PULSE}, 0.28)`;
-      ctx!.shadowBlur = 7;
-      ctx!.beginPath();
-      ctx!.arc(x, y, 1.8, 0, Math.PI * 2);
-      ctx!.fill();
-      ctx!.shadowBlur = 0;
-    }
-
-    function drawPulses() {
-      const { busY, incomerX, feederEndY, feeders } = geo;
-      const CYCLE = 11; // seconds for one feeder's full energise cycle
-
-      feeders.forEach((fx, i) => {
-        // Stagger each feeder so they energise in sequence down the board
-        const offset = (i / feeders.length) * CYCLE;
-        const p = (((t + offset) % CYCLE) / CYCLE);
-
-        // First 55% of the cycle: run along the busbar toward this feeder.
-        // Remaining 45%: drop down the feeder to the load.
-        const busSpan = Math.abs(fx - incomerX);
-        if (p < 0.55) {
-          const k = p / 0.55;
-          const x = incomerX + (fx - incomerX) * k;
-          pulse(x, busY, Math.sign(fx - incomerX) || 1, 0, Math.min(1, busSpan / 60));
-        } else {
-          const k = (p - 0.55) / 0.45;
-          const y = busY + (feederEndY - busY) * k;
-          // Fade out as it reaches the load terminal
-          pulse(fx, y, 0, 1, 1 - k * 0.55);
-        }
-      });
-    }
-
-    function draw() {
-      ctx!.clearRect(0, 0, w, h);
-      drawDiagram();
-      if (!prefersReducedMotion) drawPulses();
-    }
-
-    function frame() {
-      if (!running) return;
-      t += 1 / 60;
-      draw();
-      rafId = requestAnimationFrame(frame);
-    }
-
-    function start() {
-      if (running || prefersReducedMotion) return;
-      running = true;
-      rafId = requestAnimationFrame(frame);
-    }
-    function stop() {
-      running = false;
-      cancelAnimationFrame(rafId);
-    }
-
-    resize();
-    draw();
-    new ResizeObserver(() => resize()).observe(card);
-
-    const vis = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && document.visibilityState === 'visible') start();
-        else stop();
-      },
-      { threshold: 0.01 }
-    );
-    vis.observe(card);
-    document.addEventListener('visibilitychange', () => {
-      if (document.visibilityState === 'visible') {
-        const r = card.getBoundingClientRect();
-        if (r.bottom > 0 && r.top < window.innerHeight) start();
-      } else stop();
-    });
-  });
 </script>
