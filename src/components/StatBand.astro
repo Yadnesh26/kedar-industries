@@ -12,32 +12,35 @@ const { stats } = Astro.props;
 ---
 
 {/*
-  A floating card overlapping the hero's bottom edge.
+  A floating card overlapping the hero's bottom edge, matching the
+  reference site's stat-band treatment — pulled up with a negative
+  margin so it straddles the hero/white-section boundary instead of
+  sitting as a plain full-width bar.
 
-  Structurally this follows the reference site's own stat band, which is
-  a bright gradient card floating over the hero/white boundary with a
-  faint line network over it — not a dark panel. Recoloured to Kedar's
-  brand: the logo's amber through to its rust, with dark ink figures.
+  No background animation: after several attempts, a moving pattern
+  behind four columns of figures on a short, wide card always competed
+  with the numbers. The card earns its presence from materials instead —
+  a lit top edge, a soft depth gradient, and hairline rules between the
+  figures, the way a well-made instrument panel reads.
 */}
 <div class="relative z-10 container-page -mt-12 sm:-mt-16">
-  <div class="stat-card relative rounded-2xl shadow-2xl shadow-amber-600/25 overflow-hidden">
-    <div class="stat-card__fill" aria-hidden="true"></div>
-    <div class="stat-card__mesh" aria-hidden="true"></div>
-    <div class="stat-card__sheen" aria-hidden="true"></div>
+  <div class="stat-card relative rounded-2xl border border-white/10 shadow-2xl shadow-ink-900/40 overflow-hidden">
+    <div class="stat-card__surface" aria-hidden="true"></div>
+    <div class="stat-card__edge" aria-hidden="true"></div>
 
     <dl class="stat-card__grid relative grid grid-cols-2 md:grid-cols-4 px-6 py-10 sm:px-10 sm:py-12">
       {stats.map((stat) => (
         <div class="stat-card__cell text-center md:text-left">
           <dt class="sr-only">{stat.label}</dt>
           <dd
-            class="font-mono-figure text-3xl sm:text-[2.6rem] sm:leading-none text-ink-900 font-bold tracking-tight"
+            class="font-mono-figure text-3xl sm:text-4xl text-amber-500 font-semibold tracking-tight"
             data-stat
             data-target={stat.numericValue ?? ''}
             data-suffix={stat.suffix ?? ''}
           >
             {stat.value}
           </dd>
-          <p class="mt-2 text-sm font-medium text-ink-900/70">{stat.label}</p>
+          <p class="mt-1.5 text-sm text-ink-400">{stat.label}</p>
         </div>
       ))}
     </dl>
@@ -47,38 +50,39 @@ const { stats } = Astro.props;
 <style>
   /* Scoped to this component by Astro — cannot leak to any other card. */
 
-  /* Brand gradient: logo amber, warming through gold into the rust taken
-     from the wordmark. */
-  .stat-card__fill {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(103deg, #ffd34a 0%, #ffc629 34%, #f2a413 66%, #d9760f 100%);
-  }
-
-  /* A faint polygonal network over the gradient, echoing the reference
-     band's line pattern. Static, inline, no image request. */
-  .stat-card__mesh {
-    position: absolute;
-    inset: 0;
-    opacity: 0.5;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='170' viewBox='0 0 260 170'%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='0.9' stroke-opacity='0.5'%3E%3Cpath d='M12 150 L70 96 L44 36 L118 18 L166 74 L232 44'/%3E%3Cpath d='M70 96 L118 18'/%3E%3Cpath d='M70 96 L166 74 L150 146 L222 156'/%3E%3Cpath d='M12 150 L150 146'/%3E%3Cpath d='M166 74 L232 44 L248 118 L222 156'/%3E%3C/g%3E%3Cg fill='%23ffffff' fill-opacity='0.75'%3E%3Ccircle cx='12' cy='150' r='2'/%3E%3Ccircle cx='70' cy='96' r='2'/%3E%3Ccircle cx='44' cy='36' r='2'/%3E%3Ccircle cx='118' cy='18' r='2'/%3E%3Ccircle cx='166' cy='74' r='2'/%3E%3Ccircle cx='232' cy='44' r='2'/%3E%3Ccircle cx='150' cy='146' r='2'/%3E%3Ccircle cx='222' cy='156' r='2'/%3E%3Ccircle cx='248' cy='118' r='2'/%3E%3C/g%3E%3C/svg%3E");
-    background-size: 260px 170px;
-    mask-image: linear-gradient(105deg, #000 0%, rgba(0, 0, 0, 0.35) 45%, #000 100%);
-    pointer-events: none;
-  }
-
-  /* Soft highlight across the upper edge so the card reads as a lit
-     surface rather than a flat swatch. */
-  .stat-card__sheen {
+  /* Depth: slightly lifted at the top, settling darker toward the base,
+     with a faint warm cast pulled from the brand amber. */
+  .stat-card__surface {
     position: absolute;
     inset: 0;
     background:
-      linear-gradient(to bottom, rgba(255, 255, 255, 0.28) 0%, transparent 42%),
-      radial-gradient(90% 140% at 15% -20%, rgba(255, 255, 255, 0.3) 0%, transparent 55%);
-    pointer-events: none;
+      radial-gradient(120% 160% at 50% -20%, rgba(255, 198, 60, 0.07) 0%, transparent 60%),
+      linear-gradient(to bottom, #1b2029 0%, #12161d 55%, #0e1116 100%);
   }
 
-  /* Divisions between figures, in the card's own dark ink. */
+  /* A single lit hairline along the top edge — the highlight you get on
+     a machined edge catching light. */
+  .stat-card__edge {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(
+      to right,
+      transparent 0%,
+      rgba(255, 255, 255, 0.16) 18%,
+      rgba(255, 198, 60, 0.3) 50%,
+      rgba(255, 255, 255, 0.16) 82%,
+      transparent 100%
+    );
+    height: 1px;
+    bottom: auto;
+  }
+
+  /* Hairline rules between figures, like divisions on a spec plate.
+     Only between columns, never on the outer edges. */
+  .stat-card__cell + .stat-card__cell {
+    position: relative;
+  }
   .stat-card__cell + .stat-card__cell::before {
     content: '';
     position: absolute;
@@ -86,14 +90,21 @@ const { stats } = Astro.props;
     top: 50%;
     transform: translateY(-50%);
     width: 1px;
-    height: 62%;
-    background: linear-gradient(to bottom, transparent, rgba(14, 17, 22, 0.22), transparent);
-  }
-  .stat-card__cell + .stat-card__cell {
-    position: relative;
+    height: 66%;
+    background: linear-gradient(
+      to bottom,
+      transparent,
+      rgba(255, 255, 255, 0.2),
+      transparent
+    );
   }
 
+  /* On the 2-column mobile layout the rule would land mid-row on the
+     wrong cells, so only draw it where a real column break exists. */
   @media (max-width: 767px) {
+    .stat-card__cell:nth-child(odd) + .stat-card__cell::before {
+      display: block;
+    }
     .stat-card__cell:nth-child(even) + .stat-card__cell::before {
       display: none;
     }
