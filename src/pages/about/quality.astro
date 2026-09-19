@@ -47,7 +47,7 @@ const { shortCircuit, temperatureRise, ip55 } = cpriTests;
       <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-10">
         {company.electricalTestingFacilities.map((test) => (
           <div class="flex items-center gap-3 p-4 rounded-md bg-paper border border-ink-100">
-            <CircleCheck class="size-4 text-signal-green shrink-0" />
+            <CircleCheck class="size-4 text-amber-600 shrink-0" />
             <span class="text-sm text-ink-900">{test}</span>
           </div>
         ))}
@@ -227,13 +227,13 @@ const { shortCircuit, temperatureRise, ip55 } = cpriTests;
               <p class="font-mono-figure text-2xl text-amber-600 font-semibold">IP-5X</p>
               <p class="text-xs text-ink-400 mt-1 mb-2">{ip55.ip5x.date}</p>
               <p class="text-sm text-ink-900">{ip55.ip5x.method}</p>
-              <p class="text-sm text-signal-green font-medium mt-2">✔ {ip55.ip5x.result}</p>
+              <p class="text-sm text-amber-600 font-medium mt-2">✔ {ip55.ip5x.result}</p>
             </div>
             <div class="card p-5">
               <p class="font-mono-figure text-2xl text-amber-600 font-semibold">IP-X5</p>
               <p class="text-xs text-ink-400 mt-1 mb-2">{ip55.ipx5.date}</p>
               <p class="text-sm text-ink-900">{ip55.ipx5.method}</p>
-              <p class="text-sm text-signal-green font-medium mt-2">✔ {ip55.ipx5.result}</p>
+              <p class="text-sm text-amber-600 font-medium mt-2">✔ {ip55.ipx5.result}</p>
             </div>
           </div>
           <p class="text-sm text-ink-400">"{ip55.conclusion}"</p>

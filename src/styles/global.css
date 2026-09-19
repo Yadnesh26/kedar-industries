@@ -6,7 +6,22 @@
 @import "@fontsource-variable/montserrat";
 
 @theme {
-  /* ---- Color: derived from the Kedar Industries logo mark ---- */
+  /* ---- Color: single-accent system built on the logo's ring colour ----
+     The logo itself carries three hues (amber ring, red K, green I), but
+     using all three as general UI accents — bright red/green/amber
+     checkmarks and badges scattered across every page — is what read as
+     a school/educational site rather than an industrial manufacturer:
+     that specific "traffic-light" combination is a genuine visual
+     signal for classroom/kids' content, not a coincidence of taste.
+
+     Fixed by picking ONE accent from the logo (amber, the dominant ring
+     colour) and using it exclusively for every UI signal — CTAs, active
+     states, checkmarks, stat figures, badges. Ink (near-black) and paper
+     (white) are the only other colours in the system. The logo's red and
+     green stay exactly where they belong: in the logo itself, nowhere
+     else. This is the same discipline industrial/tool brands use (Cat,
+     DeWalt, Siemens) — one confident brand colour on a dark neutral,
+     not the full mark's palette repeated as decoration. */
   --color-ink-900: #0e1116;
   --color-ink-800: #171b22;
   --color-ink-700: #232a34;
@@ -19,17 +34,6 @@
   --color-amber-100: #fff4d1;
   --color-amber-500: #ffcc2a;
   --color-amber-600: #e0a800;
-
-  --color-signal-red: #ec3237;
-  --color-signal-red-100: #fde6e6;
-  --color-signal-green: #00a85a;
-  --color-signal-green-100: #e2f6ec;
-
-  /* Secondary accent from the "KEDAR" wordmark — used sparingly (never as a
-     large field) on light backgrounds where amber-on-white would fail
-     contrast, e.g. small text accents, ribbon details. */
-  --color-rust-600: #8a3c0c;
-  --color-rust-100: #f7e9df;
 
   /* ---- Type: Montserrat, matching the reference site ---- */
   --font-display: "Montserrat Variable", "Montserrat", ui-sans-serif, system-ui, sans-serif;

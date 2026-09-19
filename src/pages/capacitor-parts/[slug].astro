@@ -44,7 +44,7 @@ const others = allParts.filter((p) => p.id !== id).slice(0, 4);
         <ul class="flex flex-col gap-2 mb-8">
           {data.features.map((f: string) => (
             <li class="flex items-start gap-2.5 text-sm text-ink-600">
-              <CircleCheck class="size-4 text-signal-green shrink-0 mt-0.5" /> {f}
+              <CircleCheck class="size-4 text-amber-600 shrink-0 mt-0.5" /> {f}
             </li>
           ))}
         </ul>

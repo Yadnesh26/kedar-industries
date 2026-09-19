@@ -105,7 +105,7 @@ const productSchema = {
           <ul class="grid sm:grid-cols-2 gap-3">
             {data.features.map((f: string) => (
               <li class="flex items-start gap-2.5 text-sm text-ink-600">
-                <CircleCheck class="size-4 text-signal-green shrink-0 mt-0.5" /> {f}
+                <CircleCheck class="size-4 text-amber-600 shrink-0 mt-0.5" /> {f}
               </li>
             ))}
           </ul>
@@ -171,7 +171,7 @@ const productSchema = {
           <ul class="flex flex-col gap-2 mb-6">
             {data.standards.map((s: string) => (
               <li class="text-xs font-mono-figure text-ink-600 flex items-center gap-2">
-                <CircleCheck class="size-3.5 text-signal-green shrink-0" /> {s}
+                <CircleCheck class="size-3.5 text-amber-600 shrink-0" /> {s}
               </li>
             ))}
           </ul>
