@@ -11,27 +11,30 @@ interface Props {
   logo?: string;
 }
 const { partner, role, scope, validTill, logo } = Astro.props;
+
+const hasLogo = logo && hasImg(logo);
+const shortLabel = partner.split(' ')[0].replace(/[.,]+$/, '');
 ---
 
-<div class="card p-6 flex flex-col gap-4">
-  <div class="flex items-center justify-between">
-    {logo && hasImg(logo) ? (
-      <Image src={img(logo)} alt={partner} width={120} height={40} class="h-8 w-auto object-contain" />
+<div class="card p-6 flex flex-col h-full">
+  <div class="flex items-center justify-between mb-5">
+    {hasLogo ? (
+      <Image src={img(logo!)} alt={partner} width={120} height={40} class="h-8 w-auto object-contain" />
     ) : (
-      <span class="font-display font-bold text-ink-900">{partner}</span>
+      <span class="flex items-center justify-center h-9 px-3 rounded-md bg-ink-900 text-paper font-display font-bold text-sm tracking-wide">
+        {shortLabel}
+      </span>
     )}
-    <span class="flex items-center gap-1.5 text-xs font-mono-figure text-amber-600 bg-amber-100 px-2.5 py-1 rounded-full">
+    <span class="flex items-center gap-1.5 text-xs font-mono-figure text-amber-600 bg-amber-100 px-2.5 py-1 rounded-full shrink-0">
       <ShieldCheck class="size-3.5" /> Authorised
     </span>
   </div>
-  <div>
+  <div class="flex-1">
     <p class="font-display font-bold text-ink-900 text-base">{partner}</p>
     <p class="text-sm text-amber-600 font-medium mb-2">{role}</p>
     <p class="text-sm text-ink-400 leading-relaxed">{scope}</p>
   </div>
-  {validTill && (
-    <p class="text-xs text-ink-400 font-mono-figure pt-3 border-t border-ink-100">
-      Valid till {validTill}
-    </p>
-  )}
+  <p class="text-xs text-ink-400 font-mono-figure mt-5 pt-3 border-t border-ink-100">
+    {validTill ? `Valid till ${validTill}` : 'Ongoing partnership'}
+  </p>
 </div>
