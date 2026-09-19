@@ -57,7 +57,7 @@ const infrastructureFeatures = [
       <div class="absolute inset-0 bg-gradient-to-r from-ink-900 via-ink-900/85 to-ink-900/30"></div>
       <div class="absolute inset-0 bg-gradient-to-t from-ink-900 via-transparent to-transparent"></div>
     </div>
-    <div class="container-page relative pt-20 pb-16 sm:pt-24 sm:pb-20">
+    <div class="container-page relative pt-20 pb-24 sm:pt-24 sm:pb-28">
       <p class="eyebrow mb-5">Nashik, Maharashtra &middot; Est. 2019</p>
       <h1 class="text-paper text-4xl sm:text-5xl md:text-6xl leading-[1.05] max-w-3xl">
         Type-tested power.<br /> Built in Nashik.
@@ -72,6 +72,16 @@ const infrastructureFeatures = [
           Explore Products <ArrowRight class="size-4" />
         </a>
         <a href="/contact/" class="btn btn-outline-dark">Request a Quote</a>
+      </div>
+
+      {/* Certifications, as individual badges rather than a single strip
+          — each one its own chip so they read as distinct credentials. */}
+      <div class="mt-10 flex flex-wrap gap-2.5">
+        {certifications.certStrip.map((cert) => (
+          <span class="flex items-center gap-1.5 rounded-full border border-white/15 bg-white/[0.06] backdrop-blur-sm px-3.5 py-1.5 text-xs sm:text-sm font-mono-figure text-ink-100">
+            <CircleCheck class="size-3.5 text-amber-500 shrink-0" /> {cert}
+          </span>
+        ))}
       </div>
     </div>
   </section>
