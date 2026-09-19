@@ -18,13 +18,21 @@ const { stats } = Astro.props;
   sitting as a plain full-width bar.
 */}
 <div class="relative z-10 container-page -mt-12 sm:-mt-16">
-  <div class="rounded-2xl bg-ink-800 shadow-2xl shadow-ink-900/30 border border-white/10">
-    <dl class="grid grid-cols-2 md:grid-cols-5 gap-8 px-6 py-8 sm:px-10 sm:py-10">
+  <div class="stat-card relative rounded-2xl bg-ink-800 shadow-2xl shadow-ink-900/30 border border-white/10 overflow-hidden">
+    {/*
+      Live particle-network animation, scoped to this card only: the canvas
+      element and its script only ever look inside .stat-card, and the
+      script is a per-card closure — nothing here can attach to, or affect,
+      any other element on the page.
+    */}
+    <canvas class="stat-card__canvas" aria-hidden="true"></canvas>
+
+    <dl class="relative grid grid-cols-2 md:grid-cols-4 gap-8 px-6 py-8 sm:px-10 sm:py-10">
       {stats.map((stat) => (
         <div class="text-center md:text-left">
           <dt class="sr-only">{stat.label}</dt>
           <dd
-            class="font-mono-figure text-3xl sm:text-4xl text-amber-500 font-semibold"
+            class="font-mono-figure text-3xl sm:text-4xl text-amber-500 font-semibold [text-shadow:0_0_20px_rgba(255,204,42,0.35)]"
             data-stat
             data-target={stat.numericValue ?? ''}
             data-suffix={stat.suffix ?? ''}
@@ -38,15 +46,30 @@ const { stats } = Astro.props;
   </div>
 </div>
 
+<style>
+  /* Scoped to this component by Astro — cannot leak to any other card. */
+  .stat-card__canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .stat-card__canvas {
+      display: none;
+    }
+  }
+</style>
+
 <script>
-  // Count up from 0 to the real value already rendered server-side, so the
-  // page never shows an unstyled "0+" before JS loads (unlike a client-only
-  // counter). Skipped entirely for prefers-reduced-motion.
+  // ---- Count-up (unchanged behaviour) --------------------------------
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   if (!prefersReducedMotion) {
     const els = document.querySelectorAll<HTMLElement>('[data-stat][data-target]');
-    const observer = new IntersectionObserver(
+    const countObserver = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
           if (!entry.isIntersecting) continue;
@@ -64,11 +87,174 @@ const { stats } = Astro.props;
             if (progress < 1) requestAnimationFrame(tick);
           }
           requestAnimationFrame(tick);
-          observer.unobserve(el);
+          countObserver.unobserve(el);
         }
       },
       { threshold: 0.4 }
     );
-    els.forEach((el) => observer.observe(el));
+    els.forEach((el) => countObserver.observe(el));
+  }
+
+  // ---- Particle network, one instance per .stat-card on the page -----
+  // (Astro components can render more than once; this stays a closure per
+  // card rather than a single global, so it never gets confused between
+  // instances — though today there is exactly one.)
+  if (!prefersReducedMotion) {
+    document.querySelectorAll<HTMLElement>('.stat-card').forEach((card) => {
+      const canvas = card.querySelector<HTMLCanvasElement>('.stat-card__canvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+
+      // Brand palette, sampled straight from the logo — amber dominant,
+      // with a sparing hint of the logo's red and green as accent particles.
+      const PALETTE = [
+        { color: '255, 204, 42', weight: 7 }, // amber-500
+        { color: '236, 50, 55', weight: 1 }, // signal-red
+        { color: '0, 168, 90', weight: 1 }, // signal-green
+      ];
+      function pickColor() {
+        const total = PALETTE.reduce((s, p) => s + p.weight, 0);
+        let r = Math.random() * total;
+        for (const p of PALETTE) {
+          if (r < p.weight) return p.color;
+          r -= p.weight;
+        }
+        return PALETTE[0].color;
+      }
+
+      type Particle = { x: number; y: number; vx: number; vy: number; r: number; color: string };
+      let particles: Particle[] = [];
+      let width = 0;
+      let height = 0;
+      let dpr = Math.min(window.devicePixelRatio || 1, 2);
+      let running = true;
+      let pointer: { x: number; y: number } | null = null;
+
+      const LINK_DIST = 130;
+      const COUNT_PER_100PX2 = 0.055; // particle density
+
+      function resize() {
+        const rect = card.getBoundingClientRect();
+        width = rect.width;
+        height = rect.height;
+        canvas!.width = Math.round(width * dpr);
+        canvas!.height = Math.round(height * dpr);
+        canvas!.style.width = `${width}px`;
+        canvas!.style.height = `${height}px`;
+        ctx!.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+        const target = Math.round((width * height) / 10000 * COUNT_PER_100PX2 * 100);
+        const count = Math.max(18, Math.min(46, target));
+        particles = Array.from({ length: count }, () => ({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          vx: (Math.random() - 0.5) * 0.18,
+          vy: (Math.random() - 0.5) * 0.18,
+          r: Math.random() * 1.6 + 0.9,
+          color: pickColor(),
+        }));
+      }
+
+      function step() {
+        if (!running) return;
+        ctx!.clearRect(0, 0, width, height);
+
+        for (const p of particles) {
+          // Gentle drift
+          p.x += p.vx;
+          p.y += p.vy;
+
+          // Soft repulsion from the pointer — the "alive, reacts to you" touch
+          if (pointer) {
+            const dx = p.x - pointer.x;
+            const dy = p.y - pointer.y;
+            const dist = Math.hypot(dx, dy);
+            const radius = 90;
+            if (dist < radius && dist > 0.001) {
+              const force = ((radius - dist) / radius) * 0.55;
+              p.vx += (dx / dist) * force * 0.06;
+              p.vy += (dy / dist) * force * 0.06;
+            }
+          }
+
+          // Gentle drag so velocity from repulsion settles back down
+          p.vx *= 0.985;
+          p.vy *= 0.985;
+
+          // Wrap around edges, seamless loop
+          if (p.x < -10) p.x = width + 10;
+          if (p.x > width + 10) p.x = -10;
+          if (p.y < -10) p.y = height + 10;
+          if (p.y > height + 10) p.y = -10;
+        }
+
+        // Connective lines — the "circuit trace" look
+        for (let i = 0; i < particles.length; i++) {
+          for (let j = i + 1; j < particles.length; j++) {
+            const a = particles[i];
+            const b = particles[j];
+            const dist = Math.hypot(a.x - b.x, a.y - b.y);
+            if (dist < LINK_DIST) {
+              const alpha = (1 - dist / LINK_DIST) * 0.22;
+              ctx!.strokeStyle = `rgba(255, 204, 42, ${alpha})`;
+              ctx!.lineWidth = 1;
+              ctx!.beginPath();
+              ctx!.moveTo(a.x, a.y);
+              ctx!.lineTo(b.x, b.y);
+              ctx!.stroke();
+            }
+          }
+        }
+
+        // Particles, drawn with a soft glow
+        for (const p of particles) {
+          ctx!.beginPath();
+          ctx!.fillStyle = `rgba(${p.color}, 0.9)`;
+          ctx!.shadowColor = `rgba(${p.color}, 0.8)`;
+          ctx!.shadowBlur = 6;
+          ctx!.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx!.fill();
+        }
+        ctx!.shadowBlur = 0;
+
+        requestAnimationFrame(step);
+      }
+
+      resize();
+      requestAnimationFrame(step);
+
+      const ro = new ResizeObserver(() => resize());
+      ro.observe(card);
+
+      canvas.addEventListener('pointermove', (e) => {
+        const rect = canvas.getBoundingClientRect();
+        pointer = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+      });
+      canvas.addEventListener('pointerleave', () => {
+        pointer = null;
+      });
+
+      // Pause off-screen and when the tab is hidden — no need to spend a
+      // battery budget animating a card nobody is looking at.
+      const visibilityObserver = new IntersectionObserver(
+        ([entry]) => {
+          const wasRunning = running;
+          running = entry.isIntersecting && document.visibilityState === 'visible';
+          if (running && !wasRunning) requestAnimationFrame(step);
+        },
+        { threshold: 0.01 }
+      );
+      visibilityObserver.observe(card);
+      document.addEventListener('visibilitychange', () => {
+        const shouldRun = document.visibilityState === 'visible';
+        const wasRunning = running;
+        running = shouldRun && running;
+        if (shouldRun && !wasRunning) {
+          running = true;
+          requestAnimationFrame(step);
+        }
+      });
+    });
   }
 </script>

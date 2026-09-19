@@ -26,7 +26,6 @@ const stats = [
   { value: '8,000+', numericValue: 8000, suffix: '+', label: 'Sq. ft. manufacturing facility' },
   { value: '44+', numericValue: 44, suffix: '+', label: 'Projects executed' },
   { value: '70 kA', numericValue: 70, suffix: ' kA', label: 'CPRI short-circuit withstand' },
-  { value: '₹8.04 Cr', label: 'FY 2025–26 turnover' },
 ];
 
 const infrastructureFeatures = [
@@ -53,7 +52,7 @@ const infrastructureFeatures = [
         fallbackFormat="jpg"
         loading="eager"
         fetchpriority="high"
-        class="w-full h-full object-cover object-[center_30%] sm:object-center opacity-55"
+        class="w-full h-full object-cover object-[center_30%] sm:object-center opacity-55 translate-x-[50px] -translate-y-[50px]"
       />
       <div class="absolute inset-0 bg-gradient-to-r from-ink-900 via-ink-900/85 to-ink-900/30"></div>
       <div class="absolute inset-0 bg-gradient-to-t from-ink-900 via-transparent to-transparent"></div>
@@ -99,8 +98,8 @@ const infrastructureFeatures = [
             src={img('panel-apfc-batch-ready-for-dispatch-2.jpg')}
             alt="APFC panels ready for dispatch at Kedar Industries"
             width={640}
-            height={640}
-            class="w-full h-full object-cover aspect-square"
+            height={480}
+            class="w-full h-full object-cover aspect-[4/3]"
           />
         </div>
       </div>
