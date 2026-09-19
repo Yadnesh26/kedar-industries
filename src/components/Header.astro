@@ -5,14 +5,14 @@ import nav from '@/data/nav.json';
 import { img } from '@/lib/images';
 import { Image } from 'astro:assets';
 
-const logo = img('logo-kedar-industries.jpeg');
+const logo = img('logo-icon.png');
 const currentPath = Astro.url.pathname;
 ---
 
 <header class="sticky top-0 z-50 bg-ink-900/95 backdrop-blur border-b border-white/10">
   <div class="container-page flex items-center justify-between h-[76px] gap-6">
     <a href="/" class="flex items-center gap-3 shrink-0 group">
-      <Image src={logo} alt="Kedar Industries logo" width={44} height={44} class="rounded-full" />
+      <Image src={logo} alt="Kedar Industries logo" width={44} height={44} class="object-contain" />
       <span class="font-display font-extrabold text-paper text-lg leading-tight tracking-tight">
         Kedar<span class="text-amber-500"> Industries</span>
       </span>

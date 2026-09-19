@@ -15,13 +15,19 @@
   --color-paper: #ffffff;
 
   --color-amber-100: #fff4d1;
-  --color-amber-500: #ffc629;
+  --color-amber-500: #ffcc2a;
   --color-amber-600: #e0a800;
 
-  --color-signal-red: #ee3137;
+  --color-signal-red: #ec3237;
   --color-signal-red-100: #fde6e6;
   --color-signal-green: #00a85a;
   --color-signal-green-100: #e2f6ec;
+
+  /* Secondary accent from the "KEDAR" wordmark — used sparingly (never as a
+     large field) on light backgrounds where amber-on-white would fail
+     contrast, e.g. small text accents, ribbon details. */
+  --color-rust-600: #8a3c0c;
+  --color-rust-100: #f7e9df;
 
   /* ---- Type ---- */
   --font-display: "Manrope Variable", "Manrope", ui-sans-serif, system-ui, sans-serif;

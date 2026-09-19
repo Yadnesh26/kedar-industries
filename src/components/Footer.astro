@@ -5,7 +5,7 @@ import nav from '@/data/nav.json';
 import { img } from '@/lib/images';
 import { Image } from 'astro:assets';
 
-const logo = img('logo-kedar-industries.jpeg');
+const logo = img('logo-icon.png');
 const year = new Date().getFullYear();
 ---
 
@@ -13,7 +13,7 @@ const year = new Date().getFullYear();
   <div class="container-page py-16 grid grid-cols-1 md:grid-cols-4 gap-10">
     <div>
       <a href="/" class="flex items-center gap-3 mb-4">
-        <Image src={logo} alt="Kedar Industries logo" width={40} height={40} class="rounded-full" />
+        <Image src={logo} alt="Kedar Industries logo" width={40} height={40} class="object-contain" />
         <span class="font-display font-extrabold text-paper text-lg">Kedar Industries</span>
       </a>
       <p class="text-sm text-ink-400 leading-relaxed mb-4">
