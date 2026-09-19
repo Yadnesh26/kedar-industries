@@ -2,7 +2,7 @@
 name: "MCC Panel"
 category: "motor-control"
 tagline: "Motor Control Centre panels for centralized, safe control of multiple motor loads."
-heroImage: "panel-mcc-motor-control-centre.jpeg"
+heroImage: "panel-mcc-motor-control-centre-cutout.png"
 gallery:
   - "panel-mcc-lineup-shop-floor.png"
   - "panel-mcc-buckets-doors-open.png"

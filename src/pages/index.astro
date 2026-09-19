@@ -1,15 +1,12 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import SectionHeading from '@/components/SectionHeading.astro';
-import CTABand from '@/components/CTABand.astro';
 import StatBand from '@/components/StatBand.astro';
 import ProductCard from '@/components/ProductCard.astro';
-import FeatureCard from '@/components/FeatureCard.astro';
-import IndustryChip from '@/components/IndustryChip.astro';
 import PartnerCard from '@/components/PartnerCard.astro';
 import LogoWall from '@/components/LogoWall.astro';
 import { Image, Picture } from 'astro:assets';
-import { ArrowRight, CircleCheck, ExternalLink } from '@lucide/astro';
+import { ArrowRight, CircleCheck, Wrench, Flame, Warehouse } from '@lucide/astro';
 import { img } from '@/lib/images';
 import { getCollection } from 'astro:content';
 
@@ -20,8 +17,7 @@ import clients from '@/data/clients.json';
 import projects from '@/data/projects.json';
 
 const allProducts = (await getCollection('products')).sort((a, b) => a.data.order - b.data.order);
-const featuredProducts = allProducts.slice(0, 8);
-const allParts = (await getCollection('parts')).sort((a, b) => a.data.order - b.data.order);
+const featuredProducts = allProducts.slice(0, 3);
 
 const heroBg = img('panel-mcc-lineup-shop-floor.png');
 
@@ -33,13 +29,10 @@ const stats = [
   { value: '₹8.04 Cr', label: 'FY 2025–26 turnover' },
 ];
 
-const whyChoose = [
-  { icon: 'ShieldCheck' as const, title: 'CPRI Type-Tested', description: 'Independently validated at 4000 A / 70 kA short-circuit, temperature rise and IP55 — not just claimed in a brochure.' },
-  { icon: 'Factory' as const, title: '8,000 sq ft Facility', description: '25 ft clear-height shed with dedicated fabrication, assembly, soldering & brazing, and QC sections.' },
-  { icon: 'Settings2' as const, title: 'Custom Engineering', description: 'Every panel engineered to the customer’s single-line diagram, from 160 A in-feed units to 7400 A PCC panels.' },
-  { icon: 'Handshake' as const, title: 'Authorised Partnerships', description: 'Vishay System Integrator and C&S Electric CX Partner — genuine components, licensed designs.' },
-  { icon: 'BadgeCheck' as const, title: '5 Management Certifications', description: 'ISO 9001, ISO 14001, ISO 45001, IATF 16949 and ZED Silver — audited, not self-declared.' },
-  { icon: 'Timer' as const, title: 'On-Time Delivery', description: 'Lean manufacturing and structured production planning across 44+ delivered projects.' },
+const infrastructureFeatures = [
+  { Icon: Wrench, text: 'Dedicated fabrication & panel assembly sections' },
+  { Icon: Flame, text: 'In-house precision soldering & silver brazing' },
+  { Icon: Warehouse, text: '8,000 sq ft shed, 25 ft clear height, single roof' },
 ];
 ---
 
@@ -65,7 +58,7 @@ const whyChoose = [
       <div class="absolute inset-0 bg-gradient-to-r from-ink-900 via-ink-900/85 to-ink-900/30"></div>
       <div class="absolute inset-0 bg-gradient-to-t from-ink-900 via-transparent to-transparent"></div>
     </div>
-    <div class="container-page relative pt-20 pb-16 sm:pt-28 sm:pb-24">
+    <div class="container-page relative pt-20 pb-16 sm:pt-24 sm:pb-20">
       <p class="eyebrow mb-5">Nashik, Maharashtra &middot; Est. 2019</p>
       <h1 class="text-paper text-4xl sm:text-5xl md:text-6xl leading-[1.05] max-w-3xl">
         Type-tested power.<br /> Built in Nashik.
@@ -94,17 +87,25 @@ const whyChoose = [
     </div>
   </section>
 
-  <!-- 2. Stat band -->
+  <!-- 2. Stat band (floating card overlapping the hero) -->
   <StatBand stats={stats} />
 
   <!-- 3. About -->
-  <section class="section-y">
+  <section class="pt-14 pb-16 sm:pt-16 sm:pb-20">
     <div class="container-page grid lg:grid-cols-2 gap-12 items-center">
-      <div class="reveal">
-        <SectionHeading
-          eyebrow="Who we are"
-          title={company.tagline}
-        />
+      <div class="reveal order-2 lg:order-1">
+        <div class="rounded-2xl overflow-hidden border border-ink-100 shadow-sm">
+          <Image
+            src={img('panel-apfc-batch-ready-for-dispatch-1.jpg')}
+            alt="APFC panels ready for dispatch at Kedar Industries"
+            width={640}
+            height={640}
+            class="w-full h-full object-cover aspect-square"
+          />
+        </div>
+      </div>
+      <div class="reveal order-1 lg:order-2">
+        <SectionHeading eyebrow="About Kedar Industries" title={company.tagline} />
         <p class="text-ink-400 leading-relaxed mb-6">{company.about}</p>
         <ul class="grid sm:grid-cols-2 gap-3 mb-8">
           {['Design, fabricate & test in-house', 'IEC 61439 & CPRI validated', 'Vishay & C&S authorised partner', 'ISO 9001/14001/45001 + IATF 16949'].map((item) => (
@@ -113,56 +114,21 @@ const whyChoose = [
             </li>
           ))}
         </ul>
-        <a href="/about/" class="inline-flex items-center gap-1.5 text-amber-600 font-semibold text-sm hover:gap-2.5 transition-all">
-          Discover our story <ArrowRight class="size-4" />
+        <a href="/about/" class="btn btn-primary">
+          Discover Our Story <ArrowRight class="size-4" />
         </a>
       </div>
-      <div class="reveal grid grid-cols-2 gap-4">
-        <Image src={img('panel-apfc-batch-ready-for-dispatch-1.jpg')} alt="APFC panels ready for dispatch at Kedar Industries" width={400} height={500} class="rounded-md object-cover w-full h-full aspect-[4/5]" />
-        <Image src={img('panel-mcc-buckets-doors-open.png')} alt="MCC panel with withdrawable buckets, doors open" width={400} height={500} class="rounded-md object-cover w-full h-full aspect-[4/5] mt-8" />
-      </div>
     </div>
   </section>
 
-  <!-- 5. Proof / CPRI -->
-  <section class="bg-ink-900 section-y">
+  <!-- 4. Technology partners -->
+  <section class="section-y bg-ink-900">
     <div class="container-page">
       <SectionHeading
-        eyebrow="Independently verified"
-        title="Type-tested. Not just claimed."
-        lead="Kedar's LT panels underwent full type testing at the Central Power Research Institute (CPRI), Bhopal & Noida, per IEC 61439-1 & 2 — on a 4000 A, 415 V Power-cum-Motor Control Centre."
-        dark
-      />
-      <div class="grid md:grid-cols-3 gap-6 mb-10">
-        <div class="card bg-ink-800 border-white/10 p-6">
-          <p class="font-mono-figure text-4xl text-amber-500 font-semibold">4000 A <span class="text-2xl">@</span> 70 kA</p>
-          <p class="text-sm text-ink-200 mt-2">Short-circuit withstand, three-phase, main circuit busbars</p>
-          <p class="text-xs text-ink-400 mt-3 font-mono-figure">Report {cpriTests.shortCircuit.reportNumber}</p>
-        </div>
-        <div class="card bg-ink-800 border-white/10 p-6">
-          <p class="font-mono-figure text-4xl text-amber-500 font-semibold">{cpriTests.temperatureRise.maxRiseK} K</p>
-          <p class="text-sm text-ink-200 mt-2">Max. temperature rise at 4000 A, against a {cpriTests.temperatureRise.maxRiseLimitK} K limit</p>
-          <p class="text-xs text-ink-400 mt-3 font-mono-figure">Report {cpriTests.temperatureRise.reportNumber}</p>
-        </div>
-        <div class="card bg-ink-800 border-white/10 p-6">
-          <p class="font-mono-figure text-4xl text-amber-500 font-semibold">IP55</p>
-          <p class="text-sm text-ink-200 mt-2">Solid particle &amp; water ingress protection, verified 8-hour and 3-minute tests</p>
-          <p class="text-xs text-ink-400 mt-3 font-mono-figure">Report {cpriTests.ip55.reportNumber}</p>
-        </div>
-      </div>
-      <a href="/about/quality/" class="inline-flex items-center gap-1.5 text-amber-500 font-semibold text-sm hover:gap-2.5 transition-all">
-        See the full test reports <ArrowRight class="size-4" />
-      </a>
-    </div>
-  </section>
-
-  <!-- 6. Technology partners -->
-  <section class="section-y">
-    <div class="container-page">
-      <SectionHeading
-        eyebrow="Authorised partnerships"
-        title="Built with genuine, licensed technology"
+        eyebrow="Industry-certified partnerships"
+        title="Authorised Technology Partners"
         lead="Kedar Industries holds authorised partner status with two established electrical brands — not a reseller arrangement, but a design-and-manufacture licence."
+        dark
       />
       <div class="grid md:grid-cols-2 gap-6">
         {certifications.partnerships.map((p) => (
@@ -172,15 +138,19 @@ const whyChoose = [
     </div>
   </section>
 
-  <!-- 7. Products -->
-  <section class="section-y bg-ink-100/50">
+  <!-- 5. Products -->
+  <section class="section-y">
     <div class="container-page">
-      <SectionHeading
-        eyebrow="Engineered for safety, efficiency & performance"
-        title="Our Electrical Panel Solutions"
-        lead="From main incoming distribution to individual motor control, power quality correction, and fully custom builds."
-      />
-      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div class="flex flex-wrap items-end justify-between gap-6 mb-12">
+        <SectionHeading
+          eyebrow="Engineered for safety, efficiency & performance"
+          title="Our Electrical Panel Solutions"
+        />
+        <a href="/products/" class="btn btn-primary shrink-0">
+          View All Products <ArrowRight class="size-4" />
+        </a>
+      </div>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {featuredProducts.map((product) => (
           <ProductCard
             href={`/products/${product.id}/`}
@@ -190,108 +160,91 @@ const whyChoose = [
           />
         ))}
       </div>
-      <div class="mt-10 text-center">
-        <a href="/products/" class="btn btn-outline">
-          View all {allProducts.length} products <ArrowRight class="size-4" />
-        </a>
-      </div>
     </div>
   </section>
 
-  <!-- 8. Capacitor parts -->
-  <section class="section-y">
-    <div class="container-page">
-      <SectionHeading
-        eyebrow="Second business line"
-        title="Capacitor Part Fabrication"
-        lead="Precision components supplied on a continuous production basis to Vishay Components India since FY 2022–23, including a 200-set export order."
-      />
-      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
-        {allParts.map((part) => (
-          <a href={`/capacitor-parts/${part.id}/`} class="card p-4 flex flex-col items-center text-center gap-3">
-            <Image src={img(part.data.heroImage)} alt={part.data.name} width={120} height={120} class="w-full aspect-square object-contain" />
-            <span class="text-xs font-medium text-ink-900">{part.data.name}</span>
-          </a>
-        ))}
+  <!-- 6. Infrastructure -->
+  <section class="section-y bg-ink-900 relative overflow-hidden">
+    <div class="absolute inset-0 opacity-[0.04] bg-[radial-gradient(circle_at_80%_20%,#FFC629,transparent_50%)]"></div>
+    <div class="container-page relative grid lg:grid-cols-2 gap-12 items-center">
+      <div class="rounded-2xl overflow-hidden">
+        <Image
+          src={img('panel-mcc-lineup-shop-floor.png')}
+          alt="Panel assembly on the Kedar Industries shop floor"
+          width={640}
+          height={480}
+          class="w-full object-cover aspect-[4/3]"
+        />
       </div>
-      <div class="mt-8 text-center">
-        <a href="/capacitor-parts/" class="inline-flex items-center gap-1.5 text-amber-600 font-semibold text-sm hover:gap-2.5 transition-all">
-          View all capacitor parts <ArrowRight class="size-4" />
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- 9. Why choose Kedar -->
-  <section class="section-y bg-ink-100/50">
-    <div class="container-page">
-      <SectionHeading eyebrow="Why industries trust us" title="Proof, not promises" />
-      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {whyChoose.map((f) => <FeatureCard icon={f.icon} title={f.title} description={f.description} />)}
-      </div>
-    </div>
-  </section>
-
-  <!-- 10. Industries served -->
-  <section class="section-y">
-    <div class="container-page">
-      <SectionHeading eyebrow="Sectors served" title="Trusted across industrial sectors" />
-      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
-        {clients.industries.map((ind) => <IndustryChip name={ind.name} icon={ind.icon as any} />)}
-      </div>
-    </div>
-  </section>
-
-  <!-- 11. Infrastructure teaser -->
-  <section class="section-y bg-ink-900">
-    <div class="container-page grid lg:grid-cols-2 gap-12 items-center">
-      <div class="order-2 lg:order-1">
-        <Image src={img('panel-mcc-lineup-shop-floor.png')} alt="Panel assembly on the Kedar Industries shop floor" width={640} height={480} class="rounded-md w-full object-cover aspect-[4/3]" />
-      </div>
-      <div class="order-1 lg:order-2">
+      <div>
         <SectionHeading
           eyebrow="Manufacturing facility"
           title="8,000 sq ft. Every stage in-house."
-          lead={`${company.facility.description}. Fabrication, assembly, soldering & brazing, quality inspection, and dispatch — all under one roof.`}
+          lead="Every panel begins with the right foundation — a facility designed to handle complex requirements with speed, accuracy and zero compromise on quality."
           dark
         />
-        <a href="/about/infrastructure/" class="inline-flex items-center gap-1.5 text-amber-500 font-semibold text-sm hover:gap-2.5 transition-all">
-          Inside our factory <ArrowRight class="size-4" />
+        <ul class="flex flex-col gap-3 mb-8">
+          {infrastructureFeatures.map((f) => (
+            <li class="flex items-center gap-3 text-sm text-ink-200 bg-white/5 rounded-md px-4 py-3">
+              <f.Icon class="size-4 text-amber-500 shrink-0" /> {f.text}
+            </li>
+          ))}
+        </ul>
+        <a href="/about/infrastructure/" class="btn btn-primary">
+          Inside Our Factory <ArrowRight class="size-4" />
         </a>
       </div>
     </div>
   </section>
 
-  <!-- 12. Quality teaser -->
+  <!-- 7. Quality Assurance (incl. CPRI headline figures) -->
   <section class="section-y">
     <div class="container-page grid lg:grid-cols-2 gap-12 items-center">
       <div>
         <SectionHeading
           eyebrow="Quality assurance"
           title="Every panel tested. Every standard met."
-          lead="Incoming inspection, in-process checks, and 10 electrical test procedures — insulation resistance, HV withstand, earth continuity, and more — before any panel is dispatched."
+          lead="We don't just manufacture panels — we guarantee their performance. From raw material inspection to final dispatch, independently verified by CPRI per IEC 61439-1 & 2."
         />
-        <a href="/about/quality/" class="inline-flex items-center gap-1.5 text-amber-600 font-semibold text-sm hover:gap-2.5 transition-all">
-          Quality &amp; certification <ArrowRight class="size-4" />
+        <div class="grid grid-cols-3 gap-3 mb-8">
+          <div class="card p-4 text-center">
+            <p class="font-mono-figure text-xl text-amber-600 font-semibold">70 kA</p>
+            <p class="text-xs text-ink-400 mt-1">Short-circuit withstand</p>
+          </div>
+          <div class="card p-4 text-center">
+            <p class="font-mono-figure text-xl text-amber-600 font-semibold">{cpriTests.temperatureRise.maxRiseK} K</p>
+            <p class="text-xs text-ink-400 mt-1">Max. temperature rise</p>
+          </div>
+          <div class="card p-4 text-center">
+            <p class="font-mono-figure text-xl text-amber-600 font-semibold">IP55</p>
+            <p class="text-xs text-ink-400 mt-1">Enclosure protection</p>
+          </div>
+        </div>
+        <a href="/about/quality/" class="btn btn-primary">
+          Quality &amp; Certification <ArrowRight class="size-4" />
         </a>
       </div>
-      <Image src={img('panel-apfc-internal-wiring-doors-open.jpg')} alt="APFC panel internal wiring, doors open, undergoing inspection" width={640} height={480} class="rounded-md w-full object-cover aspect-[4/3]" />
+      <div class="rounded-2xl overflow-hidden border border-ink-100 shadow-sm">
+        <Image
+          src={img('panel-apfc-internal-wiring-doors-open.jpg')}
+          alt="APFC panel internal wiring, doors open, undergoing inspection"
+          width={640}
+          height={480}
+          class="w-full object-cover aspect-[4/3]"
+        />
+      </div>
     </div>
   </section>
 
-  <!-- 13. Clients -->
+  <!-- 8. Clients -->
   <section class="section-y bg-ink-100/50">
     <div class="container-page">
-      <SectionHeading eyebrow="Our clients" title="Trusted relationships" lead={`Registered vendor of ${clients.registeredVendorOf.length} major industrial groups, with ${projects.length}+ projects delivered.`} />
+      <SectionHeading
+        eyebrow="Our clients"
+        title="Trusted Relationships"
+        lead={`Registered vendor of ${clients.registeredVendorOf.length} major industrial groups, with ${projects.length}+ projects delivered.`}
+      />
       <LogoWall logos={clients.logos} />
-      <div class="mt-8 text-center">
-        <a href="/about/" class="inline-flex items-center gap-1.5 text-amber-600 font-semibold text-sm hover:gap-2.5 transition-all">
-          View all clients &amp; associations <ExternalLink class="size-4" />
-        </a>
-      </div>
     </div>
   </section>
-
-  <!-- 14. Final CTA -->
-  <CTABand />
 </BaseLayout>

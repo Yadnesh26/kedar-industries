@@ -2,7 +2,7 @@
 name: "PCC Panel"
 category: "power-distribution"
 tagline: "Power Control Centre panels engineered for safe, high-current distribution and feeder protection."
-heroImage: "panel-pcc-power-control-centre.png"
+heroImage: "panel-pcc-power-control-centre-cutout.png"
 gallery:
   - "panel-mcc-lineup-shop-floor.png"
   - "panel-lt-panel-front-closed.jpg"

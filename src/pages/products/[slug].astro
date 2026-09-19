@@ -5,7 +5,7 @@ import SpecTable from '@/components/SpecTable.astro';
 import FAQAccordion from '@/components/FAQAccordion.astro';
 import ProductCard from '@/components/ProductCard.astro';
 import CTABand from '@/components/CTABand.astro';
-import { Image, Picture } from 'astro:assets';
+import { Image } from 'astro:assets';
 import { CircleCheck, ArrowRight, FileCheck2 } from '@lucide/astro';
 import { img } from '@/lib/images';
 import { getCollection, render } from 'astro:content';
@@ -53,24 +53,25 @@ const productSchema = {
   <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Products', href: '/products/' }, { label: data.name }]} />
 
   <section class="relative bg-ink-900 overflow-hidden">
-    <div class="absolute inset-0">
-      <Picture
-        src={img(data.heroImage)}
-        alt=""
-        widths={[480, 768, 1024, 1440, 1920, 2560]}
-        sizes="100vw"
-        formats={['avif', 'webp']}
-        fallbackFormat="jpg"
-        class="w-full h-full object-cover opacity-25"
-      />
-      <div class="absolute inset-0 bg-gradient-to-t from-ink-900 via-ink-900/85 to-ink-900/60"></div>
-    </div>
-    <div class="container-page relative py-16 sm:py-24">
-      <h1 class="text-paper text-3xl sm:text-5xl max-w-2xl leading-[1.1]">{data.name}</h1>
-      <p class="mt-5 text-lg text-ink-200 max-w-xl leading-relaxed">{data.tagline}</p>
-      <div class="mt-8 flex flex-wrap gap-4">
-        <a href="/contact/" class="btn btn-primary">Request a Quote <ArrowRight class="size-4" /></a>
-        <a href="#specifications" class="btn btn-outline-dark">View Specifications</a>
+    <div class="absolute inset-0 opacity-[0.05] bg-[radial-gradient(circle_at_75%_50%,#FFC629,transparent_55%)]"></div>
+    <div class="container-page relative py-16 sm:py-20 grid lg:grid-cols-2 gap-10 items-center">
+      <div>
+        <h1 class="text-paper text-3xl sm:text-5xl leading-[1.1]">{data.name}</h1>
+        <p class="mt-5 text-lg text-ink-200 max-w-xl leading-relaxed">{data.tagline}</p>
+        <div class="mt-8 flex flex-wrap gap-4">
+          <a href="/contact/" class="btn btn-primary">Request a Quote <ArrowRight class="size-4" /></a>
+          <a href="#specifications" class="btn btn-outline-dark">View Specifications</a>
+        </div>
+      </div>
+      <div class="relative aspect-[4/3] flex items-center justify-center">
+        <div class="absolute inset-0 rounded-full bg-amber-500/10 blur-3xl"></div>
+        <Image
+          src={img(data.heroImage)}
+          alt={data.name}
+          width={640}
+          height={480}
+          class="relative max-w-full max-h-full w-auto h-auto object-contain drop-shadow-2xl"
+        />
       </div>
     </div>
   </section>

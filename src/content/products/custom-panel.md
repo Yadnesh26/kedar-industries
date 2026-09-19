@@ -2,7 +2,7 @@
 name: "Customized Electrical Panel"
 category: "custom"
 tagline: "Engineered to your exact single-line diagram, ratings and site conditions."
-heroImage: "panel-in-feed-unit.png"
+heroImage: "panel-in-feed-unit-cutout.png"
 gallery:
   - "panel-electrical-control-panels-lineup.png"
 overview: |

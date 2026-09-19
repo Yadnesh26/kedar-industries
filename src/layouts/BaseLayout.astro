@@ -87,6 +87,16 @@ const orgSchema = {
       <script type="application/ld+json" set:html={JSON.stringify(orgSchema)} />
     )}
 
+    <!--
+      Safety net for the .reveal scroll-in animation (see the IntersectionObserver
+      below): if JavaScript fails to run or is disabled, .reveal content would
+      otherwise stay at opacity:0 forever, hiding real page content. This
+      forces it visible whenever JS isn't available to un-hide it itself.
+    -->
+    <noscript>
+      <style>.reveal { opacity: 1 !important; transform: none !important; }</style>
+    </noscript>
+
     <slot name="head" />
   </head>
   <body class="bg-paper text-ink-600 antialiased">

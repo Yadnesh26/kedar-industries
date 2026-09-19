@@ -2,7 +2,7 @@
 name: "APFC Panel"
 category: "power-quality"
 tagline: "Automatic Power Factor Correction panels that cut reactive-power penalties and improve system efficiency."
-heroImage: "panel-apfc-power-factor.jpeg"
+heroImage: "panel-apfc-power-factor-cutout.png"
 gallery:
   - "panel-apfc-internal-wiring-doors-open.jpg"
   - "panel-apfc-batch-ready-for-dispatch-1.jpg"

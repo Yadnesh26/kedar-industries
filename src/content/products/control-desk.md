@@ -2,7 +2,7 @@
 name: "Control Desk"
 category: "automation"
 tagline: "Ergonomic operator control desks for centralized plant and process monitoring."
-heroImage: "panel-lt-panel-front-closed.jpg"
+heroImage: "panel-lt-panel-front-closed-cutout.png"
 gallery: []
 overview: |
   Control desks bring switches, indicators, meters, mimic diagrams and HMI panels into a single
