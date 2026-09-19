@@ -10,21 +10,59 @@ interface Props {
   logos: Logo[];
 }
 const { logos } = Astro.props;
+const track = [...logos, ...logos];
 ---
 
-<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-  {logos.map((logo) => (
-    <div
-      class="flex items-center justify-center p-5 rounded-md border border-ink-100 bg-paper h-24 grayscale hover:grayscale-0 transition-all duration-300"
-      title={logo.name}
-    >
-      <Image
-        src={img(logo.file)}
-        alt={logo.name}
-        width={140}
-        height={60}
-        class="max-h-12 w-auto object-contain"
-      />
-    </div>
-  ))}
+<div class="logo-marquee relative overflow-hidden">
+  <div class="logo-marquee__fade logo-marquee__fade--left"></div>
+  <div class="logo-marquee__fade logo-marquee__fade--right"></div>
+  <div class="logo-marquee__track flex items-center w-max">
+    {track.map((logo) => (
+      <div class="flex items-center justify-center shrink-0 h-20 w-36 sm:h-24 sm:w-44 px-4" title={logo.name}>
+        <Image
+          src={img(logo.file)}
+          alt={logo.name}
+          width={160}
+          height={70}
+          class="max-h-12 sm:max-h-14 w-auto object-contain"
+        />
+      </div>
+    ))}
+  </div>
 </div>
+
+<style>
+  .logo-marquee__track {
+    animation: logo-marquee 32s linear infinite;
+  }
+  .logo-marquee:hover .logo-marquee__track {
+    animation-play-state: paused;
+  }
+  @keyframes logo-marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  .logo-marquee__fade {
+    position: absolute;
+    inset-block: 0;
+    width: 4rem;
+    z-index: 1;
+    pointer-events: none;
+  }
+  .logo-marquee__fade--left {
+    left: 0;
+    background: linear-gradient(to right, var(--color-ink-100), transparent);
+  }
+  .logo-marquee__fade--right {
+    right: 0;
+    background: linear-gradient(to left, var(--color-ink-100), transparent);
+  }
+  @media (min-width: 640px) {
+    .logo-marquee__fade { width: 6rem; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .logo-marquee__track {
+      animation: none;
+    }
+  }
+</style>
