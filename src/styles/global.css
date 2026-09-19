@@ -41,10 +41,20 @@
   --radius-md: 4px;
   --radius-lg: 6px;
 
-  /* ---- Container: matches the reference site's own measured value
-     exactly (read from its compiled CSS: --container-max-width:1140px,
-     .container{padding-left:15px;padding-right:15px}) ---- */
-  --container-page: 1140px;
+  /* ---- Container ----
+     The static CSS bundle has --container-max-width:1140px with a fixed
+     15px gutter, but that class does NOT govern the hero heading — live
+     measurement in a real Chromium instance (Playwright, headless=false
+     verified) against the actual reference site showed its hero heading
+     sits at a left gap that stays ~6.0–6.6% of viewport width across
+     100–125% zoom (a 1920-wide window: 116.8px -> 101.4px, i.e. the gap
+     itself shrinks in lockstep with the viewport, not independently of
+     it). That is percentage padding on a section with no binding
+     max-width, not a centered fixed-px box — a centered 1140px box on a
+     1920px viewport would put the gap at 390px (20.3%), which is not
+     what was measured. Matched empirically below; do not reintroduce a
+     narrow auto-centered max-width, it reproduces the original bug. */
+  --container-page: 2200px;
 
   /* ---- Motion ---- */
   --ease-out-standard: cubic-bezier(0.16, 1, 0.3, 1);
@@ -103,27 +113,38 @@
 
 @layer components {
   /*
-   * Side gutter: a single fixed 15px value at every width, exactly
-   * matching the reference site's own compiled CSS
-   * (`.container{padding-left:15px;padding-right:15px}`, boxed at
-   * `--container-max-width:1140px`).
-   *
-   * Two earlier approaches both caused visible drift under browser zoom:
-   *   1. A vw-based clamp() gutter — vw is relative to the CSS viewport,
-   *      which shrinks as zoom increases, so the gutter moved relative to
-   *      text/buttons sized in rem/px.
-   *   2. A wider (1600px) container with rem gutters that escalated at
-   *      breakpoints — once the effective zoomed viewport crossed the
-   *      1600px max-width threshold, the outer auto-centering margin
-   *      appeared/disappeared, producing a large, sudden jump.
-   * A single fixed-px gutter with no responsive escalation, on a
-   * measured (not guessed) container width, has no threshold to cross —
-   * it reads identically at every zoom level, matching the reference.
+   * Percentage padding, not px/rem/vw. Three earlier approaches all
+   * caused visible drift under browser zoom, each for a related reason:
+   *   1. vw-based clamp() — vw tracks the CSS viewport, which shrinks as
+   *      zoom increases, so the gutter moved relative to rem/px content.
+   *   2. A wide (1600px) auto-centered box with rem gutters — once the
+   *      zoomed viewport crossed the max-width threshold, the outer
+   *      centering margin appeared/vanished outright: a sudden jump.
+   *   3. A narrow (1140px) auto-centered box with a fixed 15px gutter —
+   *      correctly copied from the reference's OWN compiled CSS, but
+   *      that rule turned out to not be what actually positions its
+   *      hero heading. A max-width/auto-margin box is mathematically
+   *      guaranteed to change its margin-as-%-of-viewport as the
+   *      viewport itself changes size (which zoom does) — this can't be
+   *      fixed by picking a different fixed width, only by removing the
+   *      auto-centering margin as the thing doing the positioning.
+   * Verified empirically (Playwright driving real Chrome, both against
+   * this site and against the reference at matching zoom-emulated
+   * viewport widths — see measure*.mjs): the reference's own hero-heading
+   * gap stays ~flat (6.08%→6.60%) from 100–125% zoom because it's a
+   * percentage of its own (nearly full-width) containing block, not a
+   * fixed length competing with a shrinking viewport. Percentage padding
+   * has no threshold to cross and nothing to drift against — it recomputes
+   * against the container's own width every time, so it's already
+   * proportionally identical at every zoom level by construction.
    */
   .container-page {
     max-width: var(--container-page);
     margin-inline: auto;
-    padding-inline: 15px;
+    padding-inline: 6%;
+  }
+  @media (max-width: 480px) {
+    .container-page { padding-inline: 5%; }
   }
   @media (max-width: 479px) {
     .container-page { padding-inline: 12px; }
