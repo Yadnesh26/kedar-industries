@@ -10,13 +10,98 @@ interface Props {
 const { milestones } = Astro.props;
 ---
 
-<ol class="relative border-l-2 border-ink-100 ml-3 flex flex-col gap-10">
-  {milestones.map((m) => (
-    <li class="relative pl-8">
-      <span class="absolute -left-[9px] top-1 size-4 rounded-full bg-amber-500 border-4 border-paper ring-1 ring-ink-100"></span>
-      <p class="eyebrow mb-1">{m.period}</p>
-      <h3 class="font-display font-bold text-ink-900 text-lg mb-1">{m.title}</h3>
-      <p class="text-sm text-ink-400 leading-relaxed max-w-xl">{m.description}</p>
-    </li>
-  ))}
-</ol>
+<div class="h-timeline relative">
+  <div class="h-timeline__track flex overflow-x-auto pb-2 -mx-1 px-1">
+    {milestones.map((m, i) => (
+      <div class="h-timeline__item relative shrink-0 w-60 sm:w-64 pt-9 pr-8" style={`transition-delay:${150 + i * 140}ms`}>
+        <span class="h-timeline__line" aria-hidden="true"></span>
+        <span class="h-timeline__dot" aria-hidden="true"></span>
+        <p class="eyebrow mb-1.5">{m.period}</p>
+        <h3 class="font-display font-bold text-ink-900 text-base mb-1.5">{m.title}</h3>
+        <p class="text-sm text-ink-400 leading-relaxed">{m.description}</p>
+      </div>
+    ))}
+  </div>
+</div>
+
+<noscript>
+  <style is:global>
+    .h-timeline__line::after {
+      transform: scaleX(1) !important;
+    }
+    .h-timeline__dot {
+      transform: translate(-50%, -50%) scale(1) !important;
+    }
+  </style>
+</noscript>
+
+<style is:global>
+  .h-timeline__track {
+    scrollbar-width: thin;
+  }
+  .h-timeline__line {
+    position: absolute;
+    top: 0.875rem;
+    left: 0;
+    right: 2rem;
+    height: 2px;
+    background: var(--color-ink-100);
+    overflow: hidden;
+    transition-delay: inherit;
+  }
+  .h-timeline__line::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--color-amber-500);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 700ms var(--ease-out-standard);
+    transition-delay: inherit;
+  }
+  .h-timeline__dot {
+    position: absolute;
+    top: 0.875rem;
+    left: 0;
+    width: 0.875rem;
+    height: 0.875rem;
+    border-radius: 9999px;
+    background: var(--color-amber-500);
+    border: 3px solid var(--color-paper);
+    box-shadow: 0 0 0 1px var(--color-ink-100);
+    transform: translate(-50%, -50%) scale(0);
+    transition: transform 400ms var(--ease-out-standard);
+    transition-delay: inherit;
+  }
+  .h-timeline.is-visible .h-timeline__line::after {
+    transform: scaleX(1);
+  }
+  .h-timeline.is-visible .h-timeline__dot {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .h-timeline__line::after {
+      transition: none;
+      transform: scaleX(1);
+    }
+    .h-timeline__dot {
+      transition: none;
+      transform: translate(-50%, -50%) scale(1);
+    }
+  }
+</style>
+
+<script>
+  const observer = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      }
+    },
+    { threshold: 0.2 }
+  );
+  document.querySelectorAll('.h-timeline').forEach((el) => observer.observe(el));
+</script>
