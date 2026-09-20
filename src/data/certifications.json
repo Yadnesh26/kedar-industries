@@ -50,8 +50,7 @@
       "logo": "client-logo-vishay.png",
       "certScan": "certificate-vishay-partner-letter.png",
       "validTill": null,
-      "accentColor": "#0066b3",
-      "hoverStyle": "lift"
+      "accentColor": "#0066b3"
     },
     {
       "partner": "C&S Electric Ltd.",
@@ -62,7 +61,6 @@
       "logo": "client-logo-cs-electric.svg",
       "validTill": "10 May 2027",
       "accentColor": "#f58220",
-      "hoverStyle": "zoom",
       "certScan": "certificate-cs-electric-cx-partner.png",
       "certScanPhoto": "certificate-cs-electric-cx-partner-framed-photo.jpg"
     }

@@ -10,9 +10,8 @@ interface Props {
   validTill?: string | null;
   logo?: string;
   accentColor?: string;
-  hoverStyle?: 'lift' | 'zoom';
 }
-const { partner, role, scope, validTill, logo, accentColor, hoverStyle = 'lift' } = Astro.props;
+const { partner, role, scope, validTill, logo, accentColor } = Astro.props;
 
 const isSvg = logo?.endsWith('.svg');
 const hasRasterLogo = Boolean(logo && !isSvg && hasImg(logo));
@@ -20,12 +19,11 @@ const shortLabel = partner.split(' ')[0].replace(/[.,]+$/, '');
 ---
 
 <div
-  class="partner-card card overflow-hidden"
-  data-hover={hoverStyle}
+  class="partner-card card"
   style={accentColor ? `--accent: ${accentColor}` : undefined}
 >
   <div class="grid sm:grid-cols-[13rem_1fr]">
-    <div class="partner-card__logo-tile flex items-center justify-center bg-ink-100/60 p-8">
+    <div class="partner-card__logo-tile rounded-l-md flex items-center justify-center bg-ink-100/60 p-8">
       {isSvg ? (
         <img src={`/logos/${logo}`} alt={partner} width="120" height="98" class="partner-card__logo max-h-16 sm:max-h-20 w-auto object-contain" />
       ) : hasRasterLogo ? (
@@ -71,14 +69,8 @@ const shortLabel = partner.split(' ')[0].replace(/[.,]+$/, '');
   }
   .partner-card:hover {
     border-color: var(--accent, var(--color-amber-500));
-  }
-  .partner-card[data-hover='lift']:hover {
     transform: translateY(-6px);
     box-shadow: 0 20px 32px -16px color-mix(in srgb, var(--accent, var(--color-amber-500)) 55%, transparent);
-  }
-  .partner-card[data-hover='zoom']:hover {
-    transform: scale(1.015);
-    box-shadow: 0 14px 28px -14px color-mix(in srgb, var(--accent, var(--color-amber-500)) 55%, transparent);
   }
   .partner-card__logo-tile {
     transition: background-color 280ms var(--ease-out-standard);
@@ -89,11 +81,8 @@ const shortLabel = partner.split(' ')[0].replace(/[.,]+$/, '');
   .partner-card__logo {
     transition: transform 280ms var(--ease-out-standard);
   }
-  .partner-card[data-hover='lift']:hover .partner-card__logo {
-    transform: translateY(-2px) scale(1.04);
-  }
-  .partner-card[data-hover='zoom']:hover .partner-card__logo {
-    transform: scale(1.1);
+  .partner-card:hover .partner-card__logo {
+    transform: scale(1.06);
   }
   @media (prefers-reduced-motion: reduce) {
     .partner-card,
