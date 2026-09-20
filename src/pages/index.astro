@@ -123,15 +123,28 @@ const infrastructureFeatures = [
   <!-- 4. Technology partners -->
   <section class="section-y bg-ink-900">
     <div class="container-page">
-      <SectionHeading
-        eyebrow="Industry-certified partnerships"
-        title="Authorised Technology Partners"
-        lead="Kedar Industries holds authorised partner status with two established electrical brands — not a reseller arrangement, but a design-and-manufacture licence."
-        dark
-      />
+      <div class="lg:flex lg:items-center lg:justify-between lg:gap-12">
+        <SectionHeading
+          eyebrow="Industry-certified partnerships"
+          title="Authorised Technology Partners"
+          lead="Kedar Industries holds authorised partner status with two established electrical brands — not a reseller arrangement, but a design-and-manufacture licence."
+          dark
+        />
+        <div class="hidden lg:flex items-center gap-8 shrink-0">
+          <div class="text-center">
+            <p class="font-mono-figure text-4xl text-amber-500 font-bold">2</p>
+            <p class="text-xs text-ink-400 mt-1.5 max-w-[9rem] leading-relaxed">Authorised technology partnerships</p>
+          </div>
+          <div class="w-px h-14 bg-white/10"></div>
+          <div class="text-center">
+            <p class="font-mono-figure text-4xl text-amber-500 font-bold">100%</p>
+            <p class="text-xs text-ink-400 mt-1.5 max-w-[9rem] leading-relaxed">Licensed design &amp; manufacture, not resale</p>
+          </div>
+        </div>
+      </div>
       <div class="grid lg:grid-cols-2 gap-6">
         {certifications.partnerships.map((p) => (
-          <PartnerCard partner={p.partner} role={p.role} scope={p.scope} validTill={p.validTill} logo={p.logo} />
+          <PartnerCard partner={p.partner} role={p.role} scope={p.scope} validTill={p.validTill} logo={p.logo} accentColor={p.accentColor} hoverStyle={p.hoverStyle as 'lift' | 'zoom'} />
         ))}
       </div>
     </div>

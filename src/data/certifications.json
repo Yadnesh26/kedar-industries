@@ -49,7 +49,9 @@
       "scope": "Certified as Vishay's Partner, System Integrator for APFC & Passive Harmonic Filtering Panels — permitted to design, manufacture, test & supply all types of APFC & Passive Harmonic Filtering Panels. Vishay provides technical support and supplies Vishay-make products for these panels.",
       "logo": "client-logo-vishay.png",
       "certScan": "certificate-vishay-partner-letter.png",
-      "validTill": null
+      "validTill": null,
+      "accentColor": "#0066b3",
+      "hoverStyle": "lift"
     },
     {
       "partner": "C&S Electric Ltd.",
@@ -59,6 +61,8 @@
       "scope": "Authorised as License Partner to manufacture and sell Low Voltage Switchgear & Controlgear assemblies in CX design, as fully type-tested assemblies (TTA) per IEC 61439. CX design assemblies are supplied with C&S-make products, manufactured to C&S design and manufacturing guidelines.",
       "logo": "client-logo-cs-electric.svg",
       "validTill": "10 May 2027",
+      "accentColor": "#f58220",
+      "hoverStyle": "zoom",
       "certScan": "certificate-cs-electric-cx-partner.png",
       "certScanPhoto": "certificate-cs-electric-cx-partner-framed-photo.jpg"
     }
