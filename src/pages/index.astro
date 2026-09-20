@@ -155,7 +155,7 @@ const infrastructureFeatures = [
   </section>
 
   <!-- 5. Products -->
-  <section class="section-y">
+  <section class="section-y bg-ink-100/50">
     <div class="container-page">
       <div class="flex flex-wrap items-end justify-between gap-6 mb-12">
         <SectionHeading
@@ -168,7 +168,7 @@ const infrastructureFeatures = [
       </div>
       <ProductCarousel>
         {allProducts.map((product) => (
-          <div class="w-[85vw] sm:w-[calc((100%-1.5rem)/2)] lg:w-[calc((100%-3rem)/3)] shrink-0">
+          <div class="w-[85vw] sm:w-[calc((100%-1.5rem)/2)] lg:w-[calc((100%-4.5rem)/4)] shrink-0">
             <ProductCard
               href={`/products/${product.id}/`}
               name={product.data.name}
