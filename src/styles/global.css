@@ -235,17 +235,54 @@
     transform: translateY(0);
   }
 
-  /* A dark section sheared into a parallelogram — top edge rises from
-     left to right, bottom edge parallel to it — instead of a flat
-     rectangular block, for a dark section sandwiched between two
-     paper-background sections. */
+  /* A dark section whose top and bottom edges step into the paper
+     background through three stacked diagonal layers rather than one
+     hard cut. Sampling the reference showed three tones — ~37%, ~75%
+     and 100% of the section colour — on slightly different slopes that
+     fan apart at the left and converge at the right, which is what
+     reads as a gradual, stepped edge instead of a single slanted line.
+     Stacking 35% over 60% composites to ~74%, giving those three steps.
+     If clip-path is unsupported the layers stay rectangular and the
+     section degrades to a flat dark block, which is still correct. */
   .section-diagonal-dark {
-    background: var(--color-ink-900);
-    clip-path: polygon(0 32px, 100% 0, 100% calc(100% - 32px), 0 100%);
+    position: relative;
+    --diag: 10px;
   }
   @media (min-width: 640px) {
     .section-diagonal-dark {
-      clip-path: polygon(0 64px, 100% 0, 100% calc(100% - 64px), 0 100%);
+      --diag: 16px;
     }
+  }
+  .section-diagonal-dark__edges {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .section-diagonal-dark__edges > span {
+    position: absolute;
+    inset: 0;
+    display: block;
+    background: var(--color-ink-900);
+  }
+  .section-diagonal-dark__edges > span:nth-child(1) {
+    opacity: 0.35;
+    clip-path: polygon(0 0, 100% var(--diag), 100% calc(100% - var(--diag)), 0 100%);
+  }
+  .section-diagonal-dark__edges > span:nth-child(2) {
+    opacity: 0.6;
+    clip-path: polygon(
+      0 var(--diag),
+      100% var(--diag),
+      100% calc(100% - var(--diag)),
+      0 calc(100% - var(--diag))
+    );
+  }
+  .section-diagonal-dark__edges > span:nth-child(3) {
+    clip-path: polygon(
+      0 calc(var(--diag) * 2),
+      100% var(--diag),
+      100% calc(100% - var(--diag)),
+      0 calc(100% - var(--diag) * 2)
+    );
   }
 }
