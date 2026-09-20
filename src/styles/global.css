@@ -239,8 +239,10 @@
      background through three stacked diagonal layers rather than one
      hard cut. Sampling the reference showed three tones — ~37%, ~75%
      and 100% of the section colour — on slightly different slopes that
-     fan apart at the left and converge at the right, which is what
+     fan apart at one side and converge at the other, which is what
      reads as a gradual, stepped edge instead of a single slanted line.
+     The two edges mirror each other: the top fans out on the left, the
+     bottom on the right.
      Stacking 35% over 60% composites to ~74%, giving those three steps.
      If clip-path is unsupported the layers stay rectangular and the
      section degrades to a flat dark block, which is still correct. */
@@ -266,7 +268,7 @@
   }
   .section-diagonal-dark__edges > span:nth-child(1) {
     opacity: 0.35;
-    clip-path: polygon(0 0, 100% var(--diag), 100% calc(100% - var(--diag)), 0 100%);
+    clip-path: polygon(0 0, 100% var(--diag), 100% 100%, 0 calc(100% - var(--diag)));
   }
   .section-diagonal-dark__edges > span:nth-child(2) {
     opacity: 0.6;
@@ -281,8 +283,8 @@
     clip-path: polygon(
       0 calc(var(--diag) * 2),
       100% var(--diag),
-      100% calc(100% - var(--diag)),
-      0 calc(100% - var(--diag) * 2)
+      100% calc(100% - var(--diag) * 2),
+      0 calc(100% - var(--diag))
     );
   }
 }
