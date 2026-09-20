@@ -5,6 +5,7 @@ import SectionHeading from '@/components/SectionHeading.astro';
 import ProductCard from '@/components/ProductCard.astro';
 import CTABand from '@/components/CTABand.astro';
 import { Image } from 'astro:assets';
+import { ArrowRight } from '@lucide/astro';
 import { img } from '@/lib/images';
 import { getCollection } from 'astro:content';
 
@@ -85,7 +86,10 @@ const categories: Record<string, string> = {
                 class="max-w-full max-h-full object-contain transition-transform duration-300 group-hover:scale-105"
               />
             </div>
-            <p class="px-3 pb-4 text-xs font-medium text-ink-900 leading-snug">{part.data.name}</p>
+            <p class="px-3 pb-4 flex items-center justify-center gap-1.5 text-xs font-medium text-ink-900 leading-snug">
+              {part.data.name}
+              <ArrowRight class="size-3.5 shrink-0 text-ink-200 transition-all group-hover:text-amber-500 group-hover:translate-x-0.5" />
+            </p>
           </a>
         ))}
       </div>
