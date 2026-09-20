@@ -74,7 +74,6 @@ Shop-floor and dispatch photographs:
 | `capacitor-part-laminated-busbar.jpeg` | Laminated busbar, formed and punched |
 | `capacitor-part-dc-link-busbar.png` | DC link busbar with multiple tabs |
 | `capacitor-part-snubber-terminals.png` | Set of five snubber terminals |
-| `capacitor-part-range-full-display.png` | Full capacitor part range laid out and labelled |
 
 ## certifications-cpri/
 

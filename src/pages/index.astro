@@ -3,6 +3,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import SectionHeading from '@/components/SectionHeading.astro';
 import StatBand from '@/components/StatBand.astro';
 import ProductCard from '@/components/ProductCard.astro';
+import ProductCarousel from '@/components/ProductCarousel.astro';
 import PartnerCard from '@/components/PartnerCard.astro';
 import LogoWall from '@/components/LogoWall.astro';
 import { Image, Picture } from 'astro:assets';
@@ -17,7 +18,6 @@ import clients from '@/data/clients.json';
 import projects from '@/data/projects.json';
 
 const allProducts = (await getCollection('products')).sort((a, b) => a.data.order - b.data.order);
-const featuredProducts = allProducts.slice(0, 3);
 
 const heroBg = img('panel-apfc-batch-ready-for-dispatch-3.jpg');
 
@@ -166,16 +166,18 @@ const infrastructureFeatures = [
           View All Products <ArrowRight class="size-4" />
         </a>
       </div>
-      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {featuredProducts.map((product) => (
-          <ProductCard
-            href={`/products/${product.id}/`}
-            name={product.data.name}
-            tagline={product.data.tagline}
-            heroImage={product.data.heroImage}
-          />
+      <ProductCarousel>
+        {allProducts.map((product) => (
+          <div class="w-[80vw] sm:w-[320px] lg:w-[360px] shrink-0">
+            <ProductCard
+              href={`/products/${product.id}/`}
+              name={product.data.name}
+              tagline={product.data.tagline}
+              heroImage={product.data.heroImage}
+            />
+          </div>
         ))}
-      </div>
+      </ProductCarousel>
     </div>
   </section>
 
