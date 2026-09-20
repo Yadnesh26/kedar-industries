@@ -168,7 +168,7 @@ const infrastructureFeatures = [
       </div>
       <ProductCarousel>
         {allProducts.map((product) => (
-          <div class="w-[80vw] sm:w-[320px] lg:w-[360px] shrink-0">
+          <div class="w-[85vw] sm:w-[calc((100%-1.5rem)/2)] lg:w-[calc((100%-3rem)/3)] shrink-0">
             <ProductCard
               href={`/products/${product.id}/`}
               name={product.data.name}

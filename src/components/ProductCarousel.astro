@@ -57,8 +57,7 @@ import { ChevronLeft, ChevronRight } from '@lucide/astro';
     box-shadow: 0 8px 20px -8px rgba(14, 17, 22, 0.25);
     transition:
       border-color 200ms var(--ease-out-standard),
-      color 200ms var(--ease-out-standard),
-      opacity 200ms var(--ease-out-standard);
+      color 200ms var(--ease-out-standard);
   }
   .product-carousel__arrow:hover {
     border-color: var(--color-amber-500);
@@ -70,36 +69,77 @@ import { ChevronLeft, ChevronRight } from '@lucide/astro';
   .product-carousel__arrow--next {
     right: -1.5rem;
   }
-  .product-carousel__arrow[disabled] {
-    opacity: 0.35;
-    cursor: default;
-    pointer-events: none;
-  }
 </style>
 
 <script>
+  const AUTO_ADVANCE_MS = 3500;
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
   document.querySelectorAll('.product-carousel').forEach((carousel) => {
     const track = carousel.querySelector('[data-carousel-track]');
     const prevBtn = carousel.querySelector('.product-carousel__arrow--prev');
     const nextBtn = carousel.querySelector('.product-carousel__arrow--next');
     if (!track) return;
 
-    function scrollByAmount(dir) {
+    const originalItems = Array.from(track.children);
+    if (originalItems.length === 0) return;
+
+    // Duplicate the set once so the track can be reset invisibly, giving a
+    // seamless infinite loop instead of a hard snap back to the start.
+    originalItems.forEach((item) => {
+      const clone = item.cloneNode(true);
+      clone.setAttribute('aria-hidden', 'true');
+      clone.querySelectorAll('a, button').forEach((el) => el.setAttribute('tabindex', '-1'));
+      track.appendChild(clone);
+    });
+
+    function oneSetWidth() {
+      return track.scrollWidth / 2;
+    }
+
+    function stepWidth() {
       const item = track.querySelector(':scope > *');
-      const amount = item ? item.getBoundingClientRect().width + 24 : track.clientWidth * 0.8;
-      track.scrollBy({ left: amount * dir, behavior: 'smooth' });
+      return item ? item.getBoundingClientRect().width + 24 : track.clientWidth;
     }
 
-    prevBtn?.addEventListener('click', () => scrollByAmount(-1));
-    nextBtn?.addEventListener('click', () => scrollByAmount(1));
-
-    function updateArrows() {
-      const max = track.scrollWidth - track.clientWidth;
-      if (prevBtn) prevBtn.disabled = track.scrollLeft <= 4;
-      if (nextBtn) nextBtn.disabled = track.scrollLeft >= max - 4;
+    function step(dir) {
+      const full = oneSetWidth();
+      // Snap back invisibly before animating past either duplicated edge.
+      if (dir > 0 && track.scrollLeft >= full - 4) {
+        track.scrollLeft -= full;
+      } else if (dir < 0 && track.scrollLeft <= 4) {
+        track.scrollLeft += full;
+      }
+      track.scrollBy({ left: stepWidth() * dir, behavior: 'smooth' });
     }
-    track.addEventListener('scroll', updateArrows, { passive: true });
-    window.addEventListener('resize', updateArrows);
-    updateArrows();
+
+    let timer = null;
+    function startAuto() {
+      if (reduceMotion) return;
+      stopAuto();
+      timer = window.setInterval(() => step(1), AUTO_ADVANCE_MS);
+    }
+    function stopAuto() {
+      if (timer) window.clearInterval(timer);
+      timer = null;
+    }
+
+    prevBtn?.addEventListener('click', () => {
+      step(-1);
+      startAuto();
+    });
+    nextBtn?.addEventListener('click', () => {
+      step(1);
+      startAuto();
+    });
+
+    carousel.addEventListener('mouseenter', stopAuto);
+    carousel.addEventListener('mouseleave', startAuto);
+    carousel.addEventListener('focusin', stopAuto);
+    carousel.addEventListener('focusout', (e) => {
+      if (!carousel.contains(e.relatedTarget)) startAuto();
+    });
+
+    startAuto();
   });
 </script>
