@@ -132,9 +132,9 @@ const infrastructureFeatures = [
         />
         <div class="hidden lg:flex flex-col gap-3.5 shrink-0 max-w-xs pb-12">
           {[
-            'Design-and-manufacture licence, not a resale arrangement',
-            'Direct technical support from each brand',
-            'Independently audited and renewed partnership status',
+            'Design-and-manufacture licence',
+            'Technical support',
+            'Audited and renewed partnership',
           ].map((text) => (
             <div class="flex items-start gap-2.5">
               <CircleCheck class="size-4 text-amber-500 shrink-0 mt-0.5" />
@@ -145,7 +145,7 @@ const infrastructureFeatures = [
       </div>
       <div class="grid lg:grid-cols-2 gap-6">
         {certifications.partnerships.map((p) => (
-          <PartnerCard partner={p.partner} role={p.role} scope={p.scope} validTill={p.validTill} logo={p.logo} accentColor={p.accentColor} />
+          <PartnerCard partner={p.partner} role={p.role} scope={p.scope} validTill={p.validTill} logo={p.logo} accentColor={p.accentColor} logoOffsetY={p.logoOffsetY} />
         ))}
       </div>
     </div>

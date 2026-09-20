@@ -10,17 +10,23 @@ interface Props {
   validTill?: string | null;
   logo?: string;
   accentColor?: string;
+  logoOffsetY?: number;
 }
-const { partner, role, scope, validTill, logo, accentColor } = Astro.props;
+const { partner, role, scope, validTill, logo, accentColor, logoOffsetY } = Astro.props;
 
 const isSvg = logo?.endsWith('.svg');
 const hasRasterLogo = Boolean(logo && !isSvg && hasImg(logo));
 const shortLabel = partner.split(' ')[0].replace(/[.,]+$/, '');
+
+const cardStyle = [
+  accentColor ? `--accent: ${accentColor}` : '',
+  logoOffsetY ? `--logo-offset-y: ${logoOffsetY}px` : '',
+].filter(Boolean).join('; ') || undefined;
 ---
 
 <div
   class="partner-card card"
-  style={accentColor ? `--accent: ${accentColor}` : undefined}
+  style={cardStyle}
 >
   <div class="grid sm:grid-cols-[13rem_1fr]">
     <div class="partner-card__logo-tile rounded-l-md flex items-center justify-center bg-ink-100/60 p-8">
@@ -80,9 +86,10 @@ const shortLabel = partner.split(' ')[0].replace(/[.,]+$/, '');
   }
   .partner-card__logo {
     transition: transform 280ms var(--ease-out-standard);
+    transform: translateY(var(--logo-offset-y, 0px));
   }
   .partner-card:hover .partner-card__logo {
-    transform: scale(1.06);
+    transform: translateY(var(--logo-offset-y, 0px)) scale(1.06);
   }
   @media (prefers-reduced-motion: reduce) {
     .partner-card,
