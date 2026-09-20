@@ -180,19 +180,19 @@ const infrastructureFeatures = [
   </section>
 
   <!-- 6. Infrastructure -->
-  <section class="section-y section-diagonal-dark">
+  <section class="pt-[2.55rem] pb-[2.55rem] sm:pt-[3.825rem] sm:pb-[3.825rem] lg:pt-[5.1rem] lg:pb-[5.1rem] section-diagonal-dark">
     <div class="section-diagonal-dark__edges" aria-hidden="true">
       <span></span><span></span><span></span>
     </div>
     <div class="absolute inset-0 opacity-[0.04] bg-[radial-gradient(circle_at_80%_20%,#FFC629,transparent_50%)]"></div>
-    <div class="container-page relative grid lg:grid-cols-2 gap-12 items-center">
+    <div class="container-page relative grid lg:grid-cols-2 gap-[2.55rem] items-center">
       <div class="rounded-2xl overflow-hidden">
         <Image
           src={img('panel-mcc-buckets-doors-open.png')}
           alt="Panel assembly on the Kedar Industries shop floor"
           width={640}
           height={480}
-          class="w-full object-cover aspect-[4/3]"
+          class="w-full object-cover aspect-[1.5686]"
         />
       </div>
       <div>
@@ -202,7 +202,7 @@ const infrastructureFeatures = [
           lead="Every panel begins with the right foundation — a facility designed to handle complex requirements with speed, accuracy and zero compromise on quality."
           dark
         />
-        <ul class="flex flex-col gap-3 mb-8">
+        <ul class="flex flex-col gap-3 mb-[1.7rem]">
           {infrastructureFeatures.map((f) => (
             <li class="flex items-center gap-3 text-sm text-ink-200 bg-white/5 rounded-md px-4 py-3">
               <f.Icon class="size-4 text-amber-500 shrink-0" /> {f.text}
