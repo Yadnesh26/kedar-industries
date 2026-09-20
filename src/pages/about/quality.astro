@@ -262,7 +262,7 @@ const { shortCircuit, temperatureRise, ip55 } = cpriTests;
   <section class="section-y">
     <div class="container-page">
       <SectionHeading eyebrow="Partner authorizations" title="Licensed, not just reselling" />
-      <div class="flex flex-col gap-6 mb-8">
+      <div class="grid lg:grid-cols-2 gap-6 mb-8">
         {certifications.partnerships.map((p) => (
           <PartnerCard partner={p.partner} role={p.role} scope={p.scope} validTill={p.validTill} logo={p.logo} />
         ))}

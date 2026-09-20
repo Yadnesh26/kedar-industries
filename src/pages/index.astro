@@ -129,7 +129,7 @@ const infrastructureFeatures = [
         lead="Kedar Industries holds authorised partner status with two established electrical brands — not a reseller arrangement, but a design-and-manufacture licence."
         dark
       />
-      <div class="flex flex-col gap-6">
+      <div class="grid lg:grid-cols-2 gap-6">
         {certifications.partnerships.map((p) => (
           <PartnerCard partner={p.partner} role={p.role} scope={p.scope} validTill={p.validTill} logo={p.logo} />
         ))}
