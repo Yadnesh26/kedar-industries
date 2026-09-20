@@ -4,9 +4,12 @@ import Breadcrumb from '@/components/Breadcrumb.astro';
 import SectionHeading from '@/components/SectionHeading.astro';
 import ProductCard from '@/components/ProductCard.astro';
 import CTABand from '@/components/CTABand.astro';
+import { Image } from 'astro:assets';
+import { img } from '@/lib/images';
 import { getCollection } from 'astro:content';
 
 const products = (await getCollection('products')).sort((a, b) => a.data.order - b.data.order);
+const parts = (await getCollection('parts')).sort((a, b) => a.data.order - b.data.order);
 
 const categories: Record<string, string> = {
   'power-distribution': 'Power Distribution',
@@ -68,14 +71,39 @@ const categories: Record<string, string> = {
   </section>
 
   <section class="section-y">
-    <div class="container-page text-center">
-      <p class="text-ink-400 mb-3">Also fabricating precision components for capacitor manufacturers</p>
-      <a href="/capacitor-parts/" class="btn btn-outline">View Capacitor Parts</a>
+    <div class="container-page">
+      <p class="text-center text-ink-400 mb-8">Also fabricating precision components for capacitor manufacturers</p>
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
+        {parts.map((part) => (
+          <a href={`/capacitor-parts/${part.id}/`} class="capacitor-part-card card group flex flex-col items-center text-center overflow-hidden">
+            <div class="aspect-square w-full p-4 flex items-center justify-center">
+              <Image
+                src={img(part.data.heroImage)}
+                alt={part.data.name}
+                width={160}
+                height={160}
+                class="max-w-full max-h-full object-contain transition-transform duration-300 group-hover:scale-105"
+              />
+            </div>
+            <p class="px-3 pb-4 text-xs font-medium text-ink-900 leading-snug">{part.data.name}</p>
+          </a>
+        ))}
+      </div>
+      <div class="text-center">
+        <a href="/capacitor-parts/" class="btn btn-outline">View All Capacitor Parts</a>
+      </div>
     </div>
   </section>
 
   <CTABand />
 </BaseLayout>
+
+<style>
+  .capacitor-part-card {
+    border-color: transparent;
+    box-shadow: 0 1px 4px rgba(14, 17, 22, 0.08);
+  }
+</style>
 
 <script>
   const buttons = document.querySelectorAll<HTMLButtonElement>('#category-filter [data-filter]');
