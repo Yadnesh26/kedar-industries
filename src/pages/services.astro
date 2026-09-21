@@ -35,7 +35,7 @@ const whyChoose = [
 >
   <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Services' }]} />
 
-  <section class="section-y section-diagonal-dark">
+  <section class="py-14 sm:py-16 section-diagonal-dark">
     <div class="section-diagonal-dark__edges" aria-hidden="true">
       <span></span><span></span><span></span>
     </div>
@@ -46,6 +46,11 @@ const whyChoose = [
         lead="From precision fabrication activities to full lifecycle support after the panel is installed."
         dark
       />
+    </div>
+  </section>
+
+  <section class="section-y">
+    <div class="container-page">
       <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {coreServices.map((s) => (
           <a href="/contact/" class="service-card card group flex flex-col overflow-hidden h-full">
