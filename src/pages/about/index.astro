@@ -125,32 +125,34 @@ const milestones = [
   </section>
 
   <section class="section-y">
-    <div class="container-page grid md:grid-cols-3 gap-8">
-      <div class="card border-t-2 border-t-amber-500 p-8">
-        <h3 class="font-display font-bold text-xl text-ink-900 mb-3">Vision</h3>
-        <p class="text-sm text-ink-400 leading-relaxed">{company.vision}</p>
-      </div>
-      <div class="card border-t-2 border-t-amber-500 p-8">
-        <h3 class="font-display font-bold text-xl text-ink-900 mb-3">Mission</h3>
-        <ul class="flex flex-col gap-2.5">
-          {company.mission.map((m) => (
-            <li class="flex items-start gap-2 text-sm text-ink-400">
-              <CircleCheck class="size-4 text-amber-600 shrink-0 mt-0.5" /> {m}
-            </li>
-          ))}
-        </ul>
-      </div>
-      <div class="card border-t-2 border-t-amber-500 p-8">
-        <h3 class="font-display font-bold text-xl text-ink-900 mb-3">Core Values</h3>
-        <p class="text-sm text-ink-400 leading-relaxed mb-4">{company.tagline}</p>
-        <ul class="flex flex-col gap-3">
-          {coreValues.map((v) => (
-            <li>
-              <p class="text-sm font-semibold text-ink-900">{v.name}</p>
-              <p class="text-sm text-ink-400 leading-relaxed">{v.detail}</p>
-            </li>
-          ))}
-        </ul>
+    <div class="container-page">
+      <SectionHeading eyebrow="What drives us" title="Vision" lead={company.vision} align="center" />
+      <div class="grid md:grid-cols-2 gap-8 items-start">
+        <div class="card border-t-2 border-t-amber-500 p-8">
+          <h3 class="font-display font-bold text-xl text-ink-900 mb-4">Mission</h3>
+          <ul class="flex flex-col gap-3">
+            {company.mission.map((m) => (
+              <li class="flex items-start gap-2.5 text-sm text-ink-400 leading-relaxed">
+                <CircleCheck class="size-4 text-amber-600 shrink-0 mt-0.5" /> {m}
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div class="card border-t-2 border-t-amber-500 p-8">
+          <h3 class="font-display font-bold text-xl text-ink-900 mb-1">Core Values</h3>
+          <p class="text-sm text-ink-400 leading-relaxed mb-5">{company.tagline}</p>
+          <ul class="flex flex-col gap-4">
+            {coreValues.map((v) => (
+              <li class="flex items-start gap-3">
+                <CircleCheck class="size-4 text-amber-600 shrink-0 mt-1" />
+                <div>
+                  <p class="text-sm font-semibold text-ink-900">{v.name}</p>
+                  <p class="text-sm text-ink-400 leading-relaxed">{v.detail}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </div>
   </section>
