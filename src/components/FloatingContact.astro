@@ -1,0 +1,182 @@
+---
+import { Phone, Mail, MessageCircle, X } from '@lucide/astro';
+import company from '@/data/company.json';
+
+const whatsappNumber = company.phoneHref.replace('+', '');
+---
+
+<div class="floating-contact" id="floating-contact">
+  <div class="floating-contact__options" id="floating-contact-options">
+    <a
+      href={`tel:${company.phoneHref}`}
+      class="floating-contact__option floating-contact__option--phone"
+      aria-label={`Call ${company.phone}`}
+    >
+      <Phone class="size-5" />
+    </a>
+    <a
+      href={`https://wa.me/${whatsappNumber}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="floating-contact__option floating-contact__option--whatsapp"
+      aria-label="Chat with us on WhatsApp"
+    >
+      <svg viewBox="0 0 24 24" fill="currentColor" class="size-5" aria-hidden="true">
+        <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.39 1.26 4.86L2 22l5.36-1.39c1.42.78 3.03 1.19 4.68 1.19 5.46 0 9.91-4.45 9.91-9.91 0-5.46-4.45-9.89-9.91-9.89zm5.84 14.08c-.25.7-1.24 1.29-2.03 1.46-.55.11-1.26.2-3.67-.78-3.08-1.27-5.06-4.39-5.21-4.6-.15-.2-1.24-1.65-1.24-3.15 0-1.5.79-2.24 1.07-2.55.28-.31.61-.39.81-.39.2 0 .41 0 .59.01.19.01.44-.07.69.53.25.6.86 2.08.94 2.23.08.15.13.33.03.53-.1.2-.15.33-.3.5-.15.18-.31.4-.44.53-.15.15-.31.32-.13.62.18.31.8 1.32 1.72 2.14 1.18 1.06 2.18 1.38 2.49 1.54.31.15.49.13.67-.08.18-.2.77-.9.98-1.21.2-.31.41-.26.68-.16.28.1 1.76.83 2.06.98.31.15.51.23.59.36.08.13.08.75-.17 1.45z"></path>
+      </svg>
+    </a>
+    <a
+      href={`mailto:${company.emails[0]}`}
+      class="floating-contact__option floating-contact__option--email"
+      aria-label={`Email ${company.emails[0]}`}
+    >
+      <Mail class="size-5" />
+    </a>
+  </div>
+
+  <button
+    type="button"
+    id="floating-contact-toggle"
+    class="floating-contact__toggle"
+    aria-label="Contact us"
+    aria-expanded="false"
+    aria-controls="floating-contact-options"
+  >
+    <MessageCircle class="floating-contact__icon floating-contact__icon--open size-6" />
+    <X class="floating-contact__icon floating-contact__icon--close size-6" />
+  </button>
+</div>
+
+<style>
+  .floating-contact {
+    --fab-blue: #1888e0;
+    --fab-blue-dark: #0080c0;
+    --fab-green: #25d366;
+    --fab-pink: #f8465a;
+    position: fixed;
+    right: 1.5rem;
+    bottom: 1.5rem;
+    z-index: 60;
+  }
+
+  .floating-contact__options {
+    position: absolute;
+    right: 0.25rem;
+    bottom: calc(100% + 0.75rem);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .floating-contact__option {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 9999px;
+    color: white;
+    box-shadow: 0 6px 16px -4px rgba(14, 17, 22, 0.35);
+    opacity: 0;
+    transform: translateY(0.75rem) scale(0.4);
+    pointer-events: none;
+    transition: opacity 250ms var(--ease-out-standard), transform 250ms var(--ease-out-standard);
+  }
+  .floating-contact__option--phone {
+    background: var(--fab-blue);
+    transition-delay: 0ms;
+  }
+  .floating-contact__option--whatsapp {
+    background: var(--fab-green);
+    transition-delay: 60ms;
+  }
+  .floating-contact__option--email {
+    background: var(--fab-pink);
+    transition-delay: 120ms;
+  }
+  .floating-contact.is-open .floating-contact__option {
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+  }
+  /* Reverse the stagger on the way in vs. out: the item closest to the
+     toggle (email) leads on open and trails on close, like it's unfurling
+     from — and folding back into — the button. */
+  .floating-contact.is-open .floating-contact__option--phone {
+    transition-delay: 120ms;
+  }
+  .floating-contact.is-open .floating-contact__option--whatsapp {
+    transition-delay: 60ms;
+  }
+  .floating-contact.is-open .floating-contact__option--email {
+    transition-delay: 0ms;
+  }
+
+  .floating-contact__toggle {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 9999px;
+    border: none;
+    cursor: pointer;
+    background: var(--fab-blue-dark);
+    box-shadow: 0 8px 20px -6px rgba(14, 17, 22, 0.45);
+    transition: transform 250ms var(--ease-out-standard);
+  }
+  .floating-contact__toggle:hover {
+    transform: scale(1.06);
+  }
+  .floating-contact__icon {
+    position: absolute;
+    color: white;
+    transition: opacity 200ms var(--ease-out-standard), transform 200ms var(--ease-out-standard);
+  }
+  .floating-contact__icon--close {
+    opacity: 0;
+    transform: rotate(-45deg) scale(0.5);
+  }
+  .floating-contact.is-open .floating-contact__icon--open {
+    opacity: 0;
+    transform: rotate(45deg) scale(0.5);
+  }
+  .floating-contact.is-open .floating-contact__icon--close {
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .floating-contact__option,
+    .floating-contact__toggle,
+    .floating-contact__icon {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  const container = document.getElementById('floating-contact');
+  const toggle = document.getElementById('floating-contact-toggle');
+
+  function setOpen(open: boolean) {
+    container?.classList.toggle('is-open', open);
+    toggle?.setAttribute('aria-expanded', String(open));
+  }
+
+  toggle?.addEventListener('click', () => {
+    setOpen(!container?.classList.contains('is-open'));
+  });
+
+  document.addEventListener('click', (e) => {
+    if (container && !container.contains(e.target as Node)) {
+      setOpen(false);
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') setOpen(false);
+  });
+</script>
