@@ -101,26 +101,7 @@ const parts = (await getCollection('parts')).sort((a, b) => a.data.order - b.dat
     </nav>
 
     <div class="hidden lg:flex items-center shrink-0 justify-self-end">
-      <a href="/contact/" class="blob-btn">
-        Get a Quote
-        <span class="blob-btn__inner">
-          <span class="blob-btn__blobs">
-            <span class="blob-btn__blob"></span>
-            <span class="blob-btn__blob"></span>
-            <span class="blob-btn__blob"></span>
-            <span class="blob-btn__blob"></span>
-          </span>
-        </span>
-      </a>
-      <svg width="0" height="0" class="sr-only" aria-hidden="true" focusable="false">
-        <defs>
-          <filter id="quote-goo">
-            <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
-            <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9" result="goo" />
-            <feBlend in="SourceGraphic" in2="goo" />
-          </filter>
-        </defs>
-      </svg>
+      <a href="/contact/" class="quote-btn">Get a Quote</a>
     </div>
 
     <button
@@ -222,96 +203,30 @@ const parts = (await getCollection('parts')).sort((a, b) => a.data.order - b.dat
     }
   }
 
-  /* Gooey blob button — "Get a Quote" */
-  .blob-btn {
-    z-index: 1;
+  /* "Get a Quote" — fills from the bottom on hover via an inset box-shadow,
+     rather than animating width/height (cheap, no layout thrash). */
+  .quote-btn {
+    --hover: var(--color-ink-900);
     position: relative;
+    overflow: hidden;
     display: inline-block;
     padding: 0.75rem 1.75rem;
     text-align: center;
     color: var(--color-ink-900);
     font-size: 0.9375rem;
     font-weight: 600;
-    background-color: transparent;
-    outline: none;
-    border: none;
+    background-color: var(--color-amber-500);
     border-radius: var(--radius-md);
-    transition: color 0.5s;
-    cursor: pointer;
+    box-shadow: inset 0 0 0 0 var(--hover);
+    transition: box-shadow 0.4s ease-out, color 0.4s ease-out;
   }
-  .blob-btn::before {
-    content: '';
-    z-index: 1;
-    position: absolute;
-    inset: 0;
-    border: 2px solid var(--color-amber-500);
-    border-radius: var(--radius-md);
-  }
-  .blob-btn::after {
-    content: '';
-    z-index: -2;
-    position: absolute;
-    left: 3px;
-    top: 3px;
-    width: 100%;
-    height: 100%;
-    border-radius: var(--radius-md);
-    transition: all 0.3s 0.2s;
-  }
-  .blob-btn:hover {
+  .quote-btn:hover,
+  .quote-btn:focus-visible {
     color: var(--color-paper);
-  }
-  .blob-btn:hover::after {
-    transition: all 0.3s;
-    left: 0;
-    top: 0;
-  }
-  .blob-btn__inner {
-    z-index: -1;
-    overflow: hidden;
-    position: absolute;
-    inset: 0;
-    border-radius: var(--radius-md);
-    background: var(--color-amber-500);
-  }
-  .blob-btn__blobs {
-    position: relative;
-    display: block;
-    height: 100%;
-    filter: url('#quote-goo');
-  }
-  .blob-btn__blob {
-    position: absolute;
-    top: 2px;
-    width: 25%;
-    height: 100%;
-    background: var(--color-ink-900);
-    border-radius: 100%;
-    transform: translate3d(0, 150%, 0) scale(1.4);
-    transition: transform 0.45s;
-  }
-  .blob-btn__blob:nth-child(1) {
-    left: 0%;
-    transition-delay: 0s;
-  }
-  .blob-btn__blob:nth-child(2) {
-    left: 30%;
-    transition-delay: 0.08s;
-  }
-  .blob-btn__blob:nth-child(3) {
-    left: 60%;
-    transition-delay: 0.16s;
-  }
-  .blob-btn__blob:nth-child(4) {
-    left: 90%;
-    transition-delay: 0.24s;
-  }
-  .blob-btn:hover .blob-btn__blob {
-    transform: translateZ(0) scale(1.4);
+    box-shadow: inset 0 -4em 0 0 var(--hover);
   }
   @media (prefers-reduced-motion: reduce) {
-    .blob-btn::after,
-    .blob-btn__blob {
+    .quote-btn {
       transition: none;
     }
   }
