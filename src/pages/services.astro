@@ -2,14 +2,12 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Breadcrumb from '@/components/Breadcrumb.astro';
 import SectionHeading from '@/components/SectionHeading.astro';
-import IndustryMarquee from '@/components/IndustryMarquee.astro';
 import CTABand from '@/components/CTABand.astro';
 import * as icons from '@lucide/astro';
 import { ArrowRight } from '@lucide/astro';
 import { Image } from 'astro:assets';
 import { img } from '@/lib/images';
 import company from '@/data/company.json';
-import clients from '@/data/clients.json';
 
 const coreServices = [
   { image: 'service-precision-soldering.jpg', title: 'Precision Soldering', description: 'Precision soldering activity for capacitor components and electrical assemblies, to tight dimensional and contact-quality tolerances.' },
@@ -90,13 +88,6 @@ const whyChoose = [
           </li>
         ))}
       </ul>
-    </div>
-  </section>
-
-  <section class="section-y bg-ink-100/50">
-    <div class="container-page">
-      <SectionHeading eyebrow="Sectors served" title="Trusted across industrial sectors" />
-      <IndustryMarquee industries={clients.industries} />
     </div>
   </section>
 
