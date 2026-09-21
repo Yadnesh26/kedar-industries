@@ -23,7 +23,7 @@ const jsonLd = {
 ---
 
 <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
-<nav aria-label="Breadcrumb" class="breadcrumb-stepped">
+<nav aria-label="Breadcrumb" class="bg-ink-900">
   <ol class="container-page flex items-center gap-2 py-4 text-sm text-ink-200 flex-wrap">
     {items.map((item, i) => (
       <li class="flex items-center gap-2">
@@ -37,23 +37,3 @@ const jsonLd = {
     ))}
   </ol>
 </nav>
-
-<style>
-  /* Flat posterized bands instead of a smooth gradient or a diagonal cut:
-     the bar steps up in solid opacity blocks (30% -> 65% -> 100%) from
-     the left edge only, then stays solid the rest of the way, so the
-     edge reads as stepped without borrowing the diagonal-slant shape
-     used on the larger dark sections elsewhere on the site. Step zone
-     is 2.4% of the width (4.8%, reduced 50% more). */
-  .breadcrumb-stepped {
-    background: linear-gradient(
-      to right,
-      color-mix(in srgb, var(--color-ink-900) 20%, transparent) 0.5%,
-      color-mix(in srgb, var(--color-ink-900) 30%, transparent) 1.2%,
-      color-mix(in srgb, var(--color-ink-900) 55%, transparent) 1.2%,
-      color-mix(in srgb, var(--color-ink-900) 65%, transparent) 2.4%,
-      var(--color-ink-900) 2.4%,
-      var(--color-ink-900) 100%
-    );
-  }
-</style>
