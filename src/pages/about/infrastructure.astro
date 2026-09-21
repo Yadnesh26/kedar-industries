@@ -58,38 +58,48 @@ const sections = [
     </div>
   </section>
 
-  <section class="section-y">
+  <section class="section-y pb-0">
     <div class="container-page">
-      <SectionHeading eyebrow="Layout" title="Six dedicated production areas" />
-      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {sections.map((s) => {
-          const Icon = icons[s.icon];
-          return (
-            <div class="card overflow-hidden flex flex-col">
-              <div class="aspect-[4/3] overflow-hidden">
-                <Image
-                  src={img(s.image)}
-                  alt={s.title}
-                  width={480}
-                  height={360}
-                  class="w-full h-full object-cover"
-                />
-              </div>
-              <div class="p-6 flex flex-col gap-2">
-                <div class="flex items-center gap-2.5">
-                  <div class="size-8 rounded-md bg-amber-100 flex items-center justify-center shrink-0">
-                    <Icon class="size-4 text-amber-600" />
-                  </div>
-                  <h3 class="font-display font-bold text-ink-900 text-base">{s.title}</h3>
-                </div>
-                <p class="text-sm text-ink-400 leading-relaxed">{s.description}</p>
-              </div>
-            </div>
-          );
-        })}
-      </div>
+      <SectionHeading eyebrow="Layout" title="Six dedicated production areas" lead="Every panel moves through the same disciplined sequence — from raw sheet metal to a tested, dispatch-ready unit." />
     </div>
   </section>
+
+  {sections.map((s, i) => {
+    const Icon = icons[s.icon];
+    const dark = i % 2 === 1;
+    const imageFirst = i % 2 === 0;
+    return (
+      <section class:list={['section-y', dark && 'section-diagonal-dark relative overflow-hidden']}>
+        {dark && (
+          <>
+            <div class="section-diagonal-dark__edges" aria-hidden="true">
+              <span></span><span></span><span></span>
+            </div>
+            <div class="absolute inset-0 opacity-[0.05] bg-[radial-gradient(circle_at_80%_20%,#FFC629,transparent_50%)]"></div>
+          </>
+        )}
+        <div class="container-page relative grid lg:grid-cols-2 gap-10 items-center">
+          <div class:list={[!imageFirst && 'lg:order-2']}>
+            <Image
+              src={img(s.image)}
+              alt={s.title}
+              width={640}
+              height={480}
+              class="rounded-2xl object-cover w-full aspect-[4/3] shadow-lg"
+            />
+          </div>
+          <div class:list={[!imageFirst && 'lg:order-1']}>
+            <p class:list={['eyebrow mb-3', dark && 'text-amber-500']}>Stage 0{i + 1}</p>
+            <div class:list={['size-11 rounded-md flex items-center justify-center mb-4', dark ? 'bg-white/10' : 'bg-amber-100']}>
+              <Icon class:list={['size-5', dark ? 'text-amber-500' : 'text-amber-600']} />
+            </div>
+            <h3 class:list={['font-display font-bold text-2xl sm:text-3xl mb-3', dark ? 'text-paper' : 'text-ink-900']}>{s.title}</h3>
+            <p class:list={['leading-relaxed', dark ? 'text-ink-200' : 'text-ink-400']}>{s.description}</p>
+          </div>
+        </div>
+      </section>
+    );
+  })}
 
   <section class="section-y bg-ink-100/50">
     <div class="container-page">
@@ -101,13 +111,6 @@ const sections = [
           </span>
         ))}
       </div>
-    </div>
-  </section>
-
-  <section class="section-y">
-    <div class="container-page grid sm:grid-cols-2 gap-4">
-      <Image src={img('panel-apfc-batch-ready-for-dispatch-2.jpg')} alt="Panels ready for dispatch" width={640} height={480} class="rounded-md object-cover w-full aspect-[4/3]" />
-      <Image src={img('panel-mcc-buckets-doors-open.png')} alt="MCC panel assembly, doors open" width={640} height={480} class="rounded-md object-cover w-full aspect-[4/3]" />
     </div>
   </section>
 
