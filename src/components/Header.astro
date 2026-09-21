@@ -229,7 +229,7 @@ const parts = (await getCollection('parts')).sort((a, b) => a.data.order - b.dat
     display: inline-block;
     padding: 0.75rem 1.75rem;
     text-align: center;
-    color: var(--color-amber-600);
+    color: var(--color-ink-900);
     font-size: 0.9375rem;
     font-weight: 600;
     background-color: transparent;
@@ -259,7 +259,7 @@ const parts = (await getCollection('parts')).sort((a, b) => a.data.order - b.dat
     transition: all 0.3s 0.2s;
   }
   .blob-btn:hover {
-    color: var(--color-ink-900);
+    color: var(--color-paper);
   }
   .blob-btn:hover::after {
     transition: all 0.3s;
@@ -272,7 +272,7 @@ const parts = (await getCollection('parts')).sort((a, b) => a.data.order - b.dat
     position: absolute;
     inset: 0;
     border-radius: var(--radius-md);
-    background: var(--color-paper);
+    background: var(--color-amber-500);
   }
   .blob-btn__blobs {
     position: relative;
@@ -285,7 +285,7 @@ const parts = (await getCollection('parts')).sort((a, b) => a.data.order - b.dat
     top: 2px;
     width: 25%;
     height: 100%;
-    background: var(--color-amber-500);
+    background: var(--color-ink-900);
     border-radius: 100%;
     transform: translate3d(0, 150%, 0) scale(1.4);
     transition: transform 0.45s;
