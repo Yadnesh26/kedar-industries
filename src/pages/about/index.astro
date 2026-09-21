@@ -22,12 +22,12 @@ const coreValues = [
 ];
 
 const reasons = [
-  { Icon: ShieldCheck, title: 'Type-tested, not just rated', detail: 'A 4000 A Power-cum-Motor Control Centre validated at CPRI per IEC 61439-1 & 2 — 70 kA short circuit, temperature rise and IP55.' },
-  { Icon: Factory, title: 'Every stage in-house', detail: '8,000 sq ft under one roof — fabrication, panel assembly, soldering & brazing, inspection and dispatch.' },
+  { Icon: ShieldCheck, title: 'Type-tested and rated', detail: 'A 4000 A Power-cum-Motor Control Centre validated at CPRI per IEC 61439-1 & 2 - 70 kA short circuit, temperature rise and IP55.' },
+  { Icon: Factory, title: 'Every stage in-house', detail: '8,000 sq ft under one roof - fabrication, panel assembly, soldering & brazing, inspection and dispatch.' },
   { Icon: Handshake, title: 'Authorised partnerships', detail: 'Vishay Partner & System Integrator for APFC and harmonic filtering; C&S Electric licensed CX Partner for TTA switchgear.' },
   { Icon: BadgeCheck, title: 'Certified management systems', detail: 'ISO 9001, ISO 14001, ISO 45001 and IATF 16949, plus MSME ZED Silver for sustainable manufacturing.' },
-  { Icon: Ruler, title: 'Built to your specification', detail: 'Standard ranges or one-off builds to drawing — panels engineered around the load, the site and the standard.' },
-  { Icon: Headset, title: 'Support after dispatch', detail: 'Installation and commissioning, annual maintenance contracts, genuine spares and 24×7 technical support.' },
+  { Icon: Ruler, title: 'Built to your specification', detail: 'Standard ranges or one-off builds to drawing - panels engineered around the load, the site and the standard.' },
+  { Icon: Headset, title: 'Support after dispatch', detail: 'Installation and commissioning, annual maintenance contracts, genuine spares and active technical support.' },
 ];
 
 const milestones = [
@@ -41,7 +41,7 @@ const milestones = [
 ---
 
 <BaseLayout
-  title="About Kedar Industries — Six Years of Certified Panel Manufacturing"
+  title="About Us | Kedar Industries"
   description="Kedar Industries is a proprietary electrical control panel manufacturer in Nashik, Maharashtra, led by CEO Sandip Patil. ISO/IATF certified, CPRI type-tested, and an authorised Vishay & C&S Electric partner."
   path="/about/"
 >
@@ -94,13 +94,23 @@ const milestones = [
     </p>
   </section>
 
-  <section class="section-y bg-ink-900">
-    <div class="container-page grid md:grid-cols-[auto_1fr] gap-8 items-center">
-      <Image src={img('logo-icon.png')} alt="Kedar Industries" width={96} height={96} class="object-contain" />
+  <section class="section-y bg-ink-900 relative overflow-hidden">
+    <div class="absolute inset-0 opacity-[0.05] bg-[radial-gradient(circle_at_15%_50%,#FFC629,transparent_55%)]"></div>
+    <div class="container-page relative flex flex-col sm:flex-row items-center gap-8 text-center sm:text-left">
+      <div class="relative shrink-0">
+        <div class="absolute -inset-2 rounded-full bg-amber-500/20 blur-lg"></div>
+        <Image
+          src={img('sandip-patil-ceo.jpg')}
+          alt="Sandip Patil, Chief Executive Officer, Kedar Industries"
+          width={160}
+          height={160}
+          class="relative size-32 sm:size-40 rounded-full object-cover ring-4 ring-amber-500 ring-offset-4 ring-offset-ink-900"
+        />
+      </div>
       <div>
         <p class="eyebrow mb-2">Leadership</p>
-        <h3 class="font-display font-bold text-2xl text-paper">Sandip Patil</h3>
-        <p class="text-ink-200 mt-1">Chief Executive Officer, Kedar Industries</p>
+        <h3 class="font-display font-bold text-2xl sm:text-3xl text-paper">Sandip Patil</h3>
+        <p class="text-ink-200 mt-1.5">Chief Executive Officer, Kedar Industries</p>
       </div>
     </div>
   </section>
