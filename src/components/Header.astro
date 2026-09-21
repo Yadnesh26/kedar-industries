@@ -25,7 +25,7 @@ const parts = (await getCollection('parts')).sort((a, b) => a.data.order - b.dat
             <a
               href={item.href}
               class:list={[
-                'nav-link flex items-center gap-1 px-3 py-2 text-sm font-medium rounded-md transition-colors',
+                'nav-link flex items-center gap-1 px-3 py-2 text-sm font-medium transition-colors',
                 currentPath.startsWith('/products/') ? 'text-amber-600 nav-link--active' : 'text-ink-600 hover:text-amber-600',
               ]}
             >
@@ -61,7 +61,7 @@ const parts = (await getCollection('parts')).sort((a, b) => a.data.order - b.dat
             <a
               href={item.href}
               class:list={[
-                'nav-link flex items-center gap-1 px-3 py-2 text-sm font-medium rounded-md transition-colors',
+                'nav-link flex items-center gap-1 px-3 py-2 text-sm font-medium transition-colors',
                 currentPath.startsWith('/about/') ? 'text-amber-600 nav-link--active' : 'text-ink-600 hover:text-amber-600',
               ]}
               aria-haspopup="true"
@@ -88,7 +88,7 @@ const parts = (await getCollection('parts')).sort((a, b) => a.data.order - b.dat
           <a
             href={item.href}
             class:list={[
-              'nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors',
+              'nav-link px-3 py-2 text-sm font-medium transition-colors',
               currentPath === item.href
                 ? 'text-amber-600 nav-link--active'
                 : 'text-ink-600 hover:text-amber-600',
@@ -161,7 +161,7 @@ const parts = (await getCollection('parts')).sort((a, b) => a.data.order - b.dat
      that fades away while the underline stays for as long as hovered. */
   .nav-link {
     position: relative;
-    border: 2px solid transparent;
+    border: 1px solid transparent;
   }
   .nav-link::after {
     content: '';
@@ -169,7 +169,6 @@ const parts = (await getCollection('parts')).sort((a, b) => a.data.order - b.dat
     inset-inline: 0;
     bottom: 0;
     height: 3px;
-    border-radius: 2px;
     background: var(--color-amber-500);
     transform: scaleX(0);
     transition: transform 200ms var(--ease-out-standard);
