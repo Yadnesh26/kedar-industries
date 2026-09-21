@@ -44,15 +44,15 @@ const jsonLd = {
      the left edge only, then stays solid the rest of the way, so the
      edge reads as stepped without borrowing the diagonal-slant shape
      used on the larger dark sections elsewhere on the site. Step zone
-     is 4.8% of the width (the original 8%, reduced 40%). */
+     is 2.4% of the width (4.8%, reduced 50% more). */
   .breadcrumb-stepped {
     background: linear-gradient(
       to right,
-      color-mix(in srgb, var(--color-ink-900) 30%, transparent) 0%,
-      color-mix(in srgb, var(--color-ink-900) 30%, transparent) 2.4%,
+      color-mix(in srgb, var(--color-ink-900) 20%, transparent) 0.5%,
+      color-mix(in srgb, var(--color-ink-900) 30%, transparent) 1.2%,
+      color-mix(in srgb, var(--color-ink-900) 55%, transparent) 1.2%,
       color-mix(in srgb, var(--color-ink-900) 65%, transparent) 2.4%,
-      color-mix(in srgb, var(--color-ink-900) 65%, transparent) 4.8%,
-      var(--color-ink-900) 4.8%,
+      var(--color-ink-900) 2.4%,
       var(--color-ink-900) 100%
     );
   }
