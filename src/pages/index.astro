@@ -67,7 +67,7 @@ const infrastructureFeatures = [
         by CPRI.
       </p>
       <div class="mt-9 flex flex-wrap gap-4">
-        <a href="/products/" class="btn btn-primary">
+        <a href="/products/" class="btn explore-btn">
           Explore Products <ArrowRight class="size-4" />
         </a>
         <a href="/contact/" class="btn btn-outline-dark">Request a Quote</a>
@@ -271,3 +271,28 @@ const infrastructureFeatures = [
     </div>
   </section>
 </BaseLayout>
+
+<style>
+  /* "Explore Products" hero CTA — same bottom-up inset-box-shadow fill
+     animation as the header's "Get a Quote" button (.quote-btn in
+     Header.astro), recoloured to the amber-500/600 pairing already used for
+     this button (btn-primary) instead of the header's amber-to-ink-900 fill. */
+  .btn.explore-btn {
+    --hover: var(--color-amber-600);
+    position: relative;
+    overflow: hidden;
+    color: var(--color-ink-900);
+    background-color: var(--color-amber-500);
+    box-shadow: inset 0 0 0 0 var(--hover);
+    transition: box-shadow 0.4s ease-out, color 0.4s ease-out;
+  }
+  .btn.explore-btn:hover,
+  .btn.explore-btn:focus-visible {
+    box-shadow: inset 0 -4em 0 0 var(--hover);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .btn.explore-btn {
+      transition: none;
+    }
+  }
+</style>
