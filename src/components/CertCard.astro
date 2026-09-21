@@ -9,11 +9,11 @@ interface Props {
 const { name, number, body } = Astro.props;
 ---
 
-<div class="card p-5 flex gap-4 items-start">
-  <BadgeCheck class="size-6 text-amber-600 shrink-0 mt-0.5" />
+<div class="rounded-md border border-white/10 bg-white/5 p-5 flex gap-4 items-start">
+  <BadgeCheck class="size-6 text-amber-500 shrink-0 mt-0.5" />
   <div>
-    <h3 class="font-display font-bold text-ink-900 text-sm leading-snug">{name}</h3>
-    <p class="text-xs text-ink-400 mt-1.5 font-mono-figure">Cert. No. {number}</p>
+    <h3 class="font-display font-bold text-paper text-sm leading-snug">{name}</h3>
+    <p class="text-xs text-ink-200 mt-1.5 font-mono-figure">Cert. No. {number}</p>
     <p class="text-xs text-ink-400">{body}</p>
   </div>
 </div>
