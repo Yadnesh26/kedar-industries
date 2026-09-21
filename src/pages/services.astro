@@ -2,20 +2,22 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Breadcrumb from '@/components/Breadcrumb.astro';
 import SectionHeading from '@/components/SectionHeading.astro';
-import IndustryChip from '@/components/IndustryChip.astro';
+import IndustryMarquee from '@/components/IndustryMarquee.astro';
 import CTABand from '@/components/CTABand.astro';
 import * as icons from '@lucide/astro';
 import { ArrowRight } from '@lucide/astro';
+import { Image } from 'astro:assets';
+import { img } from '@/lib/images';
 import company from '@/data/company.json';
 import clients from '@/data/clients.json';
 
 const coreServices = [
-  { icon: 'Cpu' as const, title: 'Precision Soldering', description: 'Precision soldering activity for capacitor components and electrical assemblies, to tight dimensional and contact-quality tolerances.' },
-  { icon: 'Flame' as const, title: 'Silver Brazing / Electrical Joints Brazing', description: 'Silver brazing and electrical joint brazing for reliable, low-resistance high-current connections.' },
-  { icon: 'PackagePlus' as const, title: 'Capacitor Component Assembly', description: 'Full component assembly for capacitor manufacturers, from terminals and busbars to finished sub-assemblies.' },
-  { icon: 'Wrench' as const, title: 'Installation & Commissioning', description: 'Professional installation by qualified engineers — setup, alignment, testing, performance verification and operator guidance.' },
-  { icon: 'CalendarClock' as const, title: 'Annual Maintenance Contract (AMC)', description: 'Planned preventive maintenance, routine inspections, and performance optimisation to extend equipment life.' },
-  { icon: 'PackageCheck' as const, title: 'Genuine Spare Parts', description: 'High-quality genuine replacement parts, quickly supplied to avoid interrupted operations.' },
+  { image: 'service-precision-soldering.jpg', title: 'Precision Soldering', description: 'Precision soldering activity for capacitor components and electrical assemblies, to tight dimensional and contact-quality tolerances.' },
+  { image: 'service-silver-brazing-electrical-joints.jpg', title: 'Silver Brazing / Electrical Joints Brazing', description: 'Silver brazing and electrical joint brazing for reliable, low-resistance high-current connections.' },
+  { image: 'service-capacitor-component-assembly.jpg', title: 'Capacitor Component Assembly', description: 'Full component assembly for capacitor manufacturers, from terminals and busbars to finished sub-assemblies.' },
+  { image: 'service-installation-commissioning.jpg', title: 'Installation & Commissioning', description: 'Professional installation by qualified engineers — setup, alignment, testing, performance verification and operator guidance.' },
+  { image: 'service-precision-soldering.jpg', title: 'Annual Maintenance Contract (AMC)', description: 'Planned preventive maintenance, routine inspections, and performance optimisation to extend equipment life.' },
+  { image: 'service-silver-brazing-electrical-joints.jpg', title: 'Genuine Spare Parts', description: 'High-quality genuine replacement parts, quickly supplied to avoid interrupted operations.' },
 ];
 
 const whyChoose = [
@@ -43,30 +45,36 @@ const whyChoose = [
         lead="From precision fabrication activities to full lifecycle support after the panel is installed."
       />
       <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {coreServices.map((s) => {
-          const Icon = icons[s.icon];
-          return (
-            <div class="card p-6 flex flex-col gap-4">
-              <div class="size-11 rounded-md bg-amber-100 flex items-center justify-center">
-                <Icon class="size-5 text-amber-600" />
-              </div>
-              <div>
-                <h3 class="font-display font-bold text-ink-900 text-base mb-1.5">{s.title}</h3>
-                <p class="text-sm text-ink-400 leading-relaxed">{s.description}</p>
-              </div>
-              <a href="/contact/" class="inline-flex items-center gap-1.5 text-amber-600 font-semibold text-sm hover:gap-2.5 transition-all mt-auto">
-                Submit enquiry <ArrowRight class="size-3.5" />
-              </a>
+        {coreServices.map((s) => (
+          <a href="/contact/" class="service-card card group flex flex-col overflow-hidden h-full">
+            <div class="aspect-[4/3] overflow-hidden">
+              <Image
+                src={img(s.image)}
+                alt={s.title}
+                width={480}
+                height={360}
+                class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+              />
             </div>
-          );
-        })}
+            <div class="p-6 flex flex-col items-center text-center gap-2 flex-1">
+              <h3 class="font-display font-bold text-lg text-ink-900">{s.title}</h3>
+              <p class="text-sm text-ink-400 leading-relaxed flex-1">{s.description}</p>
+              <span class="mt-3 inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-amber-500 text-ink-900 font-semibold text-sm transition-colors group-hover:bg-amber-600">
+                Submit Enquiry <ArrowRight class="size-4" />
+              </span>
+            </div>
+          </a>
+        ))}
       </div>
     </div>
   </section>
 
-  <section class="section-y bg-ink-900">
-    <div class="container-page">
-      <SectionHeading eyebrow="24×7 support" title="Remote & round-the-clock technical support" dark
+  <section class="section-y section-diagonal-dark">
+    <div class="section-diagonal-dark__edges" aria-hidden="true">
+      <span></span><span></span><span></span>
+    </div>
+    <div class="container-page relative">
+      <SectionHeading eyebrow="Active support" title="Remote & round-the-clock technical support" dark
         lead="Assistance via phone, email and online support — immediate troubleshooting guidance and round-the-clock support for critical service requirements." />
       <a href={`tel:${company.phoneHref}`} class="btn btn-primary">Call {company.phone}</a>
     </div>
@@ -88,11 +96,16 @@ const whyChoose = [
   <section class="section-y bg-ink-100/50">
     <div class="container-page">
       <SectionHeading eyebrow="Sectors served" title="Trusted across industrial sectors" />
-      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
-        {clients.industries.map((ind) => <IndustryChip name={ind.name} icon={ind.icon as any} />)}
-      </div>
+      <IndustryMarquee industries={clients.industries} />
     </div>
   </section>
 
-  <CTABand />
+  <CTABand showCall={false} />
 </BaseLayout>
+
+<style>
+  .service-card {
+    border-color: transparent;
+    box-shadow: 0 1px 4px rgba(14, 17, 22, 0.08);
+  }
+</style>
