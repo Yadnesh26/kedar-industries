@@ -40,23 +40,20 @@ const jsonLd = {
 
 <style>
   /* Flat posterized bands instead of a smooth gradient or a diagonal cut:
-     the bar steps up in solid opacity blocks (30% -> 65% -> 100%) toward
-     the middle and back down toward each end, so the edges read as
-     stepped without borrowing the diagonal-slant shape used on the
-     larger dark sections elsewhere on the site. */
+     the bar steps up in solid opacity blocks (30% -> 65% -> 100%) from
+     the left edge only, then stays solid the rest of the way, so the
+     edge reads as stepped without borrowing the diagonal-slant shape
+     used on the larger dark sections elsewhere on the site. Step zone
+     is 4.8% of the width (the original 8%, reduced 40%). */
   .breadcrumb-stepped {
     background: linear-gradient(
       to right,
       color-mix(in srgb, var(--color-ink-900) 30%, transparent) 0%,
-      color-mix(in srgb, var(--color-ink-900) 30%, transparent) 4%,
-      color-mix(in srgb, var(--color-ink-900) 65%, transparent) 4%,
-      color-mix(in srgb, var(--color-ink-900) 65%, transparent) 8%,
-      var(--color-ink-900) 8%,
-      var(--color-ink-900) 92%,
-      color-mix(in srgb, var(--color-ink-900) 65%, transparent) 92%,
-      color-mix(in srgb, var(--color-ink-900) 65%, transparent) 96%,
-      color-mix(in srgb, var(--color-ink-900) 30%, transparent) 96%,
-      color-mix(in srgb, var(--color-ink-900) 30%, transparent) 100%
+      color-mix(in srgb, var(--color-ink-900) 30%, transparent) 2.4%,
+      color-mix(in srgb, var(--color-ink-900) 65%, transparent) 2.4%,
+      color-mix(in srgb, var(--color-ink-900) 65%, transparent) 4.8%,
+      var(--color-ink-900) 4.8%,
+      var(--color-ink-900) 100%
     );
   }
 </style>
