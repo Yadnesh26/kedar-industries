@@ -165,6 +165,8 @@
   }
 
   .btn {
+    position: relative;
+    overflow: hidden;
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
@@ -172,37 +174,54 @@
     border-radius: var(--radius-md);
     font-weight: 600;
     font-size: 0.9375rem;
-    transition: transform 180ms var(--ease-out-standard), background-color 180ms var(--ease-out-standard);
     white-space: nowrap;
+    box-shadow: inset 0 0 0 0 var(--hover);
+    transition: box-shadow 0.4s ease-out, color 0.4s ease-out, border-color 0.4s ease-out;
   }
 
+  /* Every .btn variant fills from the bottom on hover via an inset
+     box-shadow (cheap, no layout thrash) — same mechanic as the header's
+     "Get a Quote" button (.quote-btn in Header.astro), each recoloured to
+     that variant's own existing palette. */
   .btn-primary {
+    --hover: var(--color-amber-600);
     background: var(--color-amber-500);
     color: var(--color-ink-900);
   }
-  .btn-primary:hover {
-    background: var(--color-amber-600);
-    transform: translateY(-1px);
+  .btn-primary:hover,
+  .btn-primary:focus-visible {
+    box-shadow: inset 0 -4em 0 0 var(--hover);
   }
 
   .btn-outline {
+    --hover: var(--color-amber-500);
     border: 1px solid var(--color-ink-200);
     color: var(--color-ink-900);
     background: transparent;
   }
-  .btn-outline:hover {
+  .btn-outline:hover,
+  .btn-outline:focus-visible {
     border-color: var(--color-amber-500);
-    transform: translateY(-1px);
+    box-shadow: inset 0 -4em 0 0 var(--hover);
   }
 
   .btn-outline-dark {
+    --hover: var(--color-amber-500);
     border: 1px solid rgba(255, 255, 255, 0.25);
     color: var(--color-paper);
     background: transparent;
   }
-  .btn-outline-dark:hover {
+  .btn-outline-dark:hover,
+  .btn-outline-dark:focus-visible {
     border-color: var(--color-amber-500);
-    transform: translateY(-1px);
+    color: var(--color-ink-900);
+    box-shadow: inset 0 -4em 0 0 var(--hover);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .btn {
+      transition: none;
+    }
   }
 
   .card {
