@@ -29,51 +29,6 @@ const { shortCircuit, temperatureRise, ip55 } = cpriTests;
         title="Every panel tested. Every standard met."
         lead="Quality runs through every stage of manufacturing — from incoming material inspection to final testing and documented traceability. This page holds the actual test reports and certificates, not a marketing summary of them."
       />
-
-      <ol class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {company.qualityProcess.map((step, i) => (
-          <li class="card p-5 flex items-start gap-4">
-            <span class="font-mono-figure text-2xl font-bold text-amber-500 shrink-0">{String(i + 1).padStart(2, '0')}</span>
-            <span class="text-sm text-ink-900 font-medium pt-1">{step}</span>
-          </li>
-        ))}
-      </ol>
-    </div>
-  </section>
-
-  <section class="section-y bg-ink-100/50">
-    <div class="container-page">
-      <SectionHeading eyebrow="Final inspection & testing" title="10 electrical testing procedures" lead="Every panel undergoes Factory Acceptance Testing against the approved drawing and bill of materials before it is cleared for dispatch." />
-      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-10">
-        {company.electricalTestingFacilities.map((test) => (
-          <div class="flex items-center gap-3 p-4 rounded-md bg-paper border border-ink-100">
-            <CircleCheck class="size-4 text-amber-600 shrink-0" />
-            <span class="text-sm text-ink-900">{test}</span>
-          </div>
-        ))}
-      </div>
-
-      <SectionHeading eyebrow="Calibrated instruments" title="Panel testing & measuring equipment" />
-      <div class="card overflow-hidden">
-        <table class="w-full text-sm">
-          <thead>
-            <tr class="bg-ink-100/60 text-left">
-              <th class="px-5 py-3 font-mono-figure text-ink-400 w-16">No.</th>
-              <th class="px-5 py-3 text-ink-400 font-medium">Instrument</th>
-              <th class="px-5 py-3 text-ink-400 font-medium w-24 text-right">Qty.</th>
-            </tr>
-          </thead>
-          <tbody>
-            {equipment.map((eq, i) => (
-              <tr class:list={[i % 2 === 1 && 'bg-ink-100/30']}>
-                <td class="px-5 py-3 font-mono-figure text-ink-400">{eq.no}</td>
-                <td class="px-5 py-3 text-ink-900">{eq.instrument}</td>
-                <td class="px-5 py-3 text-right font-mono-figure text-ink-900">{eq.qty}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
     </div>
   </section>
 
@@ -274,6 +229,58 @@ const { shortCircuit, temperatureRise, ip55 } = cpriTests;
             <Lightbox images={[p.certScan]} groupId={`partner-${p.partner.slice(0, 6)}`} captionPrefix={p.partner} />
           </div>
         ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Quality process (supporting detail, not the headline evidence) -->
+  <section class="section-y bg-ink-100/50">
+    <div class="container-page">
+      <SectionHeading eyebrow="Our approach" title="A disciplined quality process" />
+      <ol class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {company.qualityProcess.map((step, i) => (
+          <li class="card p-5 flex items-start gap-4">
+            <span class="font-mono-figure text-2xl font-bold text-amber-500 shrink-0">{String(i + 1).padStart(2, '0')}</span>
+            <span class="text-sm text-ink-900 font-medium pt-1">{step}</span>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- Testing procedures & equipment -->
+  <section class="section-y">
+    <div class="container-page">
+      <SectionHeading eyebrow="Final inspection & testing" title="10 electrical testing procedures" lead="Every panel undergoes Factory Acceptance Testing against the approved drawing and bill of materials before it is cleared for dispatch." />
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-10">
+        {company.electricalTestingFacilities.map((test) => (
+          <div class="flex items-center gap-3 p-4 rounded-md bg-paper border border-ink-100">
+            <CircleCheck class="size-4 text-amber-600 shrink-0" />
+            <span class="text-sm text-ink-900">{test}</span>
+          </div>
+        ))}
+      </div>
+
+      <SectionHeading eyebrow="Calibrated instruments" title="Panel testing & measuring equipment" />
+      <div class="card overflow-hidden">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="bg-ink-100/60 text-left">
+              <th class="px-5 py-3 font-mono-figure text-ink-400 w-16">No.</th>
+              <th class="px-5 py-3 text-ink-400 font-medium">Instrument</th>
+              <th class="px-5 py-3 text-ink-400 font-medium w-24 text-right">Qty.</th>
+            </tr>
+          </thead>
+          <tbody>
+            {equipment.map((eq, i) => (
+              <tr class:list={[i % 2 === 1 && 'bg-ink-100/30']}>
+                <td class="px-5 py-3 font-mono-figure text-ink-400">{eq.no}</td>
+                <td class="px-5 py-3 text-ink-900">{eq.instrument}</td>
+                <td class="px-5 py-3 text-right font-mono-figure text-ink-900">{eq.qty}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   </section>
