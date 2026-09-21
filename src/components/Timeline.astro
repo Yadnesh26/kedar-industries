@@ -8,85 +8,163 @@ interface Props {
   milestones: Milestone[];
 }
 const { milestones } = Astro.props;
+
+// Each milestone's dot sits at the start of its own column, but its card spans
+// two columns. Alternating cards above/below the rail means a card can borrow
+// the horizontal space of its neighbour's column (that row is empty there),
+// roughly doubling the width each description gets. One extra trailing column
+// gives the final card the same room without overflowing the grid.
+const STEP_MS = 260;
+const columns = milestones.length + 1;
 ---
 
-<div class="h-timeline relative">
-  <div class="h-timeline__track flex overflow-x-auto pb-2 -mx-1 px-1">
+<div class="h-timeline">
+  <div class="h-timeline__grid" style={`--cols:${columns}`}>
+    <div class="h-timeline__rail" aria-hidden="true"></div>
     {milestones.map((m, i) => (
-      <div class="h-timeline__item relative shrink-0 w-60 sm:w-64 pt-9 pr-8" style={`transition-delay:${150 + i * 140}ms`}>
-        <span class="h-timeline__line" aria-hidden="true"></span>
-        <span class="h-timeline__dot" aria-hidden="true"></span>
-        <p class="eyebrow mb-1.5">{m.period}</p>
-        <h3 class="font-display font-bold text-ink-900 text-base mb-1.5">{m.title}</h3>
-        <p class="text-sm text-ink-400 leading-relaxed">{m.description}</p>
-      </div>
+      <>
+        <span
+          class="h-timeline__dot"
+          aria-hidden="true"
+          style={`grid-column:${i + 1};grid-row:2;--d:${i * STEP_MS}ms`}
+        ></span>
+        <div
+          class="h-timeline__card"
+          data-pos={i % 2 === 0 ? 'above' : 'below'}
+          style={`grid-column:${i + 1} / span 2;grid-row:${i % 2 === 0 ? 1 : 3};--d:${i * STEP_MS}ms`}
+        >
+          <p class="eyebrow mb-1.5">{m.period}</p>
+          <h3 class="font-display font-bold text-ink-900 text-base mb-1.5">{m.title}</h3>
+          <p class="text-sm text-ink-400 leading-relaxed">{m.description}</p>
+        </div>
+      </>
     ))}
   </div>
 </div>
 
 <noscript>
   <style is:global>
-    .h-timeline__line::after {
+    .h-timeline__rail::after {
       transform: scaleX(1) !important;
     }
     .h-timeline__dot {
-      transform: translate(-50%, -50%) scale(1) !important;
+      transform: scale(1) !important;
+    }
+    .h-timeline__card {
+      opacity: 1 !important;
+      transform: none !important;
     }
   </style>
 </noscript>
 
 <style is:global>
-  .h-timeline__track {
-    scrollbar-width: thin;
+  .h-timeline__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
   }
-  .h-timeline__line {
-    position: absolute;
-    top: 0.875rem;
-    left: 0;
-    right: 2rem;
-    height: 2px;
-    background: var(--color-ink-100);
-    overflow: hidden;
-    transition-delay: inherit;
-  }
-  .h-timeline__line::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: var(--color-amber-500);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 700ms var(--ease-out-standard);
-    transition-delay: inherit;
+  .h-timeline__rail {
+    display: none;
   }
   .h-timeline__dot {
-    position: absolute;
-    top: 0.875rem;
-    left: 0;
-    width: 0.875rem;
-    height: 0.875rem;
+    width: 0.75rem;
+    height: 0.75rem;
     border-radius: 9999px;
     background: var(--color-amber-500);
     border: 3px solid var(--color-paper);
     box-shadow: 0 0 0 1px var(--color-ink-100);
-    transform: translate(-50%, -50%) scale(0);
-    transition: transform 400ms var(--ease-out-standard);
-    transition-delay: inherit;
+    transform: scale(0);
+    transition: transform 350ms var(--ease-out-standard);
+    transition-delay: var(--d, 0ms);
   }
-  .h-timeline.is-visible .h-timeline__line::after {
-    transform: scaleX(1);
+  .h-timeline__card {
+    opacity: 0;
+    transform: translateY(12px);
+    transition:
+      opacity 500ms var(--ease-out-standard),
+      transform 500ms var(--ease-out-standard);
+    transition-delay: var(--d, 0ms);
   }
   .h-timeline.is-visible .h-timeline__dot {
-    transform: translate(-50%, -50%) scale(1);
+    transform: scale(1);
   }
-  @media (prefers-reduced-motion: reduce) {
-    .h-timeline__line::after {
-      transition: none;
+  .h-timeline.is-visible .h-timeline__card {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Below the zig-zag breakpoint the alternating layout would be far too
+     narrow, so everything collapses into a plain vertical list. */
+  @media (max-width: 1023px) {
+    .h-timeline__dot,
+    .h-timeline__card {
+      grid-column: 1 !important;
+      grid-row: auto !important;
+    }
+    .h-timeline__dot {
+      margin-top: 1.75rem;
+    }
+    .h-timeline__card {
+      padding-top: 0.75rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .h-timeline__grid {
+      grid-template-columns: repeat(var(--cols, 7), minmax(0, 1fr));
+      grid-template-rows: 1fr 1.5rem 1fr;
+      column-gap: 1.5rem;
+    }
+    .h-timeline__rail {
+      display: block;
+      position: relative;
+      grid-column: 1 / -1;
+      grid-row: 2;
+      align-self: center;
+      height: 2px;
+      background: var(--color-ink-100);
+      overflow: hidden;
+    }
+    .h-timeline__rail::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--color-amber-500);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 1700ms var(--ease-out-standard);
+    }
+    .h-timeline.is-visible .h-timeline__rail::after {
       transform: scaleX(1);
     }
     .h-timeline__dot {
+      align-self: center;
+      justify-self: start;
+    }
+    .h-timeline__card[data-pos='above'] {
+      align-self: end;
+      padding-bottom: 1.5rem;
+    }
+    .h-timeline__card[data-pos='below'] {
+      align-self: start;
+      padding-top: 1.5rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .h-timeline__rail::after,
+    .h-timeline__dot,
+    .h-timeline__card {
       transition: none;
-      transform: translate(-50%, -50%) scale(1);
+    }
+    .h-timeline__rail::after {
+      transform: scaleX(1);
+    }
+    .h-timeline__dot {
+      transform: scale(1);
+    }
+    .h-timeline__card {
+      opacity: 1;
+      transform: none;
     }
   }
 </style>
