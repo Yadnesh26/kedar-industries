@@ -76,7 +76,7 @@ const milestones = [
 
   <section class="section-y bg-ink-100/50">
     <div class="container-page">
-      <SectionHeading eyebrow="Our journey" title="From first panel to CPRI-tested engineering" />
+      <SectionHeading eyebrow="Our journey" title="From first panel to CPRI-tested engineering" noWrap />
       <Timeline milestones={milestones} />
     </div>
   </section>
@@ -167,20 +167,24 @@ const milestones = [
     </div>
   </section>
 
-  <section class="section-y">
-    <div class="container-page">
+  <section class="section-y section-diagonal-dark">
+    <div class="section-diagonal-dark__edges" aria-hidden="true">
+      <span></span><span></span><span></span>
+    </div>
+    <div class="container-page relative">
       <SectionHeading
         eyebrow="The track record"
         title={`${projects.length}+ projects delivered`}
         lead="Named clients, stated ratings — not case-study samples."
+        dark
       />
       <div class="grid sm:grid-cols-3 gap-6">
         {featuredProjects.map((p) => (
-          <div class="card p-5">
+          <div class="rounded-md bg-white/5 border border-white/10 p-6">
             <p class="text-xs eyebrow mb-2">Marquee project</p>
-            <p class="font-display font-bold text-ink-900 text-sm mb-1">{p.client}</p>
-            <p class="text-xs text-ink-400 mb-2">{p.location}</p>
-            <p class="text-sm text-ink-600">{p.project}</p>
+            <p class="font-display font-bold text-paper text-sm mb-1">{p.client}</p>
+            <p class="text-xs text-ink-200 mb-2">{p.location}</p>
+            <p class="text-sm text-ink-200 leading-relaxed">{p.project}</p>
           </div>
         ))}
       </div>
