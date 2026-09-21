@@ -205,9 +205,12 @@ const { shortCircuit, temperatureRise, ip55 } = cpriTests;
   </section>
 
   <!-- Management systems -->
-  <section class="section-y bg-ink-100/50">
-    <div class="container-page">
-      <SectionHeading eyebrow="Management systems" title="Five audited certifications" />
+  <section class="section-y section-diagonal-dark">
+    <div class="section-diagonal-dark__edges" aria-hidden="true">
+      <span></span><span></span><span></span>
+    </div>
+    <div class="container-page relative">
+      <SectionHeading eyebrow="Management systems" title="Five audited certifications" dark />
       <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {certifications.managementSystems.map((c) => (
           <CertCard name={c.name} number={c.number} body={c.body} />
@@ -237,9 +240,12 @@ const { shortCircuit, temperatureRise, ip55 } = cpriTests;
   </section>
 
   <!-- Quality process (supporting detail, not the headline evidence) -->
-  <section class="section-y bg-ink-100/50">
-    <div class="container-page">
-      <SectionHeading eyebrow="Our approach" title="A disciplined quality process" />
+  <section class="section-y section-diagonal-dark">
+    <div class="section-diagonal-dark__edges" aria-hidden="true">
+      <span></span><span></span><span></span>
+    </div>
+    <div class="container-page relative">
+      <SectionHeading eyebrow="Our approach" title="A disciplined quality process" dark />
       <ol class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {company.qualityProcess.map((step, i) => (
           <li class="card p-5 flex items-start gap-4">
