@@ -21,7 +21,7 @@ const { stats } = Astro.props;
   that nods at "electrical" without competing with the numbers on top.
 */}
 <div class="relative z-10 container-page -mt-12 sm:-mt-16">
-  <div class="stat-card relative overflow-hidden rounded-2xl bg-[#191D25] border border-white/20">
+  <div class="stat-card relative overflow-hidden rounded-2xl bg-[#13161D] border border-white/20">
     <canvas class="stat-card__network" aria-hidden="true"></canvas>
     <dl class="stat-card__grid relative grid grid-cols-2 md:grid-cols-4 gap-y-8 px-6 py-10 sm:px-10 sm:py-12">
       {stats.map((stat) => (
@@ -131,7 +131,7 @@ const { stats } = Astro.props;
     const ctx = canvas?.getContext('2d');
     if (!canvas || !ctx) return;
 
-    const LINK_DISTANCE = 130;
+    const LINK_DISTANCE = 210;
     const SPEED = 0.12;
 
     let nodes: Node[] = [];
@@ -150,7 +150,7 @@ const { stats } = Astro.props;
       canvas.height = height * dpr;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-      const count = Math.max(18, Math.min(42, Math.round((width * height) / 9000)));
+      const count = Math.max(10, Math.min(24, Math.round((width * height) / 16000)));
       nodes = Array.from({ length: count }, () => ({
         x: Math.random() * width,
         y: Math.random() * height,
@@ -183,7 +183,7 @@ const { stats } = Astro.props;
       for (const n of nodes) {
         ctx.fillStyle = 'rgba(255, 198, 41, 0.35)';
         ctx.beginPath();
-        ctx.arc(n.x, n.y, 1.6, 0, Math.PI * 2);
+        ctx.arc(n.x, n.y, 2.2, 0, Math.PI * 2);
         ctx.fill();
       }
     }
