@@ -12,60 +12,112 @@ const { stats } = Astro.props;
 ---
 
 {/*
-  A floating card overlapping the hero's bottom edge, matching the
-  reference site's stat-band treatment — pulled up with a negative
-  margin so it straddles the hero/white-section boundary.
+  A floating plate overlapping the hero's bottom edge — pulled up with a
+  negative margin so it straddles the hero/white-section boundary.
 
-  Deliberately plain: a flat dark panel and the figures, nothing else.
+  Styled like the rating plate riveted to a switchgear enclosure rather
+  than a generic rounded stat card: a keyed chamfer cuts the top-left and
+  bottom-right corners (echoing the diagonal-edge sections used elsewhere
+  on this page), with a rivet mark in each of the two square corners.
+  Each figure gets its own short amber witness mark in place of a full
+  divider — a dimension-line leader, not a card border.
 */}
 <div class="relative z-10 container-page -mt-12 sm:-mt-16">
-  <div class="stat-card relative rounded-2xl bg-[#0d1015] border border-white/20">
-    <dl class="stat-card__grid grid grid-cols-2 md:grid-cols-4 gap-y-8 px-6 py-10 sm:px-10 sm:py-12">
-      {stats.map((stat) => (
-        <div class="text-center">
-          <dt class="sr-only">{stat.label}</dt>
-          <dd
-            class="font-mono-figure text-3xl sm:text-4xl text-amber-500 font-semibold"
-            data-stat
-            data-target={stat.numericValue ?? ''}
-            data-suffix={stat.suffix ?? ''}
-          >
-            {stat.value}
-          </dd>
-          <p class="mt-1.5 text-sm text-ink-400">{stat.label}</p>
-        </div>
-      ))}
-    </dl>
+  <div class="stat-plate">
+    <div class="stat-plate__fill">
+      <span class="stat-plate__rivet stat-plate__rivet--tr" aria-hidden="true"></span>
+      <span class="stat-plate__rivet stat-plate__rivet--bl" aria-hidden="true"></span>
+      <dl class="stat-plate__grid grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-9 px-6 py-10 sm:px-10 sm:py-12">
+        {stats.map((stat) => (
+          <div class="stat-plate__item">
+            <dt class="sr-only">{stat.label}</dt>
+            <dd
+              class="font-mono-figure text-3xl sm:text-4xl text-amber-500 font-semibold"
+              data-stat
+              data-target={stat.numericValue ?? ''}
+              data-suffix={stat.suffix ?? ''}
+            >
+              {stat.value}
+            </dd>
+            <span class="stat-plate__tick" aria-hidden="true"></span>
+            <p class="text-sm text-ink-200">{stat.label}</p>
+          </div>
+        ))}
+      </dl>
+    </div>
   </div>
 </div>
 
 <style>
-  /* Scoped to this component by Astro — cannot leak to any other card.
-     Three vertical rules splitting the card into 4 equal sections (not
-     4 separate boxes — just dividers on top of one continuous panel),
-     with each stat centered inside its own quarter. */
-  .stat-card__grid > div {
+  /* Two stacked, identically-clipped layers stand in for a border: clip-path
+     cuts off any border stroke along the diagonal edge, so a 1px inset of
+     the fill color (--color-ink-900) over a lighter outer layer paints the
+     chamfer's "stroke" instead. */
+  .stat-plate {
+    --chamfer: 18px;
+    padding: 1px;
+    background: rgba(255, 255, 255, 0.16);
+    clip-path: polygon(
+      var(--chamfer) 0,
+      100% 0,
+      100% calc(100% - var(--chamfer)),
+      calc(100% - var(--chamfer)) 100%,
+      0 100%,
+      0 var(--chamfer)
+    );
+  }
+  @media (min-width: 640px) {
+    .stat-plate {
+      --chamfer: 26px;
+    }
+  }
+
+  .stat-plate__fill {
+    position: relative;
+    background: var(--color-ink-900);
+    clip-path: polygon(
+      calc(var(--chamfer) - 1px) 0,
+      100% 0,
+      100% calc(100% - (var(--chamfer) - 1px)),
+      calc(100% - (var(--chamfer) - 1px)) 100%,
+      0 100%,
+      0 calc(var(--chamfer) - 1px)
+    );
+  }
+
+  .stat-plate__rivet {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(255, 204, 42, 0.4);
+    box-shadow: 0 0 0 1px rgba(255, 204, 42, 0.18);
+  }
+  .stat-plate__rivet--tr {
+    top: 12px;
+    right: 12px;
+  }
+  .stat-plate__rivet--bl {
+    bottom: 12px;
+    left: 12px;
+  }
+
+  .stat-plate__item {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
   }
 
-  /* Mobile: 2 columns x 2 rows — divide only between the two columns in
-     each row (even children), never between the rows. */
-  .stat-card__grid > div:nth-child(even) {
-    border-left: 1px solid rgba(255, 255, 255, 0.12);
-  }
-
-  /* md+: a single row of 4 — a rule before every item except the first,
-     giving exactly 3 lines across the full card height. */
-  @media (min-width: 768px) {
-    .stat-card__grid > div {
-      border-left: 1px solid rgba(255, 255, 255, 0.12);
-    }
-    .stat-card__grid > div:first-child {
-      border-left: none;
-    }
+  /* The witness mark under each figure — a short leader line rather than a
+     full-height rule between columns. */
+  .stat-plate__tick {
+    display: block;
+    width: 20px;
+    height: 2px;
+    margin: 10px 0 8px;
+    background: var(--color-amber-500);
+    opacity: 0.55;
   }
 </style>
 
