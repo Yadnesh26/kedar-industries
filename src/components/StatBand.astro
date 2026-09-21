@@ -9,181 +9,65 @@ interface Props {
   stats: Stat[];
 }
 const { stats } = Astro.props;
-
-// Each stat gets its own small rotating wireframe icon (see
-// src/lib/statIcons.ts) — order matches the fixed 4 figures this band
-// always renders (founding year, facility size, projects, test rating).
-const iconKinds = ['founded', 'facility', 'projects', 'withstand'] as const;
 ---
 
 {/*
-  A floating plate overlapping the hero's bottom edge — pulled up with a
-  negative margin so it straddles the hero/white-section boundary.
+  A floating card overlapping the hero's bottom edge, matching the
+  reference site's stat-band treatment — pulled up with a negative
+  margin so it straddles the hero/white-section boundary.
 
-  Styled like the rating plate riveted to a switchgear enclosure rather
-  than a generic rounded stat card: a keyed chamfer cuts the top-left and
-  bottom-right corners (echoing the diagonal-edge sections used elsewhere
-  on this page), with a rivet mark in each of the two square corners.
-  Each figure gets its own short amber witness mark in place of a full
-  divider — a dimension-line leader, not a card border — with a small
-  rotating gem (Three.js) centered above it.
+  Deliberately plain: a flat dark panel and the figures, nothing else.
 */}
 <div class="relative z-10 container-page -mt-12 sm:-mt-16">
-  <div class="stat-plate">
-    <div class="stat-plate__fill">
-      <span class="stat-plate__rivet stat-plate__rivet--tr" aria-hidden="true"></span>
-      <span class="stat-plate__rivet stat-plate__rivet--bl" aria-hidden="true"></span>
-      <dl class="stat-plate__grid grid grid-cols-2 md:grid-cols-4 gap-y-8 px-6 py-10 sm:px-10 sm:py-12">
-        {stats.map((stat, i) => (
-          <div class="stat-plate__item">
-            <canvas
-              class="stat-plate__icon"
-              data-stat-icon={iconKinds[i % iconKinds.length]}
-              width="56"
-              height="56"
-              aria-hidden="true"
-            ></canvas>
-            <dt class="sr-only">{stat.label}</dt>
-            <dd
-              class="font-mono-figure text-3xl sm:text-4xl text-amber-500 font-semibold"
-              data-stat
-              data-target={stat.numericValue ?? ''}
-              data-suffix={stat.suffix ?? ''}
-            >
-              {stat.value}
-            </dd>
-            <span class="stat-plate__tick" aria-hidden="true"></span>
-            <p class="text-sm text-ink-200">{stat.label}</p>
-          </div>
-        ))}
-      </dl>
-    </div>
+  <div class="stat-card relative rounded-2xl bg-[#1D2129] border border-white/20">
+    <dl class="stat-card__grid grid grid-cols-2 md:grid-cols-4 gap-y-8 px-6 py-10 sm:px-10 sm:py-12">
+      {stats.map((stat) => (
+        <div class="text-center">
+          <dt class="sr-only">{stat.label}</dt>
+          <dd
+            class="font-mono-figure text-3xl sm:text-4xl text-amber-500 font-semibold"
+            data-stat
+            data-target={stat.numericValue ?? ''}
+            data-suffix={stat.suffix ?? ''}
+          >
+            {stat.value}
+          </dd>
+          <p class="mt-1.5 text-sm text-ink-400">{stat.label}</p>
+        </div>
+      ))}
+    </dl>
   </div>
 </div>
 
 <style>
-  /* Two stacked, identically-clipped layers stand in for a border: clip-path
-     cuts off any border stroke along the diagonal edge, so a 1px inset of
-     the fill color (--color-ink-900) over a lighter outer layer paints the
-     chamfer's "stroke" instead. */
-  .stat-plate {
-    --chamfer: 18px;
-    padding: 1px;
-    background: rgba(255, 255, 255, 0.16);
-    clip-path: polygon(
-      var(--chamfer) 0,
-      100% 0,
-      100% calc(100% - var(--chamfer)),
-      calc(100% - var(--chamfer)) 100%,
-      0 100%,
-      0 var(--chamfer)
-    );
-  }
-  @media (min-width: 640px) {
-    .stat-plate {
-      --chamfer: 26px;
-    }
-  }
-
-  .stat-plate__fill {
-    position: relative;
-    background: var(--color-ink-900);
-    clip-path: polygon(
-      calc(var(--chamfer) - 1px) 0,
-      100% 0,
-      100% calc(100% - (var(--chamfer) - 1px)),
-      calc(100% - (var(--chamfer) - 1px)) 100%,
-      0 100%,
-      0 calc(var(--chamfer) - 1px)
-    );
-  }
-
-  .stat-plate__rivet {
-    position: absolute;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: rgba(255, 204, 42, 0.4);
-    box-shadow: 0 0 0 1px rgba(255, 204, 42, 0.18);
-  }
-  .stat-plate__rivet--tr {
-    top: 12px;
-    right: 12px;
-  }
-  .stat-plate__rivet--bl {
-    bottom: 12px;
-    left: 12px;
-  }
-
-  .stat-plate__item {
+  /* Scoped to this component by Astro — cannot leak to any other card.
+     Three vertical rules splitting the card into 4 equal sections (not
+     4 separate boxes — just dividers on top of one continuous panel),
+     with each stat centered inside its own quarter. */
+  .stat-card__grid > div {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
   }
 
-  /* A cheap inline-SVG line icon shows immediately (no request, no JS)
-     behind every canvas — Three.js paints over it once its chunk loads,
-     and reduced-motion / no-WebGL visitors just keep the static version. */
-  .stat-plate__icon {
-    width: 40px;
-    height: 40px;
-    margin-bottom: 0.5rem;
-    background-repeat: no-repeat;
-    background-size: 70%;
-    background-position: center;
+  /* Mobile: 2 columns x 2 rows — divide only between the two columns in
+     each row (even children), never between the rows. */
+  .stat-card__grid > div:nth-child(even) {
+    border-left: 1px solid rgba(255, 255, 255, 0.12);
   }
-  @media (min-width: 640px) {
-    .stat-plate__icon {
-      width: 52px;
-      height: 52px;
+
+  /* md+: a single row of 4 — a rule before every item except the first,
+     giving exactly 3 lines across the full card height. */
+  @media (min-width: 768px) {
+    .stat-card__grid > div {
+      border-left: 1px solid rgba(255, 255, 255, 0.12);
+    }
+    .stat-card__grid > div:first-child {
+      border-left: none;
     }
   }
-  .stat-plate__icon[data-stat-icon='founded'] {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffcc2a' stroke-width='1.3' stroke-linejoin='round'%3E%3Cpath d='M12 2 4 9l8 13 8-13z'/%3E%3Cpath d='M4 9h16M8.3 9 12 2l3.7 7M8.3 9 12 22M15.7 9 12 22'/%3E%3C/svg%3E");
-  }
-  .stat-plate__icon[data-stat-icon='facility'] {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffcc2a' stroke-width='1.3' stroke-linejoin='round'%3E%3Cpath d='M12 2 22 12 12 22 2 12z'/%3E%3Cpath d='M2 12h20'/%3E%3C/svg%3E");
-  }
-  .stat-plate__icon[data-stat-icon='projects'] {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffcc2a' stroke-width='1.3' stroke-linejoin='round'%3E%3Cpath d='M12 3 21 19H3z'/%3E%3Cpath d='M12 3 12 19M7.5 19 12 11l4.5 8'/%3E%3C/svg%3E");
-  }
-  .stat-plate__icon[data-stat-icon='withstand'] {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffcc2a' stroke-width='1.3' stroke-linejoin='round'%3E%3Cpath d='M12 2 20 7.5 20 16.5 12 22 4 16.5 4 7.5z'/%3E%3C/svg%3E");
-  }
-
-  /* The witness mark under each figure — a short leader line rather than a
-     full-height rule between columns. */
-  .stat-plate__tick {
-    display: block;
-    width: 20px;
-    height: 2px;
-    margin: 10px 0 8px;
-    background: var(--color-amber-500);
-    opacity: 0.55;
-  }
 </style>
-
-<script>
-  // Three.js (~135KB gzipped) is only worth fetching for visitors who'll
-  // actually see it animate: skip it outright under reduced-motion, and
-  // otherwise defer the import until the plate is about to scroll into
-  // view rather than loading it eagerly on every page visit.
-  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const iconCanvases = document.querySelectorAll<HTMLCanvasElement>('canvas[data-stat-icon]');
-
-  if (!prefersReducedMotion && iconCanvases.length) {
-    const loadObserver = new IntersectionObserver(
-      (entries) => {
-        if (!entries.some((entry) => entry.isIntersecting)) return;
-        loadObserver.disconnect();
-        import('@/lib/statIcons').then(({ initStatIcons }) => initStatIcons());
-      },
-      { rootMargin: '200px' }
-    );
-    iconCanvases.forEach((canvas) => loadObserver.observe(canvas));
-  }
-</script>
 
 <script>
   // Count up from 0 to the real value already rendered server-side, so the
