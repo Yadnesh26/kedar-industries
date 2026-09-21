@@ -63,15 +63,6 @@ const productSchema = {
   </section>
 
   <section class="section-y">
-    <div class="container-page grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
-      {data.keySpecs.map((spec) => (
-        <div class="card p-5">
-          <p class="text-xs eyebrow mb-1.5">{spec.label}</p>
-          <p class="text-sm font-semibold text-ink-900 leading-snug">{spec.value}</p>
-        </div>
-      ))}
-    </div>
-
     <div class="container-page grid lg:grid-cols-3 gap-12">
       <div class="lg:col-span-2 flex flex-col gap-12">
         <div>
@@ -88,6 +79,15 @@ const productSchema = {
             <a href="/contact/" class="btn btn-primary">Request a Quote <ArrowRight class="size-4" /></a>
             <a href="#specifications" class="btn btn-outline">View Specifications</a>
           </div>
+        </div>
+
+        <div class="grid sm:grid-cols-2 gap-4">
+          {data.keySpecs.map((spec) => (
+            <div class="card p-5">
+              <p class="text-xs eyebrow mb-1.5">{spec.label}</p>
+              <p class="text-sm font-semibold text-ink-900 leading-snug">{spec.value}</p>
+            </div>
+          ))}
         </div>
 
         <div id="specifications">
