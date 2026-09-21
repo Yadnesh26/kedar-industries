@@ -25,8 +25,8 @@ const parts = (await getCollection('parts')).sort((a, b) => a.data.order - b.dat
             <a
               href={item.href}
               class:list={[
-                'flex items-center gap-1 px-3 py-2 text-sm font-medium rounded-md transition-colors',
-                currentPath.startsWith('/products/') ? 'text-amber-600' : 'text-ink-600 hover:text-amber-600',
+                'nav-link flex items-center gap-1 px-3 py-2 text-sm font-medium rounded-md transition-colors',
+                currentPath.startsWith('/products/') ? 'text-amber-600 nav-link--active' : 'text-ink-600 hover:text-amber-600',
               ]}
             >
               {item.label}
@@ -61,8 +61,8 @@ const parts = (await getCollection('parts')).sort((a, b) => a.data.order - b.dat
             <a
               href={item.href}
               class:list={[
-                'flex items-center gap-1 px-3 py-2 text-sm font-medium rounded-md transition-colors',
-                currentPath.startsWith('/about/') ? 'text-amber-600' : 'text-ink-600 hover:text-amber-600',
+                'nav-link flex items-center gap-1 px-3 py-2 text-sm font-medium rounded-md transition-colors',
+                currentPath.startsWith('/about/') ? 'text-amber-600 nav-link--active' : 'text-ink-600 hover:text-amber-600',
               ]}
               aria-haspopup="true"
             >
@@ -88,9 +88,9 @@ const parts = (await getCollection('parts')).sort((a, b) => a.data.order - b.dat
           <a
             href={item.href}
             class:list={[
-              'px-3 py-2 text-sm font-medium rounded-md transition-colors',
+              'nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors',
               currentPath === item.href
-                ? 'text-amber-600'
+                ? 'text-amber-600 nav-link--active'
                 : 'text-ink-600 hover:text-amber-600',
             ]}
           >
@@ -154,6 +154,56 @@ const parts = (await getCollection('parts')).sort((a, b) => a.data.order - b.dat
     </nav>
   </div>
 </header>
+
+<style>
+  /* Bold underline for the active page (persistent) and on hover
+     (transient), plus a brief border flash on the first 1.5s of hover
+     that fades away while the underline stays for as long as hovered. */
+  .nav-link {
+    position: relative;
+    border: 2px solid transparent;
+  }
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    height: 3px;
+    border-radius: 2px;
+    background: var(--color-amber-500);
+    transform: scaleX(0);
+    transition: transform 200ms var(--ease-out-standard);
+  }
+  .nav-link:hover::after,
+  .nav-link--active::after {
+    transform: scaleX(1);
+  }
+  .nav-link:hover {
+    animation: nav-link-border-flash 1.5s var(--ease-out-standard);
+  }
+  @keyframes nav-link-border-flash {
+    0% {
+      border-color: transparent;
+    }
+    8% {
+      border-color: var(--color-amber-500);
+    }
+    85% {
+      border-color: var(--color-amber-500);
+    }
+    100% {
+      border-color: transparent;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .nav-link:hover {
+      animation: none;
+    }
+    .nav-link::after {
+      transition: none;
+    }
+  }
+</style>
 
 <script>
   const toggle = document.getElementById('mobile-menu-toggle');

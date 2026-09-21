@@ -63,25 +63,24 @@ const productSchema = {
           <a href="#specifications" class="btn btn-outline-dark">View Specifications</a>
         </div>
       </div>
-      <div class="relative aspect-[4/3] flex items-center justify-center">
-        <div class="absolute inset-0 rounded-full bg-amber-500/10 blur-3xl"></div>
+      <div class="relative aspect-[4/3] rounded-2xl bg-paper border border-white/10 shadow-2xl p-8 sm:p-10 flex items-center justify-center">
         <Image
           src={img(data.heroImage)}
           alt={data.name}
           width={640}
           height={480}
-          class="relative max-w-full max-h-full w-auto h-auto object-contain drop-shadow-2xl"
+          class="max-w-full max-h-full w-auto h-auto object-contain"
         />
       </div>
     </div>
   </section>
 
   <section class="section-y">
-    <div class="container-page grid lg:grid-cols-3 gap-6 -mt-2 mb-12">
+    <div class="container-page grid sm:grid-cols-2 lg:grid-cols-4 gap-4 -mt-2 mb-12">
       {data.keySpecs.map((spec) => (
-        <div class="card p-5 text-center">
-          <p class="font-mono-figure text-2xl text-amber-600 font-semibold">{spec.value}</p>
-          <p class="text-xs text-ink-400 mt-1">{spec.label}</p>
+        <div class="card p-5">
+          <p class="text-xs eyebrow mb-1.5">{spec.label}</p>
+          <p class="text-sm font-semibold text-ink-900 leading-snug">{spec.value}</p>
         </div>
       ))}
     </div>
