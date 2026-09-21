@@ -17,12 +17,48 @@ const facilityImages = [
 ];
 
 const sections = [
-  { icon: 'Hammer' as const, image: facilityImages[0], title: 'Dedicated Fabrication Section', description: 'Sheet-metal cutting, bending and structural fabrication for enclosures and busbar supports.' },
-  { icon: 'LayoutGrid' as const, image: facilityImages[1], title: 'Electrical Panel Assembly Area', description: 'Component mounting, busbar installation and wiring across the full panel range.' },
-  { icon: 'Flame' as const, image: facilityImages[2], title: 'Soldering & Brazing Section', description: 'Precision soldering and silver brazing for capacitor parts and electrical joints.' },
-  { icon: 'SearchCheck' as const, image: facilityImages[0], title: 'Quality Inspection Area', description: 'Dimensional checks, electrical testing and documentation before dispatch clearance.' },
-  { icon: 'PackageCheck' as const, image: facilityImages[1], title: 'Packing & Dispatch Department', description: 'Protective packing and dispatch coordination for safe, on-time delivery.' },
-  { icon: 'Warehouse' as const, image: facilityImages[2], title: 'Material Storage Area', description: 'Organised raw-material and component storage supporting lean production flow.' },
+  {
+    icon: 'Hammer' as const,
+    image: facilityImages[0],
+    title: 'Dedicated Fabrication Section',
+    description: 'Sheet-metal cutting, bending and structural fabrication for enclosures and busbar supports.',
+    highlights: ['CNC shearing & cutting', 'Hydraulic press brakes', 'Structural fabrication jigs'],
+  },
+  {
+    icon: 'LayoutGrid' as const,
+    image: facilityImages[1],
+    title: 'Electrical Panel Assembly Area',
+    description: 'Component mounting, busbar installation and wiring across the full panel range.',
+    highlights: ['Busbar fabrication & installation', 'Component mounting stations', 'Panel wiring benches'],
+  },
+  {
+    icon: 'Flame' as const,
+    image: facilityImages[2],
+    title: 'Soldering & Brazing Section',
+    description: 'Precision soldering and silver brazing for capacitor parts and electrical joints.',
+    highlights: ['Precision soldering stations', 'Silver brazing for high-current joints', 'Capacitor component assembly'],
+  },
+  {
+    icon: 'SearchCheck' as const,
+    image: facilityImages[0],
+    title: 'Quality Inspection Area',
+    description: 'Dimensional checks, electrical testing and documentation before dispatch clearance.',
+    highlights: ['Dimensional & visual inspection', 'Electrical testing rigs', 'Inspection documentation & traceability'],
+  },
+  {
+    icon: 'PackageCheck' as const,
+    image: facilityImages[1],
+    title: 'Packing & Dispatch Department',
+    description: 'Protective packing and dispatch coordination for safe, on-time delivery.',
+    highlights: ['Protective crating & packing', 'Dispatch scheduling & coordination', 'Logistics documentation'],
+  },
+  {
+    icon: 'Warehouse' as const,
+    image: facilityImages[2],
+    title: 'Material Storage Area',
+    description: 'Organised raw-material and component storage supporting lean production flow.',
+    highlights: ['Racked raw-material storage', 'Component bin organisation', 'Lean inventory flow'],
+  },
 ];
 ---
 
@@ -94,7 +130,20 @@ const sections = [
               <Icon class:list={['size-5', dark ? 'text-amber-500' : 'text-amber-600']} />
             </div>
             <h3 class:list={['font-display font-bold text-2xl sm:text-3xl mb-3', dark ? 'text-paper' : 'text-ink-900']}>{s.title}</h3>
-            <p class:list={['leading-relaxed', dark ? 'text-ink-200' : 'text-ink-400']}>{s.description}</p>
+            <p class:list={['leading-relaxed mb-6', dark ? 'text-ink-200' : 'text-ink-400']}>{s.description}</p>
+            <ul class="flex flex-col gap-2.5">
+              {s.highlights.map((h) => (
+                <li
+                  class:list={[
+                    'flex items-center gap-3 rounded-md px-4 py-3 text-sm font-medium',
+                    dark ? 'bg-white/5 text-ink-100' : 'bg-ink-100/60 text-ink-900',
+                  ]}
+                >
+                  <icons.CircleCheck class:list={['size-4 shrink-0', dark ? 'text-amber-500' : 'text-amber-600']} />
+                  {h}
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </section>
