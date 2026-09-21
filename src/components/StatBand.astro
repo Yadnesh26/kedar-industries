@@ -24,16 +24,16 @@ const iconKinds = ['founded', 'facility', 'projects', 'withstand'] as const;
   than a generic rounded stat card: a keyed chamfer cuts the top-left and
   bottom-right corners (echoing the diagonal-edge sections used elsewhere
   on this page), with a rivet mark in each of the two square corners.
-  A small rotating wireframe icon (Three.js) sits beside each figure,
-  separated by a thin rule with an amber witness diamond — dimension-line
-  language again, not a card border.
+  Each figure gets its own short amber witness mark in place of a full
+  divider — a dimension-line leader, not a card border — with a small
+  rotating gem (Three.js) centered above it.
 */}
 <div class="relative z-10 container-page -mt-12 sm:-mt-16">
   <div class="stat-plate">
     <div class="stat-plate__fill">
       <span class="stat-plate__rivet stat-plate__rivet--tr" aria-hidden="true"></span>
       <span class="stat-plate__rivet stat-plate__rivet--bl" aria-hidden="true"></span>
-      <dl class="stat-plate__grid grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-9 px-6 py-10 sm:px-10 sm:py-12">
+      <dl class="stat-plate__grid grid grid-cols-2 md:grid-cols-4 gap-y-8 px-6 py-10 sm:px-10 sm:py-12">
         {stats.map((stat, i) => (
           <div class="stat-plate__item">
             <canvas
@@ -43,18 +43,17 @@ const iconKinds = ['founded', 'facility', 'projects', 'withstand'] as const;
               height="56"
               aria-hidden="true"
             ></canvas>
-            <div>
-              <dt class="sr-only">{stat.label}</dt>
-              <dd
-                class="font-mono-figure text-3xl sm:text-4xl text-amber-500 font-semibold"
-                data-stat
-                data-target={stat.numericValue ?? ''}
-                data-suffix={stat.suffix ?? ''}
-              >
-                {stat.value}
-              </dd>
-              <p class="mt-1 text-sm text-ink-200">{stat.label}</p>
-            </div>
+            <dt class="sr-only">{stat.label}</dt>
+            <dd
+              class="font-mono-figure text-3xl sm:text-4xl text-amber-500 font-semibold"
+              data-stat
+              data-target={stat.numericValue ?? ''}
+              data-suffix={stat.suffix ?? ''}
+            >
+              {stat.value}
+            </dd>
+            <span class="stat-plate__tick" aria-hidden="true"></span>
+            <p class="text-sm text-ink-200">{stat.label}</p>
           </div>
         ))}
       </dl>
@@ -117,10 +116,10 @@ const iconKinds = ['founded', 'facility', 'projects', 'withstand'] as const;
   }
 
   .stat-plate__item {
-    position: relative;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 0.875rem;
+    justify-content: center;
   }
 
   /* A cheap inline-SVG line icon shows immediately (no request, no JS)
@@ -129,7 +128,7 @@ const iconKinds = ['founded', 'facility', 'projects', 'withstand'] as const;
   .stat-plate__icon {
     width: 40px;
     height: 40px;
-    flex-shrink: 0;
+    margin-bottom: 0.5rem;
     background-repeat: no-repeat;
     background-size: 70%;
     background-position: center;
@@ -153,54 +152,15 @@ const iconKinds = ['founded', 'facility', 'projects', 'withstand'] as const;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffcc2a' stroke-width='1.3' stroke-linejoin='round'%3E%3Cpath d='M12 2 20 7.5 20 16.5 12 22 4 16.5 4 7.5z'/%3E%3C/svg%3E");
   }
 
-  /* Divider + witness diamond, reused for both breakpoints' seams: a
-     thin rule with a small rotated-square marker at its top, echoing the
-     dimension-line language used elsewhere on this plate. Mobile only
-     needs it between the two columns of each row (even items); the
-     desktop single row needs one more, before the third item. */
-  .stat-plate__item:nth-child(even)::before,
-  .stat-plate__item:nth-child(even)::after {
-    content: '';
-    position: absolute;
-    left: -0.75rem;
-  }
-  .stat-plate__item:nth-child(even)::before {
-    top: 6px;
-    bottom: 6px;
-    width: 1px;
-    background: rgba(255, 255, 255, 0.14);
-  }
-  .stat-plate__item:nth-child(even)::after {
-    top: 3px;
-    width: 5px;
-    height: 5px;
-    margin-left: -2px;
-    transform: rotate(45deg);
+  /* The witness mark under each figure — a short leader line rather than a
+     full-height rule between columns. */
+  .stat-plate__tick {
+    display: block;
+    width: 20px;
+    height: 2px;
+    margin: 10px 0 8px;
     background: var(--color-amber-500);
-    opacity: 0.7;
-  }
-  @media (min-width: 768px) {
-    .stat-plate__item:nth-child(3)::before,
-    .stat-plate__item:nth-child(3)::after {
-      content: '';
-      position: absolute;
-      left: -0.75rem;
-    }
-    .stat-plate__item:nth-child(3)::before {
-      top: 6px;
-      bottom: 6px;
-      width: 1px;
-      background: rgba(255, 255, 255, 0.14);
-    }
-    .stat-plate__item:nth-child(3)::after {
-      top: 3px;
-      width: 5px;
-      height: 5px;
-      margin-left: -2px;
-      transform: rotate(45deg);
-      background: var(--color-amber-500);
-      opacity: 0.7;
-    }
+    opacity: 0.55;
   }
 </style>
 
