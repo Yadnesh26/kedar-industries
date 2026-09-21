@@ -7,7 +7,7 @@ import IndustryChip from '@/components/IndustryChip.astro';
 import LogoWall from '@/components/LogoWall.astro';
 import CTABand from '@/components/CTABand.astro';
 import { Image } from 'astro:assets';
-import { CircleCheck, ArrowRight, Building2, ShieldCheck, Factory, Handshake, BadgeCheck, Ruler, Headset } from '@lucide/astro';
+import { CircleCheck, ArrowRight, Building2, ShieldCheck, Factory, Handshake, BadgeCheck, Ruler, Headset, ExternalLink } from '@lucide/astro';
 import { img } from '@/lib/images';
 import company from '@/data/company.json';
 import clients from '@/data/clients.json';
@@ -97,20 +97,25 @@ const milestones = [
   <section class="section-y bg-ink-900 relative overflow-hidden">
     <div class="absolute inset-0 opacity-[0.05] bg-[radial-gradient(circle_at_15%_50%,#FFC629,transparent_55%)]"></div>
     <div class="container-page relative flex flex-col sm:flex-row items-center gap-8 text-center sm:text-left">
-      <div class="relative shrink-0">
-        <div class="absolute -inset-2 rounded-full bg-amber-500/20 blur-lg"></div>
-        <Image
-          src={img('sandip-patil-ceo.jpg')}
-          alt="Sandip Patil, Chief Executive Officer, Kedar Industries"
-          width={160}
-          height={160}
-          class="relative size-32 sm:size-40 rounded-full object-cover ring-4 ring-amber-500 ring-offset-4 ring-offset-ink-900"
-        />
-      </div>
+      <Image
+        src={img('sandip-patil-ceo.jpg')}
+        alt="Sandip Patil, Executive Managing Director, Kedar Industries"
+        width={160}
+        height={160}
+        class="shrink-0 size-32 sm:size-40 rounded-full object-cover ring-4 ring-amber-500 ring-offset-4 ring-offset-ink-900"
+      />
       <div>
         <p class="eyebrow mb-2">Leadership</p>
         <h3 class="font-display font-bold text-2xl sm:text-3xl text-paper">Sandip Patil</h3>
         <p class="text-ink-200 mt-1.5">Chief Executive Officer, Kedar Industries</p>
+        <a
+          href="https://www.linkedin.com/in/sandip-patil1982/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-1.5 mt-3 text-sm text-ink-200 hover:text-amber-500 transition-colors"
+        >
+          <ExternalLink class="size-4" /> Connect on LinkedIn
+        </a>
       </div>
     </div>
   </section>
@@ -242,5 +247,7 @@ const milestones = [
   <CTABand
     title="Want the full picture?"
     lead="See the CPRI type-test reports and every certification behind these numbers."
+    showCall={false}
+    glow={false}
   />
 </BaseLayout>
