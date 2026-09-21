@@ -287,4 +287,49 @@
       0 calc(100% - var(--diag))
     );
   }
+
+  /* Same stepped-diagonal-edge treatment as .section-diagonal-dark, but in
+     the light ink-100 tone instead of ink-900, for sections that sit on
+     the paper background without switching to a dark theme. */
+  .section-diagonal-light {
+    position: relative;
+    --diag: 10px;
+  }
+  @media (min-width: 640px) {
+    .section-diagonal-light {
+      --diag: 16px;
+    }
+  }
+  .section-diagonal-light__edges {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .section-diagonal-light__edges > span {
+    position: absolute;
+    inset: 0;
+    display: block;
+    background: var(--color-ink-100);
+  }
+  .section-diagonal-light__edges > span:nth-child(1) {
+    opacity: 0.35;
+    clip-path: polygon(0 0, 100% var(--diag), 100% 100%, 0 calc(100% - var(--diag)));
+  }
+  .section-diagonal-light__edges > span:nth-child(2) {
+    opacity: 0.6;
+    clip-path: polygon(
+      0 var(--diag),
+      100% var(--diag),
+      100% calc(100% - var(--diag)),
+      0 calc(100% - var(--diag))
+    );
+  }
+  .section-diagonal-light__edges > span:nth-child(3) {
+    clip-path: polygon(
+      0 calc(var(--diag) * 2),
+      100% var(--diag),
+      100% calc(100% - var(--diag) * 2),
+      0 calc(100% - var(--diag))
+    );
+  }
 }
