@@ -29,7 +29,6 @@ const parts = (await getCollection('parts')).sort((a, b) => a.data.order - b.dat
                 currentPath.startsWith('/products/') ? 'text-amber-600 nav-link--active' : 'text-ink-600 hover:text-amber-600',
               ]}
             >
-              <svg class="nav-link__border" aria-hidden="true"><rect x="0" y="0" width="100%" height="100%" pathLength="1" /></svg>
               {item.label}
               <ChevronDown class="size-3.5 transition-transform group-hover:rotate-180" />
             </a>
@@ -67,7 +66,6 @@ const parts = (await getCollection('parts')).sort((a, b) => a.data.order - b.dat
               ]}
               aria-haspopup="true"
             >
-              <svg class="nav-link__border" aria-hidden="true"><rect x="0" y="0" width="100%" height="100%" pathLength="1" /></svg>
               {item.label}
               <ChevronDown class="size-3.5 transition-transform group-hover:rotate-180" />
             </a>
@@ -96,7 +94,6 @@ const parts = (await getCollection('parts')).sort((a, b) => a.data.order - b.dat
                 : 'text-ink-600 hover:text-amber-600',
             ]}
           >
-            <svg class="nav-link__border" aria-hidden="true"><rect x="0" y="0" width="100%" height="100%" pathLength="1" /></svg>
             {item.label}
           </a>
         )
@@ -159,14 +156,12 @@ const parts = (await getCollection('parts')).sort((a, b) => a.data.order - b.dat
 </header>
 
 <style>
-  /* Bold underline, persistent for the active page. A border that draws
-     itself around the whole item on hover, using the classic SVG
-     stroke-dasharray/dashoffset "line draw" technique: pathLength="1"
-     normalizes the rect's perimeter to 1 unit regardless of the item's
-     actual width, so one dasharray/dashoffset pair works for every nav
-     item (Home, About Us, Products...) without measuring each one. */
+  /* Bold underline for the active page (persistent) and on hover
+     (transient), plus a brief border flash on the first 1.5s of hover
+     that fades away while the underline stays for as long as hovered. */
   .nav-link {
     position: relative;
+    border: 1px solid transparent;
   }
   .nav-link::after {
     content: '';
@@ -178,31 +173,32 @@ const parts = (await getCollection('parts')).sort((a, b) => a.data.order - b.dat
     transform: scaleX(0);
     transition: transform 200ms var(--ease-out-standard);
   }
+  .nav-link:hover::after,
   .nav-link--active::after {
     transform: scaleX(1);
   }
-  .nav-link__border {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    overflow: visible;
+  .nav-link:hover {
+    animation: nav-link-border-flash 1.5s var(--ease-out-standard);
   }
-  .nav-link__border rect {
-    fill: none;
-    stroke: var(--color-amber-500);
-    stroke-width: 1.5px;
-    stroke-dasharray: 1;
-    stroke-dashoffset: 1;
-    transition: stroke-dashoffset 1s var(--ease-out-standard);
-  }
-  .nav-link:hover .nav-link__border rect {
-    stroke-dashoffset: 0;
+  @keyframes nav-link-border-flash {
+    0% {
+      border-color: transparent;
+    }
+    8% {
+      border-color: var(--color-amber-500);
+    }
+    85% {
+      border-color: var(--color-amber-500);
+    }
+    100% {
+      border-color: transparent;
+    }
   }
   @media (prefers-reduced-motion: reduce) {
-    .nav-link::after,
-    .nav-link__border rect {
+    .nav-link:hover {
+      animation: none;
+    }
+    .nav-link::after {
       transition: none;
     }
   }
