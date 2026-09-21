@@ -19,7 +19,7 @@ import projects from '@/data/projects.json';
 
 const allProducts = (await getCollection('products')).sort((a, b) => a.data.order - b.data.order);
 
-const heroBg = img('panel-apfc-batch-ready-for-dispatch-3.jpg');
+const heroBg = img('panel-pcc-warehouse-render.webp');
 
 const stats = [
   { value: '2019', label: 'Production commenced' },
@@ -52,7 +52,7 @@ const infrastructureFeatures = [
         fallbackFormat="jpg"
         loading="eager"
         fetchpriority="high"
-        class="w-full h-full object-cover object-[center_30%] sm:object-center opacity-55 scale-[1.9] sm:scale-[1.5] translate-x-[50px] -translate-y-[50px]"
+        class="w-full h-full object-cover object-center opacity-55"
       />
       <div class="absolute inset-0 bg-ink-900/40"></div>
       <div class="absolute inset-0 bg-gradient-to-t from-ink-900 via-transparent to-transparent"></div>
