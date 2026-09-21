@@ -134,7 +134,14 @@ const { stats } = Astro.props;
     const LINK_DISTANCE = 210;
     const SPEED = 0.12;
 
+    interface SafeZone {
+      cx: number;
+      cy: number;
+      r: number;
+    }
+
     let nodes: Node[] = [];
+    let safeZones: SafeZone[] = [];
     let width = 0;
     let height = 0;
     let dpr = 1;
@@ -157,6 +164,19 @@ const { stats } = Astro.props;
         vx: (Math.random() - 0.5) * SPEED,
         vy: (Math.random() - 0.5) * SPEED,
       }));
+
+      // Keep the network from ever visually crossing the figures themselves
+      // — cache each number's on-card position once here (not per frame, to
+      // avoid a layout read on every animation tick) and fade it clear below.
+      safeZones = Array.from(card.querySelectorAll<HTMLElement>('[data-stat]')).map((el) => {
+        const elRect = el.getBoundingClientRect();
+        return {
+          cx: elRect.left - rect.left + elRect.width / 2,
+          cy: elRect.top - rect.top + elRect.height / 2,
+          r: Math.max(elRect.width, elRect.height) * 0.85,
+        };
+      });
+
       draw();
     }
 
@@ -185,6 +205,20 @@ const { stats } = Astro.props;
         ctx.beginPath();
         ctx.arc(n.x, n.y, 2.2, 0, Math.PI * 2);
         ctx.fill();
+      }
+
+      if (safeZones.length) {
+        ctx.globalCompositeOperation = 'destination-out';
+        for (const zone of safeZones) {
+          const gradient = ctx.createRadialGradient(zone.cx, zone.cy, 0, zone.cx, zone.cy, zone.r);
+          gradient.addColorStop(0, 'rgba(0, 0, 0, 1)');
+          gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+          ctx.fillStyle = gradient;
+          ctx.beginPath();
+          ctx.arc(zone.cx, zone.cy, zone.r, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.globalCompositeOperation = 'source-over';
       }
     }
 
