@@ -16,11 +16,14 @@ const { stats } = Astro.props;
   reference site's stat-band treatment — pulled up with a negative
   margin so it straddles the hero/white-section boundary.
 
-  Deliberately plain: a flat dark panel and the figures, nothing else.
+  A faint drifting node-and-line network sits behind the figures (a
+  canvas, redrawn each frame) — a circuit-trace/molecular-bond texture
+  that nods at "electrical" without competing with the numbers on top.
 */}
 <div class="relative z-10 container-page -mt-12 sm:-mt-16">
-  <div class="stat-card relative rounded-2xl bg-[#191D25] border border-white/20">
-    <dl class="stat-card__grid grid grid-cols-2 md:grid-cols-4 gap-y-8 px-6 py-10 sm:px-10 sm:py-12">
+  <div class="stat-card relative overflow-hidden rounded-2xl bg-[#191D25] border border-white/20">
+    <canvas class="stat-card__network" aria-hidden="true"></canvas>
+    <dl class="stat-card__grid relative grid grid-cols-2 md:grid-cols-4 gap-y-8 px-6 py-10 sm:px-10 sm:py-12">
       {stats.map((stat) => (
         <div class="text-center">
           <dt class="sr-only">{stat.label}</dt>
@@ -40,6 +43,13 @@ const { stats } = Astro.props;
 </div>
 
 <style>
+  .stat-card__network {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
   /* Scoped to this component by Astro — cannot leak to any other card.
      Three vertical rules splitting the card into 4 equal sections (not
      4 separate boxes — just dividers on top of one continuous panel),
@@ -101,4 +111,116 @@ const { stats } = Astro.props;
     );
     els.forEach((el) => observer.observe(el));
   }
+</script>
+
+<script>
+  // Faint node-and-line network drifting behind the stat card's figures —
+  // a canvas so the lines can redraw every frame as the nodes move, which
+  // a CSS/SVG-only version can't do without generating dozens of keyframes.
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  interface Node {
+    x: number;
+    y: number;
+    vx: number;
+    vy: number;
+  }
+
+  document.querySelectorAll<HTMLElement>('.stat-card').forEach((card) => {
+    const canvas = card.querySelector<HTMLCanvasElement>('.stat-card__network');
+    const ctx = canvas?.getContext('2d');
+    if (!canvas || !ctx) return;
+
+    const LINK_DISTANCE = 130;
+    const SPEED = 0.12;
+
+    let nodes: Node[] = [];
+    let width = 0;
+    let height = 0;
+    let dpr = 1;
+    let frame = 0;
+
+    function resize() {
+      if (!canvas || !ctx) return;
+      const rect = card.getBoundingClientRect();
+      width = rect.width;
+      height = rect.height;
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      const count = Math.max(18, Math.min(42, Math.round((width * height) / 9000)));
+      nodes = Array.from({ length: count }, () => ({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        vx: (Math.random() - 0.5) * SPEED,
+        vy: (Math.random() - 0.5) * SPEED,
+      }));
+      draw();
+    }
+
+    function draw() {
+      if (!ctx) return;
+      ctx.clearRect(0, 0, width, height);
+
+      for (let i = 0; i < nodes.length; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+          const a = nodes[i];
+          const b = nodes[j];
+          const dx = a.x - b.x;
+          const dy = a.y - b.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist > LINK_DISTANCE) continue;
+          ctx.strokeStyle = `rgba(255, 198, 41, ${0.16 * (1 - dist / LINK_DISTANCE)})`;
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y);
+          ctx.lineTo(b.x, b.y);
+          ctx.stroke();
+        }
+      }
+      for (const n of nodes) {
+        ctx.fillStyle = 'rgba(255, 198, 41, 0.35)';
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, 1.6, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    function step() {
+      for (const n of nodes) {
+        n.x += n.vx;
+        n.y += n.vy;
+        if (n.x < 0 || n.x > width) n.vx *= -1;
+        if (n.y < 0 || n.y > height) n.vy *= -1;
+      }
+      draw();
+      frame = requestAnimationFrame(step);
+    }
+
+    resize();
+
+    if (!prefersReducedMotion) {
+      const visibilityObserver = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) {
+              frame = requestAnimationFrame(step);
+            } else {
+              cancelAnimationFrame(frame);
+            }
+          }
+        },
+        { threshold: 0 }
+      );
+      visibilityObserver.observe(card);
+
+      let resizeTimer: number;
+      window.addEventListener('resize', () => {
+        window.clearTimeout(resizeTimer);
+        resizeTimer = window.setTimeout(resize, 200);
+      });
+    }
+  });
 </script>
