@@ -35,30 +35,34 @@ const whyChoose = [
 >
   <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Services' }]} />
 
-  <section class="section-y">
-    <div class="container-page">
+  <section class="section-y section-diagonal-dark">
+    <div class="section-diagonal-dark__edges" aria-hidden="true">
+      <span></span><span></span><span></span>
+    </div>
+    <div class="container-page relative">
       <SectionHeading
         eyebrow="What we do beyond the panel"
         title="Services"
         lead="From precision fabrication activities to full lifecycle support after the panel is installed."
+        dark
       />
-      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {coreServices.map((s) => (
           <a href="/contact/" class="service-card card group flex flex-col overflow-hidden h-full">
-            <div class="aspect-[4/3] overflow-hidden">
+            <div class="aspect-[16/10] overflow-hidden">
               <Image
                 src={img(s.image)}
                 alt={s.title}
                 width={480}
-                height={360}
+                height={300}
                 class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
               />
             </div>
-            <div class="p-6 flex flex-col items-center text-center gap-2 flex-1">
-              <h3 class="font-display font-bold text-lg text-ink-900">{s.title}</h3>
-              <p class="text-sm text-ink-400 leading-relaxed flex-1">{s.description}</p>
-              <span class="mt-3 inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-amber-500 text-ink-900 font-semibold text-sm transition-colors group-hover:bg-amber-600">
-                Submit Enquiry <ArrowRight class="size-4" />
+            <div class="p-5 flex flex-col items-center text-center gap-1.5 flex-1">
+              <h3 class="font-display font-bold text-base text-ink-900">{s.title}</h3>
+              <p class="text-sm text-ink-400 leading-relaxed line-clamp-2">{s.description}</p>
+              <span class="mt-2 inline-flex items-center gap-1.5 text-amber-600 font-semibold text-sm group-hover:gap-2.5 transition-all">
+                Submit Enquiry <ArrowRight class="size-3.5" />
               </span>
             </div>
           </a>
