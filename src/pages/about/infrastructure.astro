@@ -107,12 +107,9 @@ const sections = [
     return (
       <section class:list={['section-y', dark && 'section-diagonal-dark relative overflow-hidden']}>
         {dark && (
-          <>
-            <div class="section-diagonal-dark__edges" aria-hidden="true">
-              <span></span><span></span><span></span>
-            </div>
-            <div class="absolute inset-0 opacity-[0.05] bg-[radial-gradient(circle_at_80%_20%,#FFC629,transparent_50%)]"></div>
-          </>
+          <div class="section-diagonal-dark__edges" aria-hidden="true">
+            <span></span><span></span><span></span>
+          </div>
         )}
         <div class="container-page relative grid lg:grid-cols-2 gap-10 items-center">
           <div class:list={[!imageFirst && 'lg:order-2']}>
