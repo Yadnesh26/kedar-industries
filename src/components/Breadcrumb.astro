@@ -23,8 +23,11 @@ const jsonLd = {
 ---
 
 <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
-<nav aria-label="Breadcrumb" class="bg-ink-900">
-  <ol class="container-page flex items-center gap-2 py-4 text-sm text-ink-200 flex-wrap">
+<nav aria-label="Breadcrumb" class="section-diagonal-dark section-diagonal-dark--vertical">
+  <div class="section-diagonal-dark__edges" aria-hidden="true">
+    <span></span><span></span><span></span>
+  </div>
+  <ol class="container-page relative flex items-center gap-2 py-4 text-sm text-ink-200 flex-wrap">
     {items.map((item, i) => (
       <li class="flex items-center gap-2">
         {i > 0 && <ChevronRight class="size-3.5 text-white/25" />}
