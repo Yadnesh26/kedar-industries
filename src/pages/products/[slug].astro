@@ -52,13 +52,13 @@ const productSchema = {
 
   <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Products', href: '/products/' }, { label: data.name }]} />
 
-  <section class="py-10 sm:py-14 section-diagonal-dark">
+  <section class="py-10 sm:py-14 section-diagonal-dark section-diagonal-dark--bottom-only">
     <div class="section-diagonal-dark__edges" aria-hidden="true">
       <span></span><span></span><span></span>
     </div>
-    <div class="container-page relative">
+    <div class="container-page relative text-center">
       <h1 class="text-paper text-3xl sm:text-4xl leading-[1.1]">{data.name}</h1>
-      <p class="mt-4 text-lg text-ink-200 max-w-2xl leading-relaxed">{data.tagline}</p>
+      <p class="mt-4 text-lg text-ink-200 max-w-2xl mx-auto leading-relaxed">{data.tagline}</p>
     </div>
   </section>
 

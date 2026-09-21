@@ -307,6 +307,19 @@
     );
   }
 
+  /* Variant: plain flat top, stepped-diagonal-fade bottom only — for
+     compact heading bands where the fade reads better as a single
+     "settling into the section below" edge than a fade on both sides. */
+  .section-diagonal-dark--bottom-only .section-diagonal-dark__edges > span:nth-child(1) {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 calc(100% - var(--diag)));
+  }
+  .section-diagonal-dark--bottom-only .section-diagonal-dark__edges > span:nth-child(2) {
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - var(--diag)), 0 calc(100% - var(--diag)));
+  }
+  .section-diagonal-dark--bottom-only .section-diagonal-dark__edges > span:nth-child(3) {
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - var(--diag) * 2), 0 calc(100% - var(--diag)));
+  }
+
   /* Same stepped-diagonal-edge treatment as .section-diagonal-dark, but in
      the light ink-100 tone instead of ink-900, for sections that sit on
      the paper background without switching to a dark theme. */
