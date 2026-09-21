@@ -133,8 +133,23 @@ import { ChevronLeft, ChevronRight } from '@lucide/astro';
       startAuto();
     });
 
-    carousel.addEventListener('mouseenter', stopAuto);
-    carousel.addEventListener('mouseleave', startAuto);
+    // Pause only on a genuine hover (the mouse actually moving while over the
+    // carousel), not merely on `mouseenter` — scrolling the page down to this
+    // section with the cursor held still fires `mouseenter` with no real
+    // pointer movement, and if the cursor then rests inside the carousel with
+    // no `mouseleave` to follow, auto-advance would otherwise stay paused
+    // forever.
+    let hovering = false;
+    carousel.addEventListener('mousemove', () => {
+      if (!hovering) {
+        hovering = true;
+        stopAuto();
+      }
+    });
+    carousel.addEventListener('mouseleave', () => {
+      hovering = false;
+      startAuto();
+    });
     carousel.addEventListener('focusin', stopAuto);
     carousel.addEventListener('focusout', (e) => {
       if (!carousel.contains(e.relatedTarget)) startAuto();
