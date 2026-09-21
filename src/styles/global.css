@@ -287,38 +287,4 @@
       0 calc(100% - var(--diag))
     );
   }
-
-  /* Same stepped-fade idea, rotated 90deg: for a short, wide strip (like a
-     breadcrumb bar) the top/bottom edges barely have any height to fade
-     into, but the left/right edges run the strip's full height and read
-     clearly. Coordinates are the horizontal-variant's, transposed
-     (x <-> y), so the left edge fans top-to-bottom and the right edge
-     mirrors it, instead of top/bottom fanning left-to-right. */
-  .section-diagonal-dark--vertical {
-    --diag: 8px;
-  }
-  @media (min-width: 640px) {
-    .section-diagonal-dark--vertical {
-      --diag: 12px;
-    }
-  }
-  .section-diagonal-dark--vertical .section-diagonal-dark__edges > span:nth-child(1) {
-    clip-path: polygon(0 0, calc(100% - var(--diag)) 0, 100% 100%, var(--diag) 100%);
-  }
-  .section-diagonal-dark--vertical .section-diagonal-dark__edges > span:nth-child(2) {
-    clip-path: polygon(
-      var(--diag) 0,
-      calc(100% - var(--diag)) 0,
-      calc(100% - var(--diag)) 100%,
-      var(--diag) 100%
-    );
-  }
-  .section-diagonal-dark--vertical .section-diagonal-dark__edges > span:nth-child(3) {
-    clip-path: polygon(
-      calc(var(--diag) * 2) 0,
-      calc(100% - var(--diag)) 0,
-      calc(100% - var(--diag) * 2) 100%,
-      var(--diag) 100%
-    );
-  }
 }
