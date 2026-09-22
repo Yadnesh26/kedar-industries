@@ -1,6 +1,6 @@
 ---
 import { Image } from 'astro:assets';
-import type { ImageMetadata } from 'astro';
+import { img } from '@/lib/images';
 
 interface Stat {
   value: string;
@@ -10,9 +10,10 @@ interface Stat {
 }
 interface Props {
   stats: Stat[];
-  heroImage: ImageMetadata;
 }
-const { stats, heroImage } = Astro.props;
+const { stats } = Astro.props;
+
+const texture = img('panel-blurred-floor-streak-texture.webp');
 ---
 
 {/*
@@ -20,19 +21,19 @@ const { stats, heroImage } = Astro.props;
   reference site's stat-band treatment — pulled up with a negative
   margin so it straddles the hero/white-section boundary.
 
-  Its background is the same hero photo, cropped to its lower half and
-  darkened — so the card reads as a continuation of the hero rather than
-  an unrelated dark block dropped on top of it, with just enough of the
-  panel/shop-floor texture showing through to feel photographic, not flat.
+  Its background is a blurred, streaked shop-floor texture (motion-blur
+  reflections on a factory floor) darkened underneath the figures — subtle
+  photographic detail rather than a flat panel, without depicting anything
+  specific enough to compete with the numbers on top.
 */}
 <div class="relative z-10 container-page -mt-12 sm:-mt-16">
   <div class="stat-card relative overflow-hidden rounded-2xl border border-white/20">
     <Image
-      src={heroImage}
+      src={texture}
       alt=""
       width={1600}
       height={400}
-      class="stat-card__bg absolute inset-0 w-full h-full object-cover object-bottom"
+      class="stat-card__bg absolute inset-0 w-full h-full object-cover object-center"
     />
     <div class="stat-card__tint absolute inset-0"></div>
     <dl class="stat-card__grid relative grid grid-cols-2 md:grid-cols-4 gap-y-8 px-6 py-10 sm:px-10 sm:py-12">
@@ -59,13 +60,13 @@ const { stats, heroImage } = Astro.props;
     background: var(--color-ink-900);
   }
   .stat-card__bg {
-    opacity: 0.55;
+    opacity: 0.7;
   }
   .stat-card__tint {
     background: linear-gradient(
       180deg,
-      rgba(14, 17, 22, 0.88) 0%,
-      rgba(14, 17, 22, 0.78) 100%
+      rgba(14, 17, 22, 0.9) 0%,
+      rgba(14, 17, 22, 0.8) 100%
     );
   }
 
