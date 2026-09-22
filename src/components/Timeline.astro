@@ -131,7 +131,12 @@ const columns = milestones.length + 1;
       background: var(--color-amber-500);
       transform: scaleX(0);
       transform-origin: left;
-      transition: transform 2210ms var(--ease-out-standard);
+      /* A softened version of --ease-out-standard, scoped to this element
+         only (that variable is shared sitewide, so it isn't touched
+         globally). Lowering the first control point's y from 1 to 0.85
+         cuts the curve's initial rate of change — the fast opening burst
+         — by 15%, while leaving the back half of the curve as-is. */
+      transition: transform 2210ms cubic-bezier(0.16, 0.85, 0.3, 1);
     }
     .h-timeline.is-visible .h-timeline__rail::after {
       transform: scaleX(1);
