@@ -12,16 +12,16 @@ const { stats } = Astro.props;
 ---
 
 {/*
-  A floating card overlapping the hero's bottom edge, matching the
-  reference site's stat-band treatment — pulled up with a negative
-  margin so it straddles the hero/white-section boundary.
+  Its own section below the hero — not floated up to overlap the
+  hero/white-section boundary, so it never straddles two different
+  backgrounds at once.
 
   Fully transparent card — no fill, no blur, no shadow — with a
   drifting node-and-line network (a canvas, redrawn each frame,
   transparent background) drawn crisply behind the figures. Only the
   amber dots and links are visible; nothing else adds color or glow.
 */}
-<div class="relative z-10 container-page -mt-12 sm:-mt-16">
+<div class="relative container-page my-8 sm:my-10">
   <div class="stat-wrap relative overflow-hidden rounded-2xl border border-white/25">
     <canvas class="stat-wrap__network absolute inset-0" aria-hidden="true"></canvas>
     <dl class="stat-card__grid relative grid grid-cols-2 md:grid-cols-4 gap-y-8 px-6 py-10 sm:px-10 sm:py-12">
