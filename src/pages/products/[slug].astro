@@ -84,9 +84,9 @@ const productSchema = {
 
         <div class="grid sm:grid-cols-2 gap-4">
           {data.keySpecs.map((spec) => (
-            <div class="card p-5">
-              <p class="text-xs font-semibold tracking-[0.12em] uppercase text-ink-900 mb-1.5">{spec.label}</p>
-              <p class="text-sm font-semibold text-ink-900 leading-snug">{spec.value}</p>
+            <div class="rounded-md border border-white/10 bg-ink-900 p-5">
+              <p class="text-xs font-semibold tracking-[0.12em] uppercase text-amber-500 mb-1.5">{spec.label}</p>
+              <p class="text-sm font-semibold text-paper leading-snug">{spec.value}</p>
             </div>
           ))}
         </div>
