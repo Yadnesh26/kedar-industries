@@ -47,6 +47,13 @@ const { stats } = Astro.props;
 </section>
 
 <style>
+  /* Overrides the shared --color-ink-900 used by .section-diagonal-dark's
+     fill, scoped to this section only — other dark sections sitewide
+     (Technology Partners, CTA, etc.) keep the original tone. */
+  .stat-band {
+    --color-ink-900: #202433;
+  }
+
   .stat-band__network {
     width: 100%;
     height: 100%;
