@@ -72,6 +72,7 @@ const productSchema = {
               alt={data.name}
               width={640}
               height={480}
+              fit="contain"
               class="max-w-full h-auto max-h-[26rem] w-auto object-contain"
             />
           </div>
@@ -84,7 +85,7 @@ const productSchema = {
         <div class="grid sm:grid-cols-2 gap-4">
           {data.keySpecs.map((spec) => (
             <div class="card p-5">
-              <p class="text-xs eyebrow mb-1.5">{spec.label}</p>
+              <p class="text-xs font-semibold tracking-[0.12em] uppercase text-ink-900 mb-1.5">{spec.label}</p>
               <p class="text-sm font-semibold text-ink-900 leading-snug">{spec.value}</p>
             </div>
           ))}
