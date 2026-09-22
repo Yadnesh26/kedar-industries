@@ -20,7 +20,7 @@ const { specs, title = 'Technical Specification' } = Astro.props;
     <tbody>
       {specs.map((spec, i) => (
         <tr class:list={[i % 2 === 1 && 'bg-ink-100/40']}>
-          <th scope="row" class="text-left font-medium text-ink-900 px-5 py-3 w-2/5">{spec.label}</th>
+          <th scope="row" class="text-left font-semibold text-amber-600 px-5 py-3 w-2/5">{spec.label}</th>
           <td class="px-5 py-3 font-mono-figure text-ink-900">{spec.value}</td>
         </tr>
       ))}
