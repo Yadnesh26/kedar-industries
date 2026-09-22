@@ -65,7 +65,7 @@ const categories: Record<string, string> = {
         })}
       </div>
 
-      <div class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="product-grid">
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6" id="product-grid">
         {products.map((product) => (
           <div data-category={product.data.category}>
             <ProductCard
