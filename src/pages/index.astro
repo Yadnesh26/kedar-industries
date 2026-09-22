@@ -79,13 +79,25 @@ const infrastructureFeatures = [
         </div>
 
         {/* Certifications, as individual badges rather than a single strip
-            — each one its own chip so they read as distinct credentials. */}
-        <div class="mt-10 flex flex-wrap gap-2.5">
-          {certifications.certStrip.map((cert) => (
-            <span class="flex items-center gap-1.5 rounded-full border border-white/15 bg-white/[0.06] backdrop-blur-sm px-3.5 py-1.5 text-xs sm:text-sm font-mono-figure text-ink-100">
-              <CircleCheck class="size-3.5 text-amber-500 shrink-0" /> {cert}
-            </span>
-          ))}
+            — each one its own chip so they read as distinct credentials.
+            Split into two explicit rows (4 + 3) instead of one flex-wrap
+            line, so on wide screens it doesn't stretch out across the
+            machine in the photo. */}
+        <div class="mt-10 flex flex-col gap-2.5">
+          <div class="flex flex-wrap gap-2.5">
+            {certifications.certStrip.slice(0, 4).map((cert) => (
+              <span class="flex items-center gap-1.5 rounded-full border border-white/15 bg-white/[0.06] backdrop-blur-sm px-3.5 py-1.5 text-xs sm:text-sm font-mono-figure text-ink-100">
+                <CircleCheck class="size-3.5 text-amber-500 shrink-0" /> {cert}
+              </span>
+            ))}
+          </div>
+          <div class="flex flex-wrap gap-2.5">
+            {certifications.certStrip.slice(4).map((cert) => (
+              <span class="flex items-center gap-1.5 rounded-full border border-white/15 bg-white/[0.06] backdrop-blur-sm px-3.5 py-1.5 text-xs sm:text-sm font-mono-figure text-ink-100">
+                <CircleCheck class="size-3.5 text-amber-500 shrink-0" /> {cert}
+              </span>
+            ))}
+          </div>
         </div>
       </div>
 
