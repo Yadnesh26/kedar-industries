@@ -52,11 +52,12 @@ const { stats } = Astro.props;
     height: 100%;
   }
 
-  /* Frosted glass: translucent fill + blur of whatever sits behind it in
-     the stacking context — here, the network canvas. A faint top-edge
-     highlight and soft shadow sell the "pane of glass" read. */
+  /* Frosted glass: no color fill of its own, just a blur of whatever sits
+     behind it in the stacking context — here, the network canvas. A faint
+     top-edge highlight and soft shadow sell the "pane of glass" read
+     without tinting what shows through it. */
   .stat-glass {
-    background: rgba(255, 255, 255, 0.05);
+    background: transparent;
     backdrop-filter: blur(6px) saturate(160%);
     -webkit-backdrop-filter: blur(6px) saturate(160%);
     box-shadow:
