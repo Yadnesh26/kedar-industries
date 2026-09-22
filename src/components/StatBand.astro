@@ -21,10 +21,9 @@ const texture = img('panel-blurred-floor-streak-texture.webp');
   reference site's stat-band treatment — pulled up with a negative
   margin so it straddles the hero/white-section boundary.
 
-  Its background is a blurred, streaked shop-floor texture (motion-blur
-  reflections on a factory floor) darkened underneath the figures — subtle
-  photographic detail rather than a flat panel, without depicting anything
-  specific enough to compete with the numbers on top.
+  Its background is the blurred, streaked shop-floor photo shown at full
+  strength (not faded into a faint texture), with just enough of a dark
+  scrim over it to keep the figures legible.
 */}
 <div class="relative z-10 container-page -mt-12 sm:-mt-16">
   <div class="stat-card relative overflow-hidden rounded-2xl border border-white/20">
@@ -60,13 +59,13 @@ const texture = img('panel-blurred-floor-streak-texture.webp');
     background: var(--color-ink-900);
   }
   .stat-card__bg {
-    opacity: 0.7;
+    opacity: 1;
   }
   .stat-card__tint {
     background: linear-gradient(
       180deg,
-      rgba(14, 17, 22, 0.9) 0%,
-      rgba(14, 17, 22, 0.8) 100%
+      rgba(14, 17, 22, 0.6) 0%,
+      rgba(14, 17, 22, 0.5) 100%
     );
   }
 
