@@ -114,14 +114,17 @@ const infrastructureFeatures = [
   <section class="pt-9 pb-11 sm:pt-11 sm:pb-15">
     <div class="container-page grid lg:grid-cols-2 gap-12 items-center">
       <div class="reveal order-2 lg:order-1">
-        <div class="rounded-2xl overflow-hidden border border-ink-100 shadow-sm">
-          <Image
-            src={img('panel-apfc-batch-ready-for-dispatch-2.jpg')}
-            alt="APFC panels ready for dispatch at Kedar Industries"
-            width={640}
-            height={480}
-            class="w-full h-full object-cover aspect-[4/3]"
-          />
+        {/* Placeholder — a looping 7s clip standing in for a future company
+            video. start/end clip the range, loop + playlist=<same id> is
+            the documented trick to make a single video repeat. */}
+        <div class="rounded-2xl overflow-hidden border border-ink-100 shadow-sm aspect-[4/3]">
+          <iframe
+            class="w-full h-full"
+            src="https://www.youtube-nocookie.com/embed/C49UyZ5HZFs?start=0&end=7&autoplay=1&mute=1&loop=1&playlist=C49UyZ5HZFs&controls=0&modestbranding=1&rel=0&playsinline=1"
+            title="Kedar Industries — placeholder video"
+            allow="autoplay; encrypted-media"
+            loading="lazy"
+          ></iframe>
         </div>
       </div>
       <div class="reveal order-1 lg:order-2">
