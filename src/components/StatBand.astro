@@ -1,7 +1,4 @@
 ---
-import { Image } from 'astro:assets';
-import { img } from '@/lib/images';
-
 interface Stat {
   value: string;
   numericValue?: number;
@@ -12,8 +9,6 @@ interface Props {
   stats: Stat[];
 }
 const { stats } = Astro.props;
-
-const texture = img('panel-blurred-floor-streak-texture.webp');
 ---
 
 {/*
@@ -21,52 +16,52 @@ const texture = img('panel-blurred-floor-streak-texture.webp');
   reference site's stat-band treatment — pulled up with a negative
   margin so it straddles the hero/white-section boundary.
 
-  Its background is the blurred, streaked shop-floor photo shown at full
-  strength (not faded into a faint texture), with just enough of a dark
-  scrim over it to keep the figures legible.
+  A drifting node-and-line network (a canvas, redrawn each frame) sits
+  behind the card as its own opaque layer; the card itself is frosted
+  glass (backdrop-filter blur + translucent fill) sitting in front of it,
+  so the network reads as a soft, blurred glow through the glass rather
+  than crisp lines behind flat text.
 */}
 <div class="relative z-10 container-page -mt-12 sm:-mt-16">
-  <div class="stat-card relative overflow-hidden rounded-2xl border border-white/20">
-    <Image
-      src={texture}
-      alt=""
-      width={1600}
-      height={400}
-      class="stat-card__bg absolute inset-0 w-full h-full object-cover object-center"
-    />
-    <div class="stat-card__tint absolute inset-0"></div>
-    <dl class="stat-card__grid relative grid grid-cols-2 md:grid-cols-4 gap-y-8 px-6 py-10 sm:px-10 sm:py-12">
-      {stats.map((stat) => (
-        <div class="text-center">
-          <dt class="sr-only">{stat.label}</dt>
-          <dd
-            class="font-mono-figure text-3xl sm:text-4xl text-amber-500 font-semibold"
-            data-stat
-            data-target={stat.numericValue ?? ''}
-            data-suffix={stat.suffix ?? ''}
-          >
-            {stat.value}
-          </dd>
-          <p class="mt-1.5 text-sm text-ink-200">{stat.label}</p>
-        </div>
-      ))}
-    </dl>
+  <div class="stat-wrap relative overflow-hidden rounded-2xl">
+    <canvas class="stat-wrap__network absolute inset-0" aria-hidden="true"></canvas>
+    <div class="stat-glass relative rounded-2xl border border-white/25">
+      <dl class="stat-card__grid relative grid grid-cols-2 md:grid-cols-4 gap-y-8 px-6 py-10 sm:px-10 sm:py-12">
+        {stats.map((stat) => (
+          <div class="text-center">
+            <dt class="sr-only">{stat.label}</dt>
+            <dd
+              class="font-mono-figure text-3xl sm:text-4xl text-amber-500 font-semibold"
+              data-stat
+              data-target={stat.numericValue ?? ''}
+              data-suffix={stat.suffix ?? ''}
+            >
+              {stat.value}
+            </dd>
+            <p class="mt-1.5 text-sm text-ink-200">{stat.label}</p>
+          </div>
+        ))}
+      </dl>
+    </div>
   </div>
 </div>
 
 <style>
-  .stat-card {
-    background: var(--color-ink-900);
+  .stat-wrap__network {
+    width: 100%;
+    height: 100%;
   }
-  .stat-card__bg {
-    opacity: 1;
-  }
-  .stat-card__tint {
-    background: linear-gradient(
-      180deg,
-      rgba(14, 17, 22, 0.6) 0%,
-      rgba(14, 17, 22, 0.5) 100%
-    );
+
+  /* Frosted glass: translucent fill + blur of whatever sits behind it in
+     the stacking context — here, the network canvas. A faint top-edge
+     highlight and soft shadow sell the "pane of glass" read. */
+  .stat-glass {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(6px) saturate(160%);
+    -webkit-backdrop-filter: blur(6px) saturate(160%);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.16),
+      0 8px 30px rgba(0, 0, 0, 0.35);
   }
 
   /* Scoped to this component by Astro — cannot leak to any other card.
@@ -83,14 +78,14 @@ const texture = img('panel-blurred-floor-streak-texture.webp');
   /* Mobile: 2 columns x 2 rows — divide only between the two columns in
      each row (even children), never between the rows. */
   .stat-card__grid > div:nth-child(even) {
-    border-left: 1px solid rgba(255, 255, 255, 0.12);
+    border-left: 1px solid rgba(255, 255, 255, 0.14);
   }
 
   /* md+: a single row of 4 — a rule before every item except the first,
      giving exactly 3 lines across the full card height. */
   @media (min-width: 768px) {
     .stat-card__grid > div {
-      border-left: 1px solid rgba(255, 255, 255, 0.12);
+      border-left: 1px solid rgba(255, 255, 255, 0.14);
     }
     .stat-card__grid > div:first-child {
       border-left: none;
@@ -130,4 +125,120 @@ const texture = img('panel-blurred-floor-streak-texture.webp');
     );
     els.forEach((el) => observer.observe(el));
   }
+</script>
+
+<script>
+  // Drifting node-and-line network — a canvas so the lines can redraw
+  // every frame as the nodes move. Painted as an opaque layer (its own
+  // dark fill, not transparent) so the frosted-glass card in front of it
+  // has a consistent backdrop to blur, regardless of what's on the page
+  // behind the component.
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  interface Node {
+    x: number;
+    y: number;
+    vx: number;
+    vy: number;
+  }
+
+  document.querySelectorAll<HTMLElement>('.stat-wrap').forEach((wrap) => {
+    const canvas = wrap.querySelector<HTMLCanvasElement>('.stat-wrap__network');
+    const ctx = canvas?.getContext('2d');
+    if (!canvas || !ctx) return;
+
+    const LINK_DISTANCE = 190;
+    const SPEED = 0.15;
+
+    let nodes: Node[] = [];
+    let width = 0;
+    let height = 0;
+    let dpr = 1;
+    let frame = 0;
+
+    function resize() {
+      if (!canvas || !ctx) return;
+      const rect = wrap.getBoundingClientRect();
+      width = rect.width;
+      height = rect.height;
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      const count = Math.max(14, Math.min(30, Math.round((width * height) / 12000)));
+      nodes = Array.from({ length: count }, () => ({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        vx: (Math.random() - 0.5) * SPEED,
+        vy: (Math.random() - 0.5) * SPEED,
+      }));
+
+      draw();
+    }
+
+    function draw() {
+      if (!ctx) return;
+      ctx.fillStyle = '#12151c';
+      ctx.fillRect(0, 0, width, height);
+
+      for (let i = 0; i < nodes.length; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+          const a = nodes[i];
+          const b = nodes[j];
+          const dx = a.x - b.x;
+          const dy = a.y - b.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist > LINK_DISTANCE) continue;
+          ctx.strokeStyle = `rgba(255, 198, 41, ${0.28 * (1 - dist / LINK_DISTANCE)})`;
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y);
+          ctx.lineTo(b.x, b.y);
+          ctx.stroke();
+        }
+      }
+      for (const n of nodes) {
+        ctx.fillStyle = 'rgba(255, 198, 41, 0.55)';
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, 2.4, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    function step() {
+      for (const n of nodes) {
+        n.x += n.vx;
+        n.y += n.vy;
+        if (n.x < 0 || n.x > width) n.vx *= -1;
+        if (n.y < 0 || n.y > height) n.vy *= -1;
+      }
+      draw();
+      frame = requestAnimationFrame(step);
+    }
+
+    resize();
+
+    if (!prefersReducedMotion) {
+      const visibilityObserver = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) {
+              frame = requestAnimationFrame(step);
+            } else {
+              cancelAnimationFrame(frame);
+            }
+          }
+        },
+        { threshold: 0 }
+      );
+      visibilityObserver.observe(wrap);
+
+      let resizeTimer: number;
+      window.addEventListener('resize', () => {
+        window.clearTimeout(resizeTimer);
+        resizeTimer = window.setTimeout(resize, 200);
+      });
+    }
+  });
 </script>
