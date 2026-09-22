@@ -40,7 +40,7 @@ const infrastructureFeatures = [
   description="Kedar Industries manufactures CPRI type-tested electrical control panels — PCC, MCC, APFC, RTPFC — plus capacitor part fabrication and precision soldering & brazing. IEC 61439, ISO 9001/14001/45001, IATF 16949 certified. Nashik, Maharashtra."
   path="/"
 >
-  <!-- 1. Hero -->
+  <!-- 1. Hero (extended — carries the stat row at its own bottom edge) -->
   <section class="relative bg-ink-900 overflow-hidden">
     <div class="absolute inset-0">
       <Picture
@@ -52,43 +52,53 @@ const infrastructureFeatures = [
         fallbackFormat="jpg"
         loading="eager"
         fetchpriority="high"
-        class="w-full h-full object-cover object-center opacity-90 contrast-[1.3] saturate-[1.25]"
+        class="w-full h-full object-cover object-center opacity-100 contrast-[1.3] saturate-[1.25]"
       />
       <div class="absolute inset-0 bg-gradient-to-r from-ink-900/65 via-ink-900/25 to-transparent"></div>
+      {/* A second, bottom-anchored fade — independent of the left-right one
+          above — so the stat row (full-width, lower on the image) reads
+          clearly no matter how bright that part of the photo is. */}
+      <div class="absolute inset-0 bg-gradient-to-t from-ink-900/90 via-ink-900/10 to-transparent"></div>
     </div>
-    <div class="container-page relative pt-20 pb-24 sm:pt-24 sm:pb-28">
-      <p class="eyebrow mb-5">Nashik, Maharashtra &middot; Est. 2019</p>
-      <h1 class="text-paper text-4xl sm:text-5xl md:text-6xl leading-[1.05] max-w-3xl">
-        Type-tested power.<br /> Built in Nashik.
-      </h1>
-      <p class="mt-6 text-lg sm:text-xl text-ink-200 max-w-xl leading-relaxed">
-        Kedar Industries manufactures electrical control panels, capacitor part fabrication, and
-        precision soldering &amp; brazing — engineered to IEC 61439 and independently validated
-        by CPRI.
-      </p>
-      <div class="mt-9 flex flex-wrap gap-4">
-        <a href="/products/" class="btn btn-primary">
-          Explore Products <ArrowRight class="size-4" />
-        </a>
-        <a href="/contact/" class="btn btn-outline-dark">Request a Quote</a>
+    <div class="container-page relative flex flex-col min-h-[640px] sm:min-h-[720px] lg:min-h-[800px] pt-20 pb-10 sm:pt-24 sm:pb-12">
+      <div>
+        <p class="eyebrow mb-5">Nashik, Maharashtra &middot; Est. 2019</p>
+        <h1 class="text-paper text-4xl sm:text-5xl md:text-6xl leading-[1.05] max-w-3xl">
+          Type-tested power.<br /> Built in Nashik.
+        </h1>
+        <p class="mt-6 text-lg sm:text-xl text-ink-200 max-w-xl leading-relaxed">
+          Kedar Industries manufactures electrical control panels, capacitor part fabrication, and
+          precision soldering &amp; brazing — engineered to IEC 61439 and independently validated
+          by CPRI.
+        </p>
+        <div class="mt-9 flex flex-wrap gap-4">
+          <a href="/products/" class="btn btn-primary">
+            Explore Products <ArrowRight class="size-4" />
+          </a>
+          <a href="/contact/" class="btn btn-outline-dark">Request a Quote</a>
+        </div>
+
+        {/* Certifications, as individual badges rather than a single strip
+            — each one its own chip so they read as distinct credentials. */}
+        <div class="mt-10 flex flex-wrap gap-2.5">
+          {certifications.certStrip.map((cert) => (
+            <span class="flex items-center gap-1.5 rounded-full border border-white/15 bg-white/[0.06] backdrop-blur-sm px-3.5 py-1.5 text-xs sm:text-sm font-mono-figure text-ink-100">
+              <CircleCheck class="size-3.5 text-amber-500 shrink-0" /> {cert}
+            </span>
+          ))}
+        </div>
       </div>
 
-      {/* Certifications, as individual badges rather than a single strip
-          — each one its own chip so they read as distinct credentials. */}
-      <div class="mt-10 flex flex-wrap gap-2.5">
-        {certifications.certStrip.map((cert) => (
-          <span class="flex items-center gap-1.5 rounded-full border border-white/15 bg-white/[0.06] backdrop-blur-sm px-3.5 py-1.5 text-xs sm:text-sm font-mono-figure text-ink-100">
-            <CircleCheck class="size-3.5 text-amber-500 shrink-0" /> {cert}
-          </span>
-        ))}
+      {/* 2. Stat row — plain figures overlaid on the hero photo itself,
+          no card or panel of its own; the bottom fade above is what
+          keeps it legible. */}
+      <div class="mt-auto pt-16 sm:pt-20">
+        <StatBand stats={stats} />
       </div>
     </div>
   </section>
 
-  <!-- 2. Stat band (dark section below the hero) -->
-  <StatBand stats={stats} />
-
-  <!-- 3. About -->
+  <!-- 2. About -->
   <section class="pt-14 pb-16 sm:pt-16 sm:pb-20">
     <div class="container-page grid lg:grid-cols-2 gap-12 items-center">
       <div class="reveal order-2 lg:order-1">
@@ -119,7 +129,7 @@ const infrastructureFeatures = [
     </div>
   </section>
 
-  <!-- 4. Technology partners -->
+  <!-- 3. Technology partners -->
   <section class="section-y section-diagonal-dark">
     <div class="section-diagonal-dark__edges" aria-hidden="true">
       <span></span><span></span><span></span>
@@ -153,7 +163,7 @@ const infrastructureFeatures = [
     </div>
   </section>
 
-  <!-- 5. Products -->
+  <!-- 4. Products -->
   <section class="section-y bg-ink-100/50">
     <div class="container-page">
       <div class="flex flex-wrap items-end justify-between gap-6 mb-12">
@@ -180,7 +190,7 @@ const infrastructureFeatures = [
     </div>
   </section>
 
-  <!-- 6. Infrastructure -->
+  <!-- 5. Infrastructure -->
   <section class="pt-[2.55rem] pb-[2.55rem] sm:pt-[3.825rem] sm:pb-[3.825rem] lg:pt-[5.1rem] lg:pb-[5.1rem] section-diagonal-dark">
     <div class="section-diagonal-dark__edges" aria-hidden="true">
       <span></span><span></span><span></span>
@@ -217,7 +227,7 @@ const infrastructureFeatures = [
     </div>
   </section>
 
-  <!-- 7. Quality Assurance (incl. CPRI headline figures) -->
+  <!-- 6. Quality Assurance (incl. CPRI headline figures) -->
   <section class="section-y">
     <div class="container-page grid lg:grid-cols-2 gap-12 items-center">
       <div>
@@ -256,7 +266,7 @@ const infrastructureFeatures = [
     </div>
   </section>
 
-  <!-- 8. Clients -->
+  <!-- 7. Clients -->
   <section class="section-y section-diagonal-light">
     <div class="section-diagonal-light__edges" aria-hidden="true">
       <span></span><span></span><span></span>

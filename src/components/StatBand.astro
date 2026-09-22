@@ -12,58 +12,35 @@ const { stats } = Astro.props;
 ---
 
 {/*
-  Its own full-width dark section below the hero, using the site's
-  stepped-diagonal-edge treatment (same device as the Technology
-  Partners / CTA sections) instead of a floating card, so it reads as
-  a proper section rather than an overlay.
-
-  A drifting node-and-line network (a canvas, redrawn each frame,
-  transparent background) sits behind the figures — only the amber
-  dots/links add color, nothing else.
+  No card, no panel, no background of its own — just the four figures,
+  sitting directly on whatever's behind them (the hero photo, darkened
+  by the hero's own bottom-fade overlay). A thin divider between items
+  is the only structure, so the row still reads as one group rather
+  than four numbers scattered on the image.
 */}
-<section class="stat-band section-y section-diagonal-dark">
-  <div class="section-diagonal-dark__edges" aria-hidden="true">
-    <span></span><span></span><span></span>
-  </div>
-  <canvas class="stat-band__network absolute inset-0" aria-hidden="true"></canvas>
-  <div class="container-page relative">
-    <dl class="stat-card__grid grid grid-cols-2 md:grid-cols-4 gap-y-8">
-      {stats.map((stat) => (
-        <div class="text-center">
-          <dt class="sr-only">{stat.label}</dt>
-          <dd
-            class="font-mono-figure text-3xl sm:text-4xl text-amber-500 font-semibold"
-            data-stat
-            data-target={stat.numericValue ?? ''}
-            data-suffix={stat.suffix ?? ''}
-          >
-            {stat.value}
-          </dd>
-          <p class="mt-1.5 text-sm text-ink-200">{stat.label}</p>
-        </div>
-      ))}
-    </dl>
-  </div>
-</section>
+<dl class="stat-row grid grid-cols-2 md:grid-cols-4 gap-y-8">
+  {stats.map((stat) => (
+    <div class="text-center">
+      <dt class="sr-only">{stat.label}</dt>
+      <dd
+        class="font-mono-figure text-3xl sm:text-4xl text-amber-500 font-semibold"
+        data-stat
+        data-target={stat.numericValue ?? ''}
+        data-suffix={stat.suffix ?? ''}
+      >
+        {stat.value}
+      </dd>
+      <p class="mt-1.5 text-sm text-ink-200">{stat.label}</p>
+    </div>
+  ))}
+</dl>
 
 <style>
-  /* Overrides the shared --color-ink-900 used by .section-diagonal-dark's
-     fill, scoped to this section only — other dark sections sitewide
-     (Technology Partners, CTA, etc.) keep the original tone. */
-  .stat-band {
-    --color-ink-900: #202433;
-  }
-
-  .stat-band__network {
-    width: 100%;
-    height: 100%;
-  }
-
-  /* Scoped to this component by Astro — cannot leak to any other card.
-     Three vertical rules splitting the grid into 4 equal sections (not
-     4 separate boxes — just dividers on top of one continuous panel),
-     with each stat centered inside its own quarter. */
-  .stat-card__grid > div {
+  /* Scoped to this component by Astro — cannot leak to any other grid.
+     Three vertical rules splitting the row into 4 equal sections (not
+     4 separate boxes — just dividers), each stat centered in its own
+     quarter. */
+  .stat-row > div {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -72,17 +49,17 @@ const { stats } = Astro.props;
 
   /* Mobile: 2 columns x 2 rows — divide only between the two columns in
      each row (even children), never between the rows. */
-  .stat-card__grid > div:nth-child(even) {
-    border-left: 1px solid rgba(255, 255, 255, 0.14);
+  .stat-row > div:nth-child(even) {
+    border-left: 1px solid rgba(255, 255, 255, 0.2);
   }
 
   /* md+: a single row of 4 — a rule before every item except the first,
-     giving exactly 3 lines across the full card height. */
+     giving exactly 3 lines across the full row. */
   @media (min-width: 768px) {
-    .stat-card__grid > div {
-      border-left: 1px solid rgba(255, 255, 255, 0.14);
+    .stat-row > div {
+      border-left: 1px solid rgba(255, 255, 255, 0.2);
     }
-    .stat-card__grid > div:first-child {
+    .stat-row > div:first-child {
       border-left: none;
     }
   }
@@ -120,118 +97,4 @@ const { stats } = Astro.props;
     );
     els.forEach((el) => observer.observe(el));
   }
-</script>
-
-<script>
-  // Drifting node-and-line network — a canvas so the lines can redraw
-  // every frame as the nodes move. Cleared to fully transparent each
-  // frame (no fill), so nothing but the amber dots/links is visible over
-  // the section's own dark fill.
-  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  interface Node {
-    x: number;
-    y: number;
-    vx: number;
-    vy: number;
-  }
-
-  document.querySelectorAll<HTMLElement>('.stat-band').forEach((band) => {
-    const canvas = band.querySelector<HTMLCanvasElement>('.stat-band__network');
-    const ctx = canvas?.getContext('2d');
-    if (!canvas || !ctx) return;
-
-    const LINK_DISTANCE = 190;
-    const SPEED = 0.15;
-
-    let nodes: Node[] = [];
-    let width = 0;
-    let height = 0;
-    let dpr = 1;
-    let frame = 0;
-
-    function resize() {
-      if (!canvas || !ctx) return;
-      const rect = band.getBoundingClientRect();
-      width = rect.width;
-      height = rect.height;
-      dpr = Math.min(window.devicePixelRatio || 1, 2);
-      canvas.width = width * dpr;
-      canvas.height = height * dpr;
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-
-      const count = Math.max(18, Math.min(40, Math.round((width * height) / 12000)));
-      nodes = Array.from({ length: count }, () => ({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        vx: (Math.random() - 0.5) * SPEED,
-        vy: (Math.random() - 0.5) * SPEED,
-      }));
-
-      draw();
-    }
-
-    function draw() {
-      if (!ctx) return;
-      ctx.clearRect(0, 0, width, height);
-
-      for (let i = 0; i < nodes.length; i++) {
-        for (let j = i + 1; j < nodes.length; j++) {
-          const a = nodes[i];
-          const b = nodes[j];
-          const dx = a.x - b.x;
-          const dy = a.y - b.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist > LINK_DISTANCE) continue;
-          ctx.strokeStyle = `rgba(255, 198, 41, ${0.3 * (1 - dist / LINK_DISTANCE)})`;
-          ctx.lineWidth = 1;
-          ctx.beginPath();
-          ctx.moveTo(a.x, a.y);
-          ctx.lineTo(b.x, b.y);
-          ctx.stroke();
-        }
-      }
-      for (const n of nodes) {
-        ctx.fillStyle = 'rgba(255, 198, 41, 0.6)';
-        ctx.beginPath();
-        ctx.arc(n.x, n.y, 2.2, 0, Math.PI * 2);
-        ctx.fill();
-      }
-    }
-
-    function step() {
-      for (const n of nodes) {
-        n.x += n.vx;
-        n.y += n.vy;
-        if (n.x < 0 || n.x > width) n.vx *= -1;
-        if (n.y < 0 || n.y > height) n.vy *= -1;
-      }
-      draw();
-      frame = requestAnimationFrame(step);
-    }
-
-    resize();
-
-    if (!prefersReducedMotion) {
-      const visibilityObserver = new IntersectionObserver(
-        (entries) => {
-          for (const entry of entries) {
-            if (entry.isIntersecting) {
-              frame = requestAnimationFrame(step);
-            } else {
-              cancelAnimationFrame(frame);
-            }
-          }
-        },
-        { threshold: 0 }
-      );
-      visibilityObserver.observe(band);
-
-      let resizeTimer: number;
-      window.addEventListener('resize', () => {
-        window.clearTimeout(resizeTimer);
-        resizeTimer = window.setTimeout(resize, 200);
-      });
-    }
-  });
 </script>
