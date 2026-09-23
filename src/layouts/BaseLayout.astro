@@ -102,12 +102,44 @@ const orgSchema = {
       <style>
         .reveal { opacity: 1 !important; transform: none !important; }
         #preloader { display: none !important; }
+        #intro { display: none !important; }
       </style>
     </noscript>
 
     <slot name="head" />
   </head>
   <body class="bg-paper text-ink-600 antialiased">
+    {/* Logo-animation intro: plays once per browser session (sessionStorage),
+        not on every internal navigation within that session, and shown again
+        the next time the visitor arrives fresh. Hidden by default so it never
+        flashes for a page within an already-"entered" session — the inline
+        script below un-hides it synchronously, before paint, only when this
+        session hasn't seen it yet. Sits above #preloader (higher z-index). */}
+    <div id="intro" aria-hidden="true" style="display:none">
+      <video
+        id="intro-video"
+        class="intro__video"
+        autoplay
+        muted
+        playsinline
+        preload="auto"
+      >
+        <source src="/videos/intro-logo.webm" type="video/webm" />
+        <source src="/videos/intro-logo.mp4" type="video/mp4" />
+      </video>
+    </div>
+    <script is:inline>
+      (function () {
+        try {
+          if (!sessionStorage.getItem('kiIntroSeen')) {
+            sessionStorage.setItem('kiIntroSeen', '1');
+            var intro = document.getElementById('intro');
+            if (intro) intro.style.display = 'flex';
+          }
+        } catch (e) {}
+      })();
+    </script>
+
     {/* Shown on every full page load (this is a static multi-page site, so
         each navigation is a fresh load) — fades out once the window's
         load event fires, with a timeout fallback in case that never comes. */}
@@ -142,6 +174,28 @@ const orgSchema = {
         { threshold: 0.12 }
       );
       document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+    </script>
+
+    <script>
+      // Hide the logo-animation intro once its (single) playback finishes, so
+      // its length always matches the video rather than a hardcoded timer.
+      // A short fallback timeout covers a video that fails to load/play.
+      const intro = document.getElementById('intro');
+      const introVideo = document.getElementById('intro-video');
+      if (intro && intro.style.display !== 'none') {
+        let hidden = false;
+        const hideIntro = () => {
+          if (hidden) return;
+          hidden = true;
+          intro.classList.add('is-hidden');
+          intro.addEventListener('transitionend', () => intro.remove(), { once: true });
+        };
+        if (introVideo) {
+          introVideo.addEventListener('ended', hideIntro, { once: true });
+          introVideo.addEventListener('error', hideIntro, { once: true });
+        }
+        setTimeout(hideIntro, 2500);
+      }
     </script>
 
     <script>
@@ -201,6 +255,32 @@ const orgSchema = {
       animation: none;
     }
     #preloader {
+      transition: none;
+    }
+  }
+
+  #intro {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-paper);
+    transition: opacity 400ms var(--ease-out-standard), visibility 400ms var(--ease-out-standard);
+  }
+  #intro.is-hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+  .intro__video {
+    width: min(90vw, 480px);
+    height: auto;
+    display: block;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #intro {
       transition: none;
     }
   }
