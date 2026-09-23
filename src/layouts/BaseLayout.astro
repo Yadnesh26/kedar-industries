@@ -8,7 +8,6 @@ import { Image } from 'astro:assets';
 import { img } from '@/lib/images';
 
 const logoIcon = img('logo-icon.png');
-const logoIntro = img('logo-intro.png');
 
 interface Props {
   title: string;
@@ -103,34 +102,12 @@ const orgSchema = {
       <style>
         .reveal { opacity: 1 !important; transform: none !important; }
         #preloader { display: none !important; }
-        #intro { display: none !important; }
       </style>
     </noscript>
 
     <slot name="head" />
   </head>
   <body class="bg-paper text-ink-600 antialiased">
-    {/* One-time first-visit intro: a full black screen with the logo, shown
-        only the very first time a visitor lands on the site (gated via
-        localStorage). Hidden by default so returning visitors never see it
-        flash — the inline script below un-hides it synchronously, before
-        paint, only when no visit has been recorded yet. Sits above #preloader
-        (higher z-index) so it fully covers it during the intro. */}
-    <div id="intro" aria-hidden="true" style="display:none">
-      <Image src={logoIntro} alt="" width={900} height={269} class="intro__logo" />
-    </div>
-    <script is:inline>
-      (function () {
-        try {
-          if (!localStorage.getItem('kiIntroSeen')) {
-            localStorage.setItem('kiIntroSeen', '1');
-            var intro = document.getElementById('intro');
-            if (intro) intro.style.display = 'flex';
-          }
-        } catch (e) {}
-      })();
-    </script>
-
     {/* Shown on every full page load (this is a static multi-page site, so
         each navigation is a fresh load) — fades out once the window's
         load event fires, with a timeout fallback in case that never comes. */}
@@ -165,21 +142,6 @@ const orgSchema = {
         { threshold: 0.12 }
       );
       document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
-    </script>
-
-    <script>
-      // Hide the first-visit intro after a fixed, short duration (not tied to
-      // page load) so the branded moment is always 1–1.5s max, regardless of
-      // connection speed. It sits above #preloader, so #preloader continues
-      // its own normal load-based logic underneath and simply becomes visible
-      // once the intro fades away (or the page is already loaded by then).
-      const intro = document.getElementById('intro');
-      if (intro && intro.style.display !== 'none') {
-        setTimeout(() => {
-          intro.classList.add('is-hidden');
-          intro.addEventListener('transitionend', () => intro.remove(), { once: true });
-        }, 1300);
-      }
     </script>
 
     <script>
@@ -239,49 +201,6 @@ const orgSchema = {
       animation: none;
     }
     #preloader {
-      transition: none;
-    }
-  }
-
-  #intro {
-    position: fixed;
-    inset: 0;
-    z-index: 10000;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    background: #000;
-    transition: opacity 400ms var(--ease-out-standard), visibility 400ms var(--ease-out-standard);
-  }
-  #intro.is-hidden {
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-  }
-  .intro__logo {
-    width: min(70vw, 320px);
-    height: auto;
-    animation: intro-pop 900ms var(--ease-out-standard) both;
-  }
-  @keyframes intro-pop {
-    0% {
-      transform: scale(0.7);
-      opacity: 0;
-    }
-    60% {
-      transform: scale(1.06);
-      opacity: 1;
-    }
-    100% {
-      transform: scale(1);
-      opacity: 1;
-    }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .intro__logo {
-      animation: none;
-    }
-    #intro {
       transition: none;
     }
   }
