@@ -20,6 +20,7 @@ const parts = (await getCollection('parts')).sort((a, b) => a.data.order - b.dat
   <section class="section-y">
     <div class="container-page">
       <SectionHeading
+        as="h1"
         eyebrow="Get in touch"
         title="Tell us what you need built"
         lead="Send your load requirement, single-line diagram, or service request — our engineering team responds with a costed proposal."
@@ -38,27 +39,28 @@ const parts = (await getCollection('parts')).sort((a, b) => a.data.order - b.dat
           -->
           <input type="hidden" name="access_key" value="REPLACE_WITH_WEB3FORMS_ACCESS_KEY" />
           <input type="hidden" name="subject" value="New enquiry from kedarindustries.net" />
-          <input type="checkbox" name="botcheck" class="hidden" style="display:none" />
+          <input type="hidden" name="redirect" value="https://kedarindustries.net/thank-you/" />
+          <input type="checkbox" name="botcheck" class="hidden" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true" />
 
           <div class="grid sm:grid-cols-2 gap-5">
             <div>
               <label for="name" class="block text-sm font-medium text-ink-900 mb-1.5">Full Name *</label>
-              <input type="text" id="name" name="name" required class="w-full px-4 py-2.5 rounded-md border border-ink-200 text-sm focus:border-amber-500 outline-none" />
+              <input type="text" id="name" name="name" required autocomplete="name" class="w-full px-4 py-2.5 rounded-md border border-ink-200 text-sm focus:border-amber-500 outline-none" />
             </div>
             <div>
               <label for="company" class="block text-sm font-medium text-ink-900 mb-1.5">Company Name *</label>
-              <input type="text" id="company" name="company" required class="w-full px-4 py-2.5 rounded-md border border-ink-200 text-sm focus:border-amber-500 outline-none" />
+              <input type="text" id="company" name="company" required autocomplete="organization" class="w-full px-4 py-2.5 rounded-md border border-ink-200 text-sm focus:border-amber-500 outline-none" />
             </div>
           </div>
 
           <div class="grid sm:grid-cols-2 gap-5">
             <div>
               <label for="phone" class="block text-sm font-medium text-ink-900 mb-1.5">Phone *</label>
-              <input type="tel" id="phone" name="phone" required class="w-full px-4 py-2.5 rounded-md border border-ink-200 text-sm focus:border-amber-500 outline-none" />
+              <input type="tel" id="phone" name="phone" required autocomplete="tel" class="w-full px-4 py-2.5 rounded-md border border-ink-200 text-sm focus:border-amber-500 outline-none" />
             </div>
             <div>
               <label for="email" class="block text-sm font-medium text-ink-900 mb-1.5">Email *</label>
-              <input type="email" id="email" name="email" required class="w-full px-4 py-2.5 rounded-md border border-ink-200 text-sm focus:border-amber-500 outline-none" />
+              <input type="email" id="email" name="email" required autocomplete="email" class="w-full px-4 py-2.5 rounded-md border border-ink-200 text-sm focus:border-amber-500 outline-none" />
             </div>
           </div>
 
@@ -159,6 +161,17 @@ const parts = (await getCollection('parts')).sort((a, b) => a.data.order - b.dat
 
   <section class="pb-16">
     <div class="container-page">
+      <div class="flex items-center justify-between gap-4 mb-4">
+        <h2 class="font-display font-bold text-ink-900 text-lg">Find us on the map</h2>
+        <a
+          href={`https://www.google.com/maps/dir/?api=1&destination=${company.geo.lat},${company.geo.lng}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-1.5 text-amber-600 font-semibold text-sm hover:gap-2.5 transition-all shrink-0"
+        >
+          <MapPin class="size-4" /> Get Directions
+        </a>
+      </div>
       <div class="rounded-md overflow-hidden border border-ink-100 h-[480px]">
         <iframe
           title="Kedar Industries location map"

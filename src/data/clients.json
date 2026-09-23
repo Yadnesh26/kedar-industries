@@ -34,16 +34,16 @@
     "Maars Tecn Engineers, Andheri (W), Mumbai"
   ],
   "industries": [
-    { "name": "Automotive", "icon": "car" },
-    { "name": "Textile & Yarns", "icon": "shirt" },
-    { "name": "Chemical & Process", "icon": "flask-conical" },
-    { "name": "Steel & Metal", "icon": "factory" },
-    { "name": "Polymer & Plastics", "icon": "recycle" },
-    { "name": "Electronics & Components", "icon": "cpu" },
-    { "name": "Infrastructure & EPC", "icon": "building-2" },
-    { "name": "Commercial & Residential", "icon": "home" },
-    { "name": "Data Centre & Critical Power", "icon": "server" },
-    { "name": "Education & Institutions", "icon": "graduation-cap" }
+    { "name": "Automotive", "image": "sector-automotive-assembly-robots.jpg" },
+    { "name": "Textile & Yarns", "image": "sector-textile-yarns-wool-balls.jpg" },
+    { "name": "Chemical & Process", "image": "sector-chemical-process-lab-liquids.jpg" },
+    { "name": "Steel & Metal", "image": "sector-steel-metal-mill-interior.jpg" },
+    { "name": "Polymer & Plastics", "image": "sector-polymer-plastics-packaging.jpg" },
+    { "name": "Electronics & Components", "image": "sector-electronics-components-circuit-board.jpg" },
+    { "name": "Infrastructure & EPC", "image": "sector-infrastructure-epc-transmission-towers.jpg" },
+    { "name": "Commercial & Residential", "image": "sector-commercial-residential-skyline.jpg" },
+    { "name": "Data Centre & Critical Power", "image": "sector-data-centre-critical-power-server-room.jpg" },
+    { "name": "Education & Institutions", "image": "sector-education-institutions-classroom.jpg" }
   ],
   "supplierMeetPhotos": [
     "event-vishay-supplier-meet-certificate-handover.jpg",

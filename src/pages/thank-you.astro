@@ -1,0 +1,29 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Breadcrumb from '@/components/Breadcrumb.astro';
+import { CheckCircle2, ArrowRight } from '@lucide/astro';
+import company from '@/data/company.json';
+---
+
+<BaseLayout
+  title="Thank You | Kedar Industries"
+  description="Thank you for your enquiry. Kedar Industries' engineering team will respond with a costed proposal shortly."
+  path="/thank-you/"
+  noOrgSchema
+>
+  <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Contact', href: '/contact/' }, { label: 'Thank You' }]} />
+
+  <section class="section-y">
+    <div class="container-page max-w-xl mx-auto text-center">
+      <CheckCircle2 class="size-14 text-amber-600 mx-auto mb-6" />
+      <h1 class="text-3xl sm:text-4xl text-ink-900 leading-[1.1] mb-4">Thanks — we've got your enquiry.</h1>
+      <p class="text-lg text-ink-400 leading-relaxed mb-8">
+        Our engineering team will review your requirement and get back to you with a costed proposal.
+        For anything urgent, call us directly at <a href={`tel:${company.phoneHref}`} class="text-amber-600 font-semibold hover:underline">{company.phone}</a>.
+      </p>
+      <a href="/" class="btn btn-primary">
+        Back to Home <ArrowRight class="size-4" />
+      </a>
+    </div>
+  </section>
+</BaseLayout>

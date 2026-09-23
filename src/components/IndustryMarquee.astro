@@ -1,0 +1,61 @@
+---
+import IndustryChip from './IndustryChip.astro';
+
+interface Industry {
+  name: string;
+  image: string;
+}
+interface Props {
+  industries: Industry[];
+}
+const { industries } = Astro.props;
+const track = [...industries, ...industries];
+---
+
+<div class="industry-marquee overflow-hidden">
+  <div class="industry-marquee__track flex w-max gap-4">
+    {track.map((ind) => (
+      <div class="shrink-0 w-48 sm:w-56">
+        <IndustryChip name={ind.name} image={ind.image} />
+      </div>
+    ))}
+  </div>
+</div>
+
+<script>
+  const marquees = document.querySelectorAll<HTMLElement>('.industry-marquee');
+  const observer = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-running');
+          observer.unobserve(entry.target);
+        }
+      }
+    },
+    { threshold: 0.2 }
+  );
+  marquees.forEach((el) => observer.observe(el));
+</script>
+
+<style>
+  .industry-marquee__track {
+    animation: industry-marquee 32s linear infinite;
+    animation-play-state: paused;
+  }
+  .industry-marquee.is-running .industry-marquee__track {
+    animation-play-state: running;
+  }
+  .industry-marquee:hover .industry-marquee__track {
+    animation-play-state: paused;
+  }
+  @keyframes industry-marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .industry-marquee__track {
+      animation: none;
+    }
+  }
+</style>

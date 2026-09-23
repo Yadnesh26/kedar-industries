@@ -6,13 +6,14 @@ interface Props {
   align?: 'left' | 'center';
   dark?: boolean;
   noWrap?: boolean;
+  as?: 'h1' | 'h2';
 }
-const { eyebrow, title, lead, align = 'left', dark = false, noWrap = false } = Astro.props;
+const { eyebrow, title, lead, align = 'left', dark = false, noWrap = false, as: Tag = 'h2' } = Astro.props;
 ---
 
 <div class:list={[noWrap ? 'max-w-none' : 'max-w-2xl', 'mb-12', align === 'center' && 'mx-auto text-center']}>
   {eyebrow && <p class="eyebrow mb-3">{eyebrow}</p>}
-  <h2
+  <Tag
     class:list={[
       noWrap ? 'whitespace-nowrap' : 'text-3xl sm:text-4xl md:text-[2.75rem]',
       'leading-[1.1]',
@@ -21,7 +22,7 @@ const { eyebrow, title, lead, align = 'left', dark = false, noWrap = false } = A
     style={noWrap ? 'font-size: clamp(0.85rem, 4.2vw, 2.75rem);' : undefined}
   >
     {title}
-  </h2>
+  </Tag>
   {lead && (
     <p class:list={['mt-4 text-lg leading-relaxed', dark ? 'text-ink-200' : 'text-ink-400']}>
       {lead}
