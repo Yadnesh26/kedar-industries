@@ -204,9 +204,11 @@ const parts = (await getCollection('parts')).sort((a, b) => a.data.order - b.dat
   }
 
   /* "Get a Quote" — fills from the bottom on hover via an inset box-shadow,
-     rather than animating width/height (cheap, no layout thrash). */
+     rather than animating width/height (cheap, no layout thrash). Same
+     amber-to-amber-600 fill as .btn-primary (the hero's "Explore Products"),
+     not a dark-contrast swap, so every primary button hovers the same way. */
   .quote-btn {
-    --hover: var(--color-ink-900);
+    --hover: var(--color-amber-600);
     position: relative;
     overflow: hidden;
     display: inline-block;
@@ -222,7 +224,6 @@ const parts = (await getCollection('parts')).sort((a, b) => a.data.order - b.dat
   }
   .quote-btn:hover,
   .quote-btn:focus-visible {
-    color: var(--color-paper);
     box-shadow: inset 0 -4em 0 0 var(--hover);
   }
   @media (prefers-reduced-motion: reduce) {

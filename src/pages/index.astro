@@ -19,7 +19,9 @@ import projects from '@/data/projects.json';
 
 const allProducts = (await getCollection('products')).sort((a, b) => a.data.order - b.data.order);
 
-const heroBg = img('panel-mcc-panel-warehouse-angle-render.webp');
+const heroBg = img('hero-panel-warehouse.jpg');
+
+const heroPhrases = ['to standard.', 'by CPRI.', 'at 70 kA.', 'in the field.'];
 
 const stats = [
   { value: '2019', label: 'Production commenced' },
@@ -52,19 +54,27 @@ const infrastructureFeatures = [
         fallbackFormat="jpg"
         loading="eager"
         fetchpriority="high"
-        class="w-full h-full object-cover object-center opacity-100 contrast-[1.3] saturate-[1.25]"
+        class="w-full h-full object-cover object-left lg:object-center"
       />
       <div class="absolute inset-0 bg-gradient-to-r from-ink-900/65 via-ink-900/25 to-transparent"></div>
       {/* A second, bottom-anchored fade — independent of the left-right one
           above — so the stat row (full-width, lower on the image) reads
           clearly no matter how bright that part of the photo is. */}
       <div class="absolute inset-0 bg-gradient-to-t from-ink-900/90 via-ink-900/10 to-transparent"></div>
+      {/* Flat 10% black fade over the whole photo, on top of the two
+          gradients above — a bit more separation behind the text without
+          reshaping either gradient. */}
+      <div class="absolute inset-0 bg-black/10"></div>
     </div>
     <div class="container-page relative flex flex-col min-h-[640px] sm:min-h-[720px] lg:min-h-[800px] pt-15 pb-5 sm:pt-19 sm:pb-7">
       <div>
         <p class="eyebrow mb-5">Nashik, Maharashtra &middot; Est. 2019</p>
         <h1 class="text-paper text-4xl sm:text-5xl md:text-6xl leading-[1.05] max-w-3xl">
-          Engineered to perform.<br /> Proven to standard.
+          Engineered to perform.<br /> Proven{' '}<span class="sr-only">to standard.</span><span class="hero-rotator" aria-hidden="true">
+            {heroPhrases.map((phrase, i) => (
+              <span class:list={['hero-rotator__word', i === 0 && 'is-active']}>{phrase}</span>
+            ))}
+          </span>
         </h1>
         <p class="mt-6 text-lg sm:text-xl text-ink-200 max-w-xl leading-relaxed">
           Kedar Industries manufactures electrical control panels, capacitor part fabrication, and
@@ -303,3 +313,60 @@ const infrastructureFeatures = [
     </div>
   </section>
 </BaseLayout>
+
+<script>
+  const words = document.querySelectorAll<HTMLElement>('.hero-rotator__word');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (words.length > 1 && !reduceMotion) {
+    let current = 0;
+    setInterval(() => {
+      const prev = words[current];
+      current = (current + 1) % words.length;
+      prev.classList.remove('is-active');
+      prev.classList.add('is-leaving');
+      words[current].classList.add('is-active');
+      setTimeout(() => prev.classList.remove('is-leaving'), 600);
+    }, 2800);
+  }
+</script>
+
+<style>
+  /* All phrases share one grid cell, so the rotator is always as wide as the
+     longest phrase — the fixed part of the headline never shifts. */
+  .hero-rotator {
+    display: inline-grid;
+    vertical-align: baseline;
+    white-space: nowrap;
+    overflow: hidden;
+    /* Room for descenders (the "y" in "by") inside the clip, cancelled out
+       so the line height matches the static headline. */
+    padding-bottom: 0.12em;
+    margin-bottom: -0.12em;
+  }
+  .hero-rotator__word {
+    grid-area: 1 / 1;
+    color: var(--color-amber-500);
+    opacity: 0;
+    transform: translateY(0.6em);
+    filter: blur(6px);
+    transition:
+      opacity 550ms var(--ease-out-standard),
+      transform 550ms var(--ease-out-standard),
+      filter 550ms var(--ease-out-standard);
+  }
+  .hero-rotator__word.is-active {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+  .hero-rotator__word.is-leaving {
+    opacity: 0;
+    transform: translateY(-0.6em);
+    filter: blur(6px);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-rotator__word {
+      transition: none;
+    }
+  }
+</style>
