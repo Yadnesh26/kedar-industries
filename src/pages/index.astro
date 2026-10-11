@@ -124,14 +124,14 @@ const infrastructureFeatures = [
   <section class="pt-9 pb-11 sm:pt-11 sm:pb-15">
     <div class="container-page grid lg:grid-cols-2 gap-12 items-center">
       <div class="reveal order-2 lg:order-1">
-        {/* Self-hosted placeholder clip — a YouTube embed was tried first,
-            but YouTube enforces a persistent title/branding bar on embeds
-            with controls=0 that no embed parameter can suppress. This file
-            is pre-trimmed to 7s server-side (public/videos/), so a plain
-            `loop` attribute is enough; no third-party chrome, no JS timer. */}
+        {/* Self-hosted 20s "Amber Line" brand loop (source project lives
+            outside the site in ../videos/about-amber-line). Its last frame
+            matches its first, so a plain `loop` attribute is seamless — no
+            third-party chrome, no JS timer. The poster is frame 0. */}
         <div class="rounded-2xl overflow-hidden border border-ink-100 shadow-sm aspect-[4/3]">
           <video
             class="w-full h-full object-cover"
+            poster="/videos/about-poster.jpg"
             autoplay
             muted
             loop
