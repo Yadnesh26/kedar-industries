@@ -5,16 +5,15 @@ import nav from '@/data/nav.json';
 import { img } from '@/lib/images';
 import { Image } from 'astro:assets';
 
-const logo = img('logo-icon.png');
+const logo = img('logo-wordmark-on-dark.svg');
 const year = new Date().getFullYear();
 ---
 
 <footer class="bg-ink-900 text-ink-200">
   <div class="container-page py-16 grid grid-cols-1 md:grid-cols-4 gap-10">
     <div>
-      <a href="/" class="flex items-center gap-3 mb-4">
-        <Image src={logo} alt="Kedar Industries logo" width={40} height={40} class="object-contain" />
-        <span class="font-display font-extrabold text-paper text-lg">Kedar Industries</span>
+      <a href="/" class="inline-block mb-5" aria-label="Kedar Industries home">
+        <Image src={logo} alt="Kedar Industries" width={220} height={68} class="h-12 w-auto object-contain" />
       </a>
       <p class="text-sm text-ink-400 leading-relaxed mb-4">
         {company.tagline}
@@ -43,7 +42,7 @@ const year = new Date().getFullYear();
         <li><a href="/products/pcc-panel/" class="text-ink-400 hover:text-amber-500 transition-colors">PCC Panel</a></li>
         <li><a href="/products/mcc-panel/" class="text-ink-400 hover:text-amber-500 transition-colors">MCC Panel</a></li>
         <li><a href="/products/apfc-panel/" class="text-ink-400 hover:text-amber-500 transition-colors">APFC Panel</a></li>
-        <li><a href="/products/vfd-panel/" class="text-ink-400 hover:text-amber-500 transition-colors">VFD Panel</a></li>
+        <li><a href="/products/rtpfc-panel/" class="text-ink-400 hover:text-amber-500 transition-colors">RTPFC Panel</a></li>
         <li><a href="/products/" class="text-amber-500 hover:text-amber-600 transition-colors font-medium">View all products →</a></li>
       </ul>
     </div>

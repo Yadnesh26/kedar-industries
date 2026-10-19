@@ -1,7 +1,8 @@
 ---
 name: "LVAC Copper Band"
 tagline: "Precision copper banding for low-voltage AC capacitor element termination."
-heroImage: "capacitor-part-lvac-copper-band.jpeg"
+heroImage: "product-lvac-copper-band.jpg"
+gallery: ["product-lvac-copper-band-2.jpg", "product-lvac-copper-band-3.jpg"]
 overview: |
   LVAC copper bands terminate and connect capacitor elements with a low-resistance, mechanically
   robust joint. Kedar fabricates these to tight dimensional tolerance for Vishay's continuous

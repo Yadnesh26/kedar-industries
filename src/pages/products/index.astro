@@ -4,9 +4,6 @@ import Breadcrumb from '@/components/Breadcrumb.astro';
 import SectionHeading from '@/components/SectionHeading.astro';
 import ProductCard from '@/components/ProductCard.astro';
 import CTABand from '@/components/CTABand.astro';
-import { Image } from 'astro:assets';
-import { ArrowRight } from '@lucide/astro';
-import { img } from '@/lib/images';
 import { getCollection } from 'astro:content';
 
 const products = (await getCollection('products')).sort((a, b) => a.data.order - b.data.order);
@@ -24,7 +21,7 @@ const categories: Record<string, string> = {
 
 <BaseLayout
   title="Electrical Control Panels | Kedar Industries"
-  description="Kedar Industries manufactures PCC, MCC, APFC, RTPFC, hybrid power factor, PLC automation, VFD, distribution, and custom electrical control panels — CPRI type-tested, IEC 61439 compliant."
+  description="Kedar Industries manufactures PCC, MCC, APFC, RTPFC, hybrid power factor, active harmonic filter, static VAR generator and changeover panels. The panels comply with IEC 61439, and the LT panel design is CPRI type-tested."
   path="/products/"
 >
   <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Products' }]} />
@@ -37,7 +34,7 @@ const categories: Record<string, string> = {
       <SectionHeading
         eyebrow="Engineered for safety, efficiency & performance"
         title="Our Electrical Panel Solutions"
-        lead="Every panel is engineered to IEC 61439, built in-house, and tested before dispatch — from small in-feed units to a 7400 A PCC panel."
+        lead="Every panel is engineered to IEC 61439, built in-house, and tested before dispatch, from power factor correction panels to a 7400 A PCC panel."
         dark
         align="center"
       />
@@ -52,13 +49,13 @@ const categories: Record<string, string> = {
         aria-label="Filter products by category"
         id="category-filter"
       >
-        <button type="button" class="px-4 py-2 rounded-full text-sm font-medium bg-ink-900 text-paper" data-filter="all">
+        <button type="button" class="filter-btn px-4 py-2 rounded-full text-sm font-medium bg-ink-900 text-paper" data-filter="all">
           All ({products.length})
         </button>
         {Object.entries(categories).map(([key, label]) => {
           const count = products.filter((p) => p.data.category === key).length;
           return count > 0 ? (
-            <button type="button" class="px-4 py-2 rounded-full text-sm font-medium bg-ink-100 text-ink-900 hover:bg-ink-200 transition-colors" data-filter={key}>
+            <button type="button" class="filter-btn px-4 py-2 rounded-full text-sm font-medium bg-ink-100 text-ink-900" data-filter={key}>
               {label} ({count})
             </button>
           ) : null;
@@ -80,30 +77,23 @@ const categories: Record<string, string> = {
     </div>
   </section>
 
-  <section class="section-y">
+  <section id="capacitor-parts" class="section-y !pt-4 bg-ink-100/50 scroll-mt-16">
     <div class="container-page">
-      <p class="text-center text-ink-400 mb-8">Also fabricating precision components for capacitor manufacturers</p>
-      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
-        {parts.map((part) => (
-          <a href={`/capacitor-parts/${part.id}/`} class="capacitor-part-card card group flex flex-col items-center text-center overflow-hidden">
-            <div class="aspect-square w-full p-4 flex items-center justify-center">
-              <Image
-                src={img(part.data.heroImage)}
-                alt={part.data.name}
-                width={160}
-                height={160}
-                class="max-w-full max-h-full object-contain transition-transform duration-300 group-hover:scale-105"
-              />
-            </div>
-            <p class="px-3 pb-4 flex items-center justify-center gap-1.5 text-xs font-medium text-ink-900 leading-snug">
-              {part.data.name}
-              <ArrowRight class="size-3.5 shrink-0 text-ink-200 transition-all group-hover:text-amber-500 group-hover:translate-x-0.5" />
-            </p>
-          </a>
-        ))}
+      <div class="relative mb-10 pb-5 border-b border-ink-200">
+        <h2 class="text-2xl sm:text-3xl md:text-[2.25rem] leading-tight text-ink-900">Capacitor Part Fabrication</h2>
+        <span class="absolute left-0 -bottom-px h-[3px] w-24 bg-amber-500" aria-hidden="true"></span>
       </div>
-      <div class="text-center">
-        <a href="/capacitor-parts/" class="btn btn-outline">View All Capacitor Parts</a>
+      <div class="flex flex-wrap justify-center gap-6">
+        {parts.map((part) => (
+          <div class="w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(25%-1.125rem)]">
+            <ProductCard
+              href={`/capacitor-parts/${part.id}/`}
+              name={part.data.name}
+              tagline={part.data.tagline}
+              heroImage={part.data.heroImage}
+            />
+          </div>
+        ))}
       </div>
     </div>
   </section>
@@ -112,9 +102,20 @@ const categories: Record<string, string> = {
 </BaseLayout>
 
 <style>
-  .capacitor-part-card {
-    border-color: transparent;
-    box-shadow: 0 1px 4px rgba(14, 17, 22, 0.08);
+  /* Inactive filter pills get the site-wide bottom-up fill on hover;
+     the selected (dark) pill stays as it is. */
+  .filter-btn {
+    box-shadow: inset 0 0 0 0 var(--color-amber-500);
+    transition: box-shadow 0.4s ease-out, color 0.4s ease-out;
+  }
+  .filter-btn:not(.bg-ink-900):hover,
+  .filter-btn:not(.bg-ink-900):focus-visible {
+    box-shadow: inset 0 -4em 0 0 var(--color-amber-500);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .filter-btn {
+      transition: none;
+    }
   }
 </style>
 

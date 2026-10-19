@@ -5,7 +5,7 @@ import { img } from '@/lib/images';
 import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 
-const logo = img('logo-wordmark.png');
+const logo = img('logo-wordmark.svg');
 const currentPath = Astro.url.pathname;
 
 const products = (await getCollection('products')).sort((a, b) => a.data.order - b.data.order);

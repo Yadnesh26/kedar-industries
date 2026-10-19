@@ -5,11 +5,12 @@ interface Props {
   name: string;
   number: string;
   body: string;
+  id?: string;
 }
-const { name, number, body } = Astro.props;
+const { name, number, body, id } = Astro.props;
 ---
 
-<div class="rounded-md border border-white/10 bg-white/5 p-5 flex gap-4 items-start">
+<div id={id} class="cert-card scroll-mt-28 rounded-md border border-white/10 bg-white/5 p-5 flex gap-4 items-start">
   <BadgeCheck class="size-6 text-amber-500 shrink-0 mt-0.5" />
   <div>
     <h3 class="font-display font-bold text-paper text-sm leading-snug">{name}</h3>
@@ -17,3 +18,13 @@ const { name, number, body } = Astro.props;
     <p class="text-xs text-ink-400">{body}</p>
   </div>
 </div>
+
+<style>
+  .cert-card {
+    transition: border-color 300ms ease, box-shadow 300ms ease;
+  }
+  .cert-card:target {
+    border-color: var(--color-amber-500);
+    box-shadow: 0 0 0 1px var(--color-amber-500), 0 0 24px -6px rgba(245, 158, 11, 0.55);
+  }
+</style>

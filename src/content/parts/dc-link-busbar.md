@@ -1,7 +1,7 @@
 ---
 name: "DC Link Busbar"
 tagline: "DC link busbar fabrication for capacitor and power converter assemblies."
-heroImage: "capacitor-part-dc-link-busbar.png"
+heroImage: "product-dc-link-busbar.jpg"
 overview: |
   DC link busbars connect DC-side capacitor banks in power converter and drive assemblies,
   fabricated for exported Vishay WECS capacitor orders among other capacitor production runs.
@@ -12,7 +12,7 @@ features:
 applications:
   - "DC-side capacitor bank interconnection"
   - "Power converter and WECS (Wind Energy Conversion System) capacitor assemblies"
-order: 5
+order: 6
 ---
 
 DC link busbar fabrication, produced for export-grade Vishay WECS capacitor orders among

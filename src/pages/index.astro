@@ -9,6 +9,7 @@ import LogoWall from '@/components/LogoWall.astro';
 import { Image, Picture } from 'astro:assets';
 import { ArrowRight, CircleCheck, Wrench, Flame, Warehouse } from '@lucide/astro';
 import { img } from '@/lib/images';
+import { certHref } from '@/lib/certs';
 import { getCollection } from 'astro:content';
 
 import company from '@/data/company.json';
@@ -19,9 +20,12 @@ import projects from '@/data/projects.json';
 
 const allProducts = (await getCollection('products')).sort((a, b) => a.data.order - b.data.order);
 
-const heroBg = img('hero-panel-warehouse.jpg');
+const heroBg = img('hero-mcc-panel-factory-v5.jpg');
 
-const heroPhrases = ['to standard.', 'by CPRI.', 'at 70 kA.', 'in the field.'];
+const certTagClass =
+  'flex items-center gap-1.5 rounded-full border border-white/15 bg-white/[0.06] backdrop-blur-sm px-3.5 py-1.5 text-xs sm:text-sm font-mono-figure text-ink-100 transition duration-150 ease-out hover:border-amber-500/60 hover:bg-white/[0.1] active:scale-[0.96] active:bg-amber-500/15 focus-visible:outline-2 focus-visible:outline-amber-500';
+
+const heroPhrases =['to standard.', 'by CPRI.', 'at 70 kA.', 'in the field.'];
 
 const stats = [
   { value: '2019', label: 'Production commenced' },
@@ -39,7 +43,7 @@ const infrastructureFeatures = [
 
 <BaseLayout
   title="Kedar Industries"
-  description="Kedar Industries manufactures CPRI type-tested electrical control panels — PCC, MCC, APFC, RTPFC — plus capacitor part fabrication and precision soldering & brazing. IEC 61439, ISO 9001/14001/45001, IATF 16949 certified. Nashik, Maharashtra."
+  description="Kedar Industries in Nashik, Maharashtra makes CPRI type-tested electrical control panels (PCC, MCC, APFC and RTPFC) and also does capacitor part fabrication and precision soldering and brazing. Panels are built to IEC 61439, and the company is certified to ISO 9001, ISO 14001, ISO 45001 and IATF 16949."
   path="/"
 >
   <!-- 1. Hero (extended — carries the stat row at its own bottom edge) -->
@@ -54,17 +58,13 @@ const infrastructureFeatures = [
         fallbackFormat="jpg"
         loading="eager"
         fetchpriority="high"
-        class="w-full h-full object-cover object-left lg:object-center"
+        class="w-full h-full object-cover object-[72%_center] lg:object-left"
       />
-      <div class="absolute inset-0 bg-gradient-to-r from-ink-900/65 via-ink-900/25 to-transparent"></div>
+      <div class="absolute inset-0 bg-gradient-to-r from-ink-900/75 via-ink-900/55 via-32% to-ink-900/10 to-46%"></div>
       {/* A second, bottom-anchored fade — independent of the left-right one
           above — so the stat row (full-width, lower on the image) reads
           clearly no matter how bright that part of the photo is. */}
-      <div class="absolute inset-0 bg-gradient-to-t from-ink-900/90 via-ink-900/10 to-transparent"></div>
-      {/* Flat 10% black fade over the whole photo, on top of the two
-          gradients above — a bit more separation behind the text without
-          reshaping either gradient. */}
-      <div class="absolute inset-0 bg-black/10"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-ink-900/85 via-transparent via-35% to-transparent"></div>
     </div>
     <div class="container-page relative flex flex-col min-h-[640px] sm:min-h-[720px] lg:min-h-[800px] pt-15 pb-5 sm:pt-19 sm:pb-7">
       <div>
@@ -78,7 +78,7 @@ const infrastructureFeatures = [
         </h1>
         <p class="mt-6 text-lg sm:text-xl text-ink-200 max-w-xl leading-relaxed">
           Kedar Industries manufactures electrical control panels, capacitor part fabrication, and
-          precision soldering &amp; brazing — engineered to IEC 61439 and independently validated
+          precision soldering &amp; brazing, engineered to IEC 61439 and independently validated
           by CPRI.
         </p>
         <div class="mt-9 flex flex-wrap gap-4">
@@ -96,16 +96,16 @@ const infrastructureFeatures = [
         <div class="mt-10 flex flex-col gap-2.5">
           <div class="flex flex-wrap gap-2.5">
             {certifications.certStrip.slice(0, 4).map((cert) => (
-              <span class="flex items-center gap-1.5 rounded-full border border-white/15 bg-white/[0.06] backdrop-blur-sm px-3.5 py-1.5 text-xs sm:text-sm font-mono-figure text-ink-100">
+              <a href={certHref(cert)} class={certTagClass}>
                 <CircleCheck class="size-3.5 text-amber-500 shrink-0" /> {cert}
-              </span>
+              </a>
             ))}
           </div>
           <div class="flex flex-wrap gap-2.5">
             {certifications.certStrip.slice(4).map((cert) => (
-              <span class="flex items-center gap-1.5 rounded-full border border-white/15 bg-white/[0.06] backdrop-blur-sm px-3.5 py-1.5 text-xs sm:text-sm font-mono-figure text-ink-100">
+              <a href={certHref(cert)} class={certTagClass}>
                 <CircleCheck class="size-3.5 text-amber-500 shrink-0" /> {cert}
-              </span>
+              </a>
             ))}
           </div>
         </div>
@@ -146,7 +146,16 @@ const infrastructureFeatures = [
       </div>
       <div class="reveal order-1 lg:order-2">
         <SectionHeading eyebrow="About Kedar Industries" title={company.tagline} />
-        <p class="text-ink-400 leading-relaxed mb-6">{company.about}</p>
+        <div class="flex flex-col gap-4 mb-8 text-ink-400 leading-relaxed max-w-xl">
+          <p>
+            Kedar Industries manufactures electrical control panels, and also fabricates capacitor
+            parts and carries out precision soldering and brazing for industrial customers.
+          </p>
+          <p>
+            Our Nashik facility combines modern machinery, skilled technicians and in-house quality
+            control, so every product is built to national and international standards.
+          </p>
+        </div>
         <ul class="grid sm:grid-cols-2 gap-3 mb-8">
           {['Design, fabricate & test in-house', 'IEC 61439 & CPRI validated', 'Vishay & C&S authorised partner', 'ISO 9001/14001/45001 + IATF 16949'].map((item) => (
             <li class="flex items-start gap-2 text-sm text-ink-600">
@@ -171,7 +180,7 @@ const infrastructureFeatures = [
         <SectionHeading
           eyebrow="Industry-certified partnerships"
           title="Authorised Technology Partners"
-          lead="Kedar Industries holds authorised partner status with two established electrical brands — not a reseller arrangement, but a design-and-manufacture licence."
+          lead="Kedar Industries holds authorised partner status with two established electrical brands. It is a design-and-manufacture licence, which goes beyond a reseller arrangement."
           dark
         />
         <div class="hidden lg:flex flex-col gap-3.5 shrink-0 max-w-xs pb-12">
@@ -229,20 +238,49 @@ const infrastructureFeatures = [
     </div>
     <div class="absolute inset-0 opacity-[0.04] bg-[radial-gradient(circle_at_80%_20%,#FFC629,transparent_50%)]"></div>
     <div class="container-page relative grid lg:grid-cols-2 gap-[2.55rem] items-center">
-      <div class="rounded-2xl overflow-hidden">
-        <Image
-          src={img('panel-factory-floor-overview-render.webp')}
-          alt="Overview of the Kedar Industries manufacturing floor"
-          width={1400}
-          height={764}
-          class="w-full object-cover aspect-[1.5686]"
-        />
+      <div class="grid grid-cols-[1.4fr_1fr] grid-rows-3 gap-2 rounded-2xl overflow-hidden aspect-[1.5686]">
+        <div class="row-span-3">
+          <Image
+            src={img('facility-panel-assembly-testing-area.jpg')}
+            alt="Panel assembly and testing area at Kedar Industries' Nashik facility"
+            width={900}
+            height={1160}
+            class="w-full h-full object-cover"
+          />
+        </div>
+        <div>
+          <Image
+            src={img('facility-production-floor-team-01.jpg')}
+            alt="Production team at work on the Kedar Industries shop floor"
+            width={640}
+            height={360}
+            class="w-full h-full object-cover"
+          />
+        </div>
+        <div>
+          <Image
+            src={img('facility-production-floor-team-02.jpg')}
+            alt="Assembly workstations on the Kedar Industries production floor"
+            width={640}
+            height={360}
+            class="w-full h-full object-cover"
+          />
+        </div>
+        <div>
+          <Image
+            src={img('facility-raw-material-store-area.jpg')}
+            alt="Organised raw-material store area at Kedar Industries"
+            width={640}
+            height={360}
+            class="w-full h-full object-cover"
+          />
+        </div>
       </div>
       <div>
         <SectionHeading
           eyebrow="Manufacturing facility"
           title="8,000 sq ft. Every stage in-house."
-          lead="Every panel begins with the right foundation — a facility designed to handle complex requirements with speed, accuracy and zero compromise on quality."
+          lead="Every panel begins with the right foundation: a facility designed to handle complex requirements with speed, accuracy and zero compromise on quality."
           dark
         />
         <ul class="flex flex-col gap-3 mb-[1.7rem]">
@@ -266,7 +304,7 @@ const infrastructureFeatures = [
         <SectionHeading
           eyebrow="Quality assurance"
           title="Every panel tested. Every standard met."
-          lead="We don't just manufacture panels — we guarantee their performance. From raw material inspection to final dispatch, independently verified by CPRI per IEC 61439-1 & 2."
+          lead="We manufacture panels and stand behind their performance. From raw material inspection to final dispatch, independently verified by CPRI per IEC 61439-1 & 2."
         />
         <div class="grid grid-cols-3 gap-3 mb-8">
           <div class="card p-4 text-center">
@@ -288,10 +326,11 @@ const infrastructureFeatures = [
       </div>
       <div class="rounded-2xl overflow-hidden border border-ink-100 shadow-sm">
         <Image
-          src={img('panel-quality-assurance-testing-bench.webp')}
-          alt="Technicians testing and inspecting a control panel at the workbench"
-          width={1200}
-          height={655}
+          src={img('facility-panel-packing-area.jpg')}
+          alt="Finished panels wrapped, labelled and palletised in the Kedar Industries panel packing area"
+          width={1400}
+          height={875}
+          fit="cover"
           class="w-full object-cover aspect-[16/10]"
         />
       </div>

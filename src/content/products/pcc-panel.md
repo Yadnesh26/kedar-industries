@@ -2,14 +2,14 @@
 name: "PCC Panel"
 category: "power-distribution"
 tagline: "Power Control Centre panels engineered for safe, high-current distribution and feeder protection."
-heroImage: "panel-pcc-power-control-centre-cutout.png"
+heroImage: "product-pcc-panel-v2.jpg"
 gallery:
   - "panel-apfc-batch-ready-for-dispatch-3.jpg"
   - "panel-lt-panel-front-closed.jpg"
 overview: |
   Kedar's Power Control Centre (PCC) panels form the main incoming and outgoing distribution
-  backbone of an industrial LT installation — receiving power from the transformer or DG set and
-  distributing it to downstream MCCs, distribution boards and individual loads through
+  backbone of an industrial LT installation. They receive power from the transformer or DG set and
+  distribute it to downstream MCCs, distribution boards and individual loads through
   protected, metered feeders. Every PCC leaves the shop floor after routine HV, megger and
   functional testing, and the busbar-and-enclosure design follows the same construction
   principles independently type-tested by CPRI at 4000 A / 70 kA on a Kedar-built sample.
@@ -44,17 +44,17 @@ standards:
   - "IS/IEC 61439"
 faqs:
   - q: "What is a PCC panel used for?"
-    a: "A Power Control Centre panel is the main distribution point in an LT electrical system — it receives incoming power and distributes it safely to downstream panels and loads through protected feeders."
+    a: "A Power Control Centre panel is the main distribution point in an LT electrical system. It receives incoming power and distributes it safely to downstream panels and loads through protected feeders."
   - q: "What current ratings do you manufacture?"
-    a: "Kedar builds PCC panels from small distribution loads up to 4000 A main incomers — the same current rating independently short-circuit tested at CPRI to 70 kA."
+    a: "Kedar builds PCC panels from small distribution loads up to 4000 A main incomers. That top rating was independently short-circuit tested at CPRI to 70 kA."
   - q: "Is the panel suitable for continuous industrial operation?"
     a: "Yes. CPRI temperature-rise testing on a Kedar-built 4000 A sample recorded a maximum busbar-joint rise of 45.4 K against a 70 K limit, confirming safe margins under continuous full load."
   - q: "Can the panel integrate with automation and monitoring systems?"
-    a: "Yes — metering, protection relays, PLC interfacing and SCADA/communication modules can be built in as per project requirement."
+    a: "Yes, metering, protection relays, PLC interfacing and SCADA/communication modules can be built in as per project requirement."
   - q: "Is every panel tested before dispatch?"
     a: "Every panel undergoes insulation resistance, HV withstand, continuity, earth continuity and functional testing before it leaves the factory, per Kedar's documented quality process."
   - q: "Do you provide installation support?"
-    a: "Yes — Kedar's after-sales team offers installation & commissioning, AMC, genuine spares and 24×7 remote technical support."
+    a: "Yes, Kedar's after-sales team offers installation & commissioning, AMC, genuine spares and 24×7 remote technical support."
 relatedTestEvidence: true
 order: 1
 ---

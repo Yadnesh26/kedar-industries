@@ -15,7 +15,7 @@
     "state": "Maharashtra",
     "postalCode": "422010",
     "country": "India",
-    "full": "Plot No. M-20, Siemens Road, MIDC, Ambad, Nashik – 422010, Maharashtra, India"
+    "full": "Plot No. M-20, Siemens Road, MIDC, Ambad, Nashik 422010, Maharashtra, India"
   },
   "geo": {
     "lat": 20.0117,
@@ -35,7 +35,7 @@
   "emails": ["info@kedarindustries.net", "kedarind2019@gmail.com"],
   "website": "kedarindustries.net",
   "hours": {
-    "weekdays": "Sunday – Friday: 8:00 AM – 6:00 PM",
+    "weekdays": "Sunday to Friday: 8:00 AM to 6:00 PM",
     "saturday": "Closed",
     "schemaOpeningHours": "Su,Mo,Tu,We,Th,Fr 08:00-18:00"
   },

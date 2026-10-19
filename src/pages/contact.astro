@@ -12,7 +12,7 @@ const parts = (await getCollection('parts')).sort((a, b) => a.data.order - b.dat
 
 <BaseLayout
   title="Contact Us | Kedar Industries"
-  description="Get in touch with Kedar Industries — Plot No. M-20, Siemens Road, MIDC, Ambad, Nashik. Call +91 96575 19210 or send an enquiry for electrical control panels, capacitor parts, or services."
+  description="Kedar Industries is at Plot No. M-20, Siemens Road, MIDC Ambad, Nashik. Call +91 96575 19210 or send an enquiry about electrical control panels, capacitor parts or services."
   path="/contact/"
 >
   <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Contact' }]} />
@@ -23,7 +23,7 @@ const parts = (await getCollection('parts')).sort((a, b) => a.data.order - b.dat
         as="h1"
         eyebrow="Get in touch"
         title="Tell us what you need built"
-        lead="Send your load requirement, single-line diagram, or service request — our engineering team responds with a costed proposal."
+        lead="Send your load requirement, single-line diagram, or service request. Our engineering team responds with a costed proposal."
       />
 
       <div class="grid lg:grid-cols-[1.3fr_1fr] gap-12">
@@ -33,13 +33,13 @@ const parts = (await getCollection('parts')).sort((a, b) => a.data.order - b.dat
           method="POST"
         >
           <!--
-            TODO before launch: replace this Web3Forms access key with the client's own
-            (free at web3forms.com, no backend needed), or swap the form action for the
-            client's preferred provider (Formspree, a Netlify/Cloudflare function, etc.).
+            TODO before launch: this is the developer's TESTING Web3Forms key (enquiries go to
+            the developer's test inbox). Replace it with a key generated for the client's email.
           -->
-          <input type="hidden" name="access_key" value="REPLACE_WITH_WEB3FORMS_ACCESS_KEY" />
+          <input type="hidden" name="access_key" value="5ef3f93b-eee6-4683-b88a-ced985d06bfa" />
           <input type="hidden" name="subject" value="New enquiry from kedarindustries.net" />
-          <input type="hidden" name="redirect" value="https://kedarindustries.net/thank-you/" />
+          <input type="hidden" name="from_name" value="Kedar Industries Website" />
+          <input type="hidden" name="redirect" value="https://kedarindustries.net/thank-you/" data-redirect />
           <input type="checkbox" name="botcheck" class="hidden" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true" />
 
           <div class="grid sm:grid-cols-2 gap-5">
@@ -184,3 +184,10 @@ const parts = (await getCollection('parts')).sort((a, b) => a.data.order - b.dat
     </div>
   </section>
 </BaseLayout>
+
+<script>
+  // Send people to the thank-you page on whichever site they submitted from
+  // (testing deployment, localhost, or the live domain).
+  const redirect = document.querySelector<HTMLInputElement>('[data-redirect]');
+  if (redirect) redirect.value = `${window.location.origin}/thank-you/`;
+</script>

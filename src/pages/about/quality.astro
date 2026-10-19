@@ -6,42 +6,32 @@ import CertCard from '@/components/CertCard.astro';
 import PartnerCard from '@/components/PartnerCard.astro';
 import Lightbox from '@/components/Lightbox.astro';
 import CTABand from '@/components/CTABand.astro';
-import { CircleCheck } from '@lucide/astro';
 import company from '@/data/company.json';
 import certifications from '@/data/certifications.json';
 import cpriTests from '@/data/cpri-tests.json';
-import equipment from '@/data/equipment.json';
+import { certSlug } from '@/lib/certs';
 
 const { shortCircuit, temperatureRise, ip55 } = cpriTests;
 ---
 
 <BaseLayout
   title="Quality & Certifications | Kedar Industries"
-  description="Every Kedar Industries panel is inspected, tested and documented before dispatch. CPRI type-test reports for short-circuit withstand (4000 A / 70 kA), temperature rise, and IP55, plus ISO 9001/14001/45001, IATF 16949, ZED Silver, Vishay and C&S Electric partner authorizations."
+  description="Every Kedar Industries panel is inspected, tested and documented before dispatch. This page has the CPRI type-test reports for short-circuit withstand (4000 A / 70 kA), temperature rise and IP55, along with the ISO 9001, 14001, 45001, IATF 16949 and ZED Gold certificates and the Vishay and C&S Electric partner authorizations."
   path="/about/quality/"
 >
   <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'About Us', href: '/about/' }, { label: 'Quality & Certifications' }]} />
 
-  <section class="section-y">
-    <div class="container-page">
-      <SectionHeading
-        eyebrow="Quality assurance"
-        title="Every panel tested. Every standard met."
-        lead="Quality runs through every stage of manufacturing — from incoming material inspection to final testing and documented traceability. This page holds the actual test reports and certificates, not a marketing summary of them."
-      />
-    </div>
-  </section>
-
   <!-- CPRI summary -->
-  <section class="section-y section-diagonal-dark" id="cpri">
+  <section class="section-y section-diagonal-dark section-diagonal-dark--bottom-only scroll-mt-16" id="cpri">
     <div class="section-diagonal-dark__edges" aria-hidden="true">
       <span></span><span></span><span></span>
     </div>
-    <div class="container-page relative">
+    <div class="container-page relative grid lg:grid-cols-2 gap-x-12 items-center">
       <SectionHeading
-        eyebrow="The evidence"
+        eyebrow="Quality assurance"
         title="Independently verified by CPRI"
-        lead="Type tested at the Central Power Research Institute per IEC 61439-1 & 2 — every figure below is drawn from a numbered report you can view in full."
+        as="h1"
+        lead="Type tested at the Central Power Research Institute per IEC 61439-1 & 2. Every figure in the table is drawn from a numbered report you can view in full."
         dark
       />
       <div class="card bg-ink-800 border-white/10 overflow-hidden">
@@ -127,7 +117,7 @@ const { shortCircuit, temperatureRise, ip55 } = cpriTests;
 
           <div class="card p-5 mb-6 bg-amber-100/40 border-amber-500/30">
             <p class="font-mono-figure text-3xl text-amber-600 font-semibold">{temperatureRise.maxRiseK} K</p>
-            <p class="text-sm text-ink-900 mt-1">Maximum rise recorded — at {temperatureRise.maxRiseLocation} — against a {temperatureRise.maxRiseLimitK} K customer limit.</p>
+            <p class="text-sm text-ink-900 mt-1">Maximum rise recorded at {temperatureRise.maxRiseLocation}, against a {temperatureRise.maxRiseLimitK} K customer limit.</p>
           </div>
 
           <details class="card p-5 mb-6">
@@ -157,7 +147,7 @@ const { shortCircuit, temperatureRise, ip55 } = cpriTests;
           </details>
 
           <p class="text-sm text-ink-400 mb-1"><strong class="text-ink-900">HV withstand:</strong> {temperatureRise.hvWithstand.voltageKvRms} kV rms, withstood {temperatureRise.hvWithstand.durationS}s across all five configurations.</p>
-          <p class="text-sm text-ink-400"><strong class="text-ink-900">Clearance / creepage:</strong> {temperatureRise.clearanceMm} mm / {temperatureRise.creepageMm} mm — within limits for pollution degree 3, material group IIIa.</p>
+          <p class="text-sm text-ink-400"><strong class="text-ink-900">Clearance / creepage:</strong> {temperatureRise.clearanceMm} mm / {temperatureRise.creepageMm} mm, within limits for pollution degree 3, material group IIIa.</p>
         </div>
         <div>
           <p class="text-sm font-medium text-ink-900 mb-3">Report scans</p>
@@ -171,7 +161,7 @@ const { shortCircuit, temperatureRise, ip55 } = cpriTests;
   <section class="section-y" id="ip55">
     <div class="container-page">
       <p class="eyebrow mb-2">Report {ip55.reportNumber}</p>
-      <h2 class="text-2xl sm:text-3xl text-ink-900 mb-6">Degree of Protection — IP55</h2>
+      <h2 class="text-2xl sm:text-3xl text-ink-900 mb-6">Degree of Protection: IP55</h2>
       <div class="grid lg:grid-cols-2 gap-10">
         <div>
           <dl class="grid grid-cols-2 gap-x-6 gap-y-3 text-sm mb-6">
@@ -210,10 +200,10 @@ const { shortCircuit, temperatureRise, ip55 } = cpriTests;
       <span></span><span></span><span></span>
     </div>
     <div class="container-page relative">
-      <SectionHeading eyebrow="Management systems" title="Five audited certifications" dark />
+      <SectionHeading eyebrow="Management systems" title="Six audited certifications" dark />
       <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {certifications.managementSystems.map((c) => (
-          <CertCard name={c.name} number={c.number} body={c.body} />
+          <CertCard id={certSlug(c.short)} name={c.name} number={c.number} body={c.body} />
         ))}
       </div>
     </div>
@@ -231,65 +221,10 @@ const { shortCircuit, temperatureRise, ip55 } = cpriTests;
       <div class="grid sm:grid-cols-2 gap-4">
         {certifications.partnerships.map((p) => (
           <div>
-            <p class="text-sm font-medium text-ink-900 mb-3">{p.partner} — signed letter/certificate</p>
-            <Lightbox images={[p.certScan]} groupId={`partner-${p.partner.slice(0, 6)}`} captionPrefix={p.partner} />
+            <p class="text-sm font-medium text-ink-900 mb-3">{p.partner}: signed letter/certificate</p>
+            <Lightbox images={[p.certScan]} groupId={`partner-${p.partner.slice(0, 6)}`} captionPrefix={p.partner} gridClass="grid-cols-4" />
           </div>
         ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- Quality process (supporting detail, not the headline evidence) -->
-  <section class="section-y section-diagonal-dark">
-    <div class="section-diagonal-dark__edges" aria-hidden="true">
-      <span></span><span></span><span></span>
-    </div>
-    <div class="container-page relative">
-      <SectionHeading eyebrow="Our approach" title="A disciplined quality process" dark />
-      <ol class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {company.qualityProcess.map((step, i) => (
-          <li class="rounded-md border border-white/10 bg-white/5 p-5 flex items-start gap-4">
-            <span class="font-mono-figure text-2xl font-bold text-amber-500 shrink-0">{String(i + 1).padStart(2, '0')}</span>
-            <span class="text-sm text-paper font-medium pt-1">{step}</span>
-          </li>
-        ))}
-      </ol>
-    </div>
-  </section>
-
-  <!-- Testing procedures & equipment -->
-  <section class="section-y">
-    <div class="container-page">
-      <SectionHeading eyebrow="Final inspection & testing" title="10 electrical testing procedures" lead="Every panel undergoes Factory Acceptance Testing against the approved drawing and bill of materials before it is cleared for dispatch." />
-      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-10">
-        {company.electricalTestingFacilities.map((test) => (
-          <div class="flex items-center gap-3 p-4 rounded-md bg-paper border border-ink-100">
-            <CircleCheck class="size-4 text-amber-600 shrink-0" />
-            <span class="text-sm text-ink-900">{test}</span>
-          </div>
-        ))}
-      </div>
-
-      <SectionHeading eyebrow="Calibrated instruments" title="Panel testing & measuring equipment" />
-      <div class="card overflow-hidden">
-        <table class="w-full text-sm">
-          <thead>
-            <tr class="bg-ink-100/60 text-left">
-              <th class="px-5 py-3 font-mono-figure text-ink-400 w-16">No.</th>
-              <th class="px-5 py-3 text-ink-400 font-medium">Instrument</th>
-              <th class="px-5 py-3 text-ink-400 font-medium w-24 text-right">Qty.</th>
-            </tr>
-          </thead>
-          <tbody>
-            {equipment.map((eq, i) => (
-              <tr class:list={[i % 2 === 1 && 'bg-ink-100/30']}>
-                <td class="px-5 py-3 font-mono-figure text-ink-400">{eq.no}</td>
-                <td class="px-5 py-3 text-ink-900">{eq.instrument}</td>
-                <td class="px-5 py-3 text-right font-mono-figure text-ink-900">{eq.qty}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
       </div>
     </div>
   </section>

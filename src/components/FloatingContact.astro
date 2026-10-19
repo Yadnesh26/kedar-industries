@@ -65,10 +65,8 @@ const whatsappNumber = company.phoneHref.replace('+', '');
     position: absolute;
     right: 0.125rem;
     bottom: 100%;
-    /* Padding (not a gap from the toggle) so the hoverable area reaches all
-       the way down to the toggle with no dead zone in between — otherwise
-       the pointer briefly leaves every hoverable element while crossing
-       from the toggle to the options, flickering the whole thing shut. */
+    /* Padding (not a gap from the toggle) so there is no dead zone between
+       the toggle and the options. */
     padding-bottom: 0.875rem;
     display: flex;
     flex-direction: column;
@@ -102,7 +100,7 @@ const whatsappNumber = company.phoneHref.replace('+', '');
     background: var(--fab-pink);
     transition-delay: 100ms;
   }
-  .floating-contact:is(:hover, :focus-within, .is-open) .floating-contact__option {
+  .floating-contact:is(.is-open, :has(:focus-visible)) .floating-contact__option {
     opacity: 1;
     transform: none;
     pointer-events: auto;
@@ -111,13 +109,13 @@ const whatsappNumber = company.phoneHref.replace('+', '');
   /* Reverse the stagger on the way in vs. out: the item closest to the
      toggle (email) leads on open and trails on close, like it's unfurling
      from — and folding back into — the button. */
-  .floating-contact:is(:hover, :focus-within, .is-open) .floating-contact__option--phone {
+  .floating-contact:is(.is-open, :has(:focus-visible)) .floating-contact__option--phone {
     transition-delay: 100ms;
   }
-  .floating-contact:is(:hover, :focus-within, .is-open) .floating-contact__option--whatsapp {
+  .floating-contact:is(.is-open, :has(:focus-visible)) .floating-contact__option--whatsapp {
     transition-delay: 50ms;
   }
-  .floating-contact:is(:hover, :focus-within, .is-open) .floating-contact__option--email {
+  .floating-contact:is(.is-open, :has(:focus-visible)) .floating-contact__option--email {
     transition-delay: 0ms;
   }
 
@@ -135,7 +133,7 @@ const whatsappNumber = company.phoneHref.replace('+', '');
     box-shadow: 0 8px 20px -6px rgba(14, 17, 22, 0.45);
     transition: transform 300ms var(--ease-pop);
   }
-  .floating-contact:is(:hover, :focus-within, .is-open) .floating-contact__toggle {
+  .floating-contact:is(.is-open, :has(:focus-visible)) .floating-contact__toggle {
     transform: scale(1.06);
   }
   .floating-contact__icon {
@@ -147,11 +145,11 @@ const whatsappNumber = company.phoneHref.replace('+', '');
     opacity: 0;
     transform: rotate(-45deg) scale(0.4);
   }
-  .floating-contact:is(:hover, :focus-within, .is-open) .floating-contact__icon--open {
+  .floating-contact:is(.is-open, :has(:focus-visible)) .floating-contact__icon--open {
     opacity: 0;
     transform: rotate(45deg) scale(0.4);
   }
-  .floating-contact:is(:hover, :focus-within, .is-open) .floating-contact__icon--close {
+  .floating-contact:is(.is-open, :has(:focus-visible)) .floating-contact__icon--close {
     opacity: 1;
     transform: rotate(0deg) scale(1);
   }
@@ -169,19 +167,37 @@ const whatsappNumber = company.phoneHref.replace('+', '');
   const container = document.getElementById('floating-contact');
   const toggle = document.getElementById('floating-contact-toggle');
 
+  // Hovering with a mouse opens the panel and it then stays open — moving the
+  // pointer away does not close it. Only the X (or Escape) closes it. After
+  // closing, the pointer is usually still over the button, so `dismissed`
+  // stops that same hover from instantly re-opening it; it resets once the
+  // pointer leaves. Touch has no hover, so a tap simply toggles.
+  let dismissed = false;
+
+  function isOpen() {
+    return !!container?.classList.contains('is-open');
+  }
+
   function setOpen(open: boolean) {
     container?.classList.toggle('is-open', open);
     toggle?.setAttribute('aria-expanded', String(open));
+    if (!open && container?.contains(document.activeElement)) {
+      (document.activeElement as HTMLElement).blur();
+    }
   }
 
-  toggle?.addEventListener('click', () => {
-    setOpen(!container?.classList.contains('is-open'));
+  container?.addEventListener('pointerenter', (e) => {
+    if (e.pointerType === 'mouse' && !dismissed) setOpen(true);
   });
 
-  document.addEventListener('click', (e) => {
-    if (container && !container.contains(e.target as Node)) {
-      setOpen(false);
-    }
+  container?.addEventListener('pointerleave', () => {
+    dismissed = false;
+  });
+
+  toggle?.addEventListener('click', () => {
+    const next = !isOpen();
+    setOpen(next);
+    dismissed = !next;
   });
 
   document.addEventListener('keydown', (e) => {

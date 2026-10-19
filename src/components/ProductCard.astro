@@ -8,25 +8,31 @@ interface Props {
   name: string;
   tagline: string;
   heroImage: string;
+  /** Shorter card with a tinted image tile, for small parts. */
+  compact?: boolean;
 }
-const { href, name, tagline, heroImage } = Astro.props;
+const { href, name, tagline, heroImage, compact = false } = Astro.props;
 ---
 
-<a href={href} class="product-card card group flex flex-col overflow-hidden h-[30rem] sm:h-[32rem] lg:h-[44rem] xl:h-[38rem] 2xl:h-[32rem]">
-  <div class="flex-[3] min-h-0 p-8 flex items-center justify-center">
+<a
+  href={href}
+  class:list={[
+    'product-card card group flex flex-col overflow-hidden',
+    compact ? 'h-full' : 'h-[30rem] sm:h-[32rem] lg:h-[44rem] xl:h-[38rem] 2xl:h-[32rem]',
+  ]}
+>
+  <div class:list={['min-h-0 flex items-center justify-center', compact ? 'aspect-[4/3] m-3 mb-0 p-4' : 'flex-[3] p-8']}>
     <Image
       src={img(heroImage)}
       alt={name}
-      width={480}
-      height={360}
-      fit="contain"
-      class="max-w-full max-h-full w-auto h-auto object-contain transition-transform duration-300 group-hover:scale-105"
+      width={640}
+      class:list={['max-w-full max-h-full w-auto h-auto object-contain transition-transform duration-300 group-hover:scale-105', compact && 'mix-blend-multiply']}
     />
   </div>
-  <div class="flex-[2] min-h-0 p-6 flex flex-col items-center text-center gap-2">
+  <div class:list={[compact ? 'flex-1' : 'flex-[2]', 'min-h-0 p-6 flex flex-col items-center text-center gap-2']}>
     <h3 class="font-display font-extrabold text-xl text-ink-900 leading-tight">{name}</h3>
     <p class="text-sm text-ink-400 leading-relaxed">{tagline}</p>
-    <span class="mt-auto inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-amber-500 text-ink-900 font-semibold text-sm transition-colors group-hover:bg-amber-600">
+    <span class="mt-auto inline-flex items-center gap-2 px-5 py-2.5 rounded-[var(--radius-md)] bg-amber-500 text-ink-900 font-semibold text-sm fill-hover">
       View Details <ArrowRight class="size-4" />
     </span>
   </div>

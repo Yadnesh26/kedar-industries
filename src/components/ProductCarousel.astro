@@ -30,7 +30,6 @@ import { ChevronLeft, ChevronRight } from '@lucide/astro';
     gap: 1.5rem;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
-    scroll-padding-inline: 1.5rem;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
     padding-block: 0.25rem;
@@ -93,8 +92,12 @@ import { ChevronLeft, ChevronRight } from '@lucide/astro';
       track.appendChild(clone);
     });
 
+    // Distance from the first card to its clone: exactly one loop, gaps
+    // included. (scrollWidth / 2 is half a gap short, which made the cards
+    // drift out of alignment on every loop.)
+    const firstClone = track.children[originalItems.length];
     function oneSetWidth() {
-      return track.scrollWidth / 2;
+      return firstClone.offsetLeft - originalItems[0].offsetLeft;
     }
 
     function stepWidth() {
@@ -133,23 +136,9 @@ import { ChevronLeft, ChevronRight } from '@lucide/astro';
       startAuto();
     });
 
-    // Pause only on a genuine hover (the mouse actually moving while over the
-    // carousel), not merely on `mouseenter` — scrolling the page down to this
-    // section with the cursor held still fires `mouseenter` with no real
-    // pointer movement, and if the cursor then rests inside the carousel with
-    // no `mouseleave` to follow, auto-advance would otherwise stay paused
-    // forever.
-    let hovering = false;
-    carousel.addEventListener('mousemove', () => {
-      if (!hovering) {
-        hovering = true;
-        stopAuto();
-      }
-    });
-    carousel.addEventListener('mouseleave', () => {
-      hovering = false;
-      startAuto();
-    });
+    // Auto-advance keeps running while the mouse is over the carousel; it only
+    // pauses while keyboard focus is inside, so a focused card isn't scrolled
+    // away mid-interaction.
     carousel.addEventListener('focusin', stopAuto);
     carousel.addEventListener('focusout', (e) => {
       if (!carousel.contains(e.relatedTarget)) startAuto();

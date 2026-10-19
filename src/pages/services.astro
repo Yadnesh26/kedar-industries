@@ -8,21 +8,20 @@ import * as icons from '@lucide/astro';
 import { ArrowRight } from '@lucide/astro';
 import { Image } from 'astro:assets';
 import { img } from '@/lib/images';
-import company from '@/data/company.json';
 
 const coreServices = [
-  { image: 'service-precision-soldering.jpg', title: 'Precision Soldering', description: 'Precision soldering activity for capacitor components and electrical assemblies, to tight dimensional and contact-quality tolerances.' },
-  { image: 'service-silver-brazing-electrical-joints.jpg', title: 'Silver Brazing / Electrical Joints Brazing', description: 'Silver brazing and electrical joint brazing for reliable, low-resistance high-current connections.' },
-  { image: 'service-capacitor-component-assembly.jpg', title: 'Capacitor Component Assembly', description: 'Full component assembly for capacitor manufacturers, from terminals and busbars to finished sub-assemblies.' },
-  { image: 'service-installation-commissioning.jpg', title: 'Installation & Commissioning', description: 'Professional installation by qualified engineers — setup, alignment, testing, performance verification and operator guidance.' },
-  { image: 'service-precision-soldering.jpg', title: 'Annual Maintenance Contract (AMC)', description: 'Planned preventive maintenance, routine inspections, and performance optimisation to extend equipment life.' },
-  { image: 'service-silver-brazing-electrical-joints.jpg', title: 'Genuine Spare Parts', description: 'High-quality genuine replacement parts, quickly supplied to avoid interrupted operations.' },
+  { image: 'service-precision-soldering-stations.jpg', title: 'Precision Soldering', description: 'Precision soldering activity for capacitor components and electrical assemblies, to tight dimensional and contact-quality tolerances.' },
+  { image: 'service-copper-connector-brazing-station.jpg', title: 'Silver Brazing / Electrical Joints Brazing', description: 'Silver brazing and electrical joint brazing for reliable, low-resistance high-current connections.' },
+  { image: 'service-component-assembly-benches.jpg', title: 'Capacitor Component Assembly', description: 'Full component assembly for capacitor manufacturers, from terminals and busbars to finished sub-assemblies.' },
+  { image: 'service-panel-assembly-testing-area.jpg', title: 'Installation & Commissioning', description: 'Professional installation by qualified engineers, covering setup, alignment, testing, performance verification and operator guidance.' },
+  { image: 'service-maintenance-inspection.jpg', title: 'Annual Maintenance Contract (AMC)', description: 'Planned preventive maintenance, routine inspections, and performance optimisation to extend equipment life.' },
+  { image: 'service-spare-parts-store.jpg', title: 'Genuine Spare Parts', description: 'High-quality genuine replacement parts, quickly supplied to avoid interrupted operations.' },
 ];
 
 const whyChoose = [
   'Experienced technical team',
   'Cost-effective, transparent pricing',
-  'Integrated end-to-end capability — design to dispatch',
+  'Integrated end-to-end capability, from design to dispatch',
   'Compliance with IS/IEC industry safety standards',
   'Timely execution and dependable support',
   'Deep application expertise across sectors',
@@ -31,7 +30,7 @@ const whyChoose = [
 
 <BaseLayout
   title="Services | Kedar Industries"
-  description="Precision soldering, silver brazing, capacitor component assembly, installation & commissioning, AMC and genuine spares from Kedar Industries — plus 24×7 remote technical support."
+  description="Kedar Industries offers precision soldering, silver brazing, capacitor component assembly, installation and commissioning, AMC and genuine spares."
   path="/services/"
 >
   <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Services' }]} />
@@ -77,17 +76,6 @@ const whyChoose = [
           </div>
         ))}
       </ProductCarousel>
-    </div>
-  </section>
-
-  <section class="section-y section-diagonal-dark">
-    <div class="section-diagonal-dark__edges" aria-hidden="true">
-      <span></span><span></span><span></span>
-    </div>
-    <div class="container-page relative">
-      <SectionHeading eyebrow="Active support" title="Remote & round-the-clock technical support" dark
-        lead="Assistance via phone, email and online support — immediate troubleshooting guidance and round-the-clock support for critical service requirements." />
-      <a href={`tel:${company.phoneHref}`} class="btn btn-primary">Call {company.phone}</a>
     </div>
   </section>
 

@@ -7,7 +7,7 @@
 | `branding/` | 3 | Kedar Industries logo variants |
 | `icons/` | 3 | Decorative icons from the company profile |
 | `products-panels/` | 18 | Electrical control panel photographs |
-| `products-capacitor-parts/` | 7 | Capacitor part fabrication photographs |
+| `products-capacitor-parts/` | 8 | Capacitor part fabrication photographs |
 | `certifications-cpri/` | 12 | CPRI type-test report pages |
 | `partner-certificates/` | 3 | Vishay and C&S Electric partner documents |
 | `client-logos/` | 12 | Customer and association logos |
@@ -22,7 +22,6 @@
 |---|---|
 | `logo-kedar-industries.jpeg` | Primary KI mark — red K, green I, yellow ring. 1241 × 1241 px, best available |
 | `logo-kedar-industries-small.jpeg` | Same mark at 169 × 169 px |
-| `logo-kedar-industries-blue-variant.png` | Alternate blue "Ki" mark with gear-and-lightning-bolt motif, from the vendor registration document |
 
 ## icons/
 
@@ -68,12 +67,14 @@ Shop-floor and dispatch photographs:
 
 | File | Description |
 |---|---|
-| `capacitor-part-lvac-copper-band.jpeg` | LVAC copper band with lead |
-| `capacitor-part-plc-tubular.png` | PLC tubular terminal |
-| `capacitor-part-gli-terminal.jpeg` | GLI terminal — threaded boss on formed base |
-| `capacitor-part-laminated-busbar.jpeg` | Laminated busbar, formed and punched |
-| `capacitor-part-dc-link-busbar.png` | DC link busbar with multiple tabs |
-| `capacitor-part-snubber-terminals.png` | Set of five snubber terminals |
+| `product-plc-tubular.jpg` | PLC tubular terminal |
+| `product-gli-terminal.jpg` | GLI terminal, threaded boss on formed base |
+| `product-dc-link-busbar.jpg` | DC link busbar with pin tabs |
+| `product-snubber-terminal-v2.jpg` | Set of five snubber terminals |
+| `product-hitachi-busbar.jpg` | Hitachi busbar, white-backdrop product shot |
+| `product-laminated-busbar.jpg` | Laminated busbar |
+| `product-lvac-copper-band.jpg` | LVAC copper band with lead |
+| `product-pec-tubular.jpg` | PEC tubular terminal |
 
 ## certifications-cpri/
 

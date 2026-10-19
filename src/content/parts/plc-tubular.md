@@ -1,7 +1,7 @@
 ---
 name: "PLC Tubular"
 tagline: "Tubular fabricated components for power line capacitor assembly."
-heroImage: "capacitor-part-plc-tubular.png"
+heroImage: "product-plc-tubular.jpg"
 overview: |
   PLC tubular components are precision-fabricated for power line capacitor assembly, produced
   to the dimensional and material specifications required for reliable long-term operation in
@@ -13,7 +13,7 @@ features:
 applications:
   - "Power line capacitor (PLC) assembly"
   - "High-volume capacitor component supply"
-order: 2
+order: 3
 ---
 
 Precision-fabricated PLC tubular components for power line capacitor assembly.

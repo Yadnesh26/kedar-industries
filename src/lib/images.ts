@@ -4,7 +4,7 @@ import type { ImageMetadata } from 'astro';
 // a plain filename (as stored in content collections and src/data/*.json) to an
 // optimized ImageMetadata object, without a hand-written import per asset.
 const modules = import.meta.glob<{ default: ImageMetadata }>(
-  '/src/assets/images/**/*.{png,jpg,jpeg,webp,avif}',
+  '/src/assets/images/**/*.{png,jpg,jpeg,webp,avif,svg}',
   { eager: true }
 );
 

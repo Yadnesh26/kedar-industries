@@ -2,13 +2,13 @@
 name: "MCC Panel"
 category: "motor-control"
 tagline: "Motor Control Centre panels for centralized, safe control of multiple motor loads."
-heroImage: "panel-mcc-motor-control-centre-cutout.png"
+heroImage: "product-mcc-panel.jpg"
 gallery:
   - "panel-electrical-control-panels-lineup.png"
   - "panel-mcc-buckets-doors-open.png"
 overview: |
   Kedar's Motor Control Centre (MCC) panels group motor starters, protection devices and
-  control gear into a single, organised enclosure — simplifying operation, maintenance and
+  control gear into a single, organised enclosure, which simplifies operation, maintenance and
   fault isolation across process plants. Withdrawable modular buckets keep individual motor
   feeders serviceable without shutting down the rest of the line.
 keySpecs:
@@ -45,11 +45,11 @@ faqs:
   - q: "What starter types can be fitted?"
     a: "DOL, star-delta, soft starters and VFD feeders can all be accommodated within the same MCC lineup, section by section."
   - q: "Can feeders be serviced without shutting down the whole panel?"
-    a: "Yes — withdrawable bucket construction lets a feeder be isolated and pulled out for maintenance while the rest of the MCC stays live."
+    a: "Yes, withdrawable bucket construction lets a feeder be isolated and pulled out for maintenance while the rest of the MCC stays live."
   - q: "Does the busbar design meet fault-current requirements?"
     a: "The busbar and enclosure construction follows the same principles independently CPRI-tested to 70 kA short-circuit withstand on a Kedar-built sample."
   - q: "Can the MCC integrate with a PLC-based automation system?"
-    a: "Yes — feeders can be wired for PLC or DCS control, remote start/stop, and status feedback for full process automation."
+    a: "Yes, feeders can be wired for PLC or DCS control, remote start/stop, and status feedback for full process automation."
   - q: "Is pre-dispatch testing carried out?"
     a: "Every MCC panel undergoes insulation resistance, HV withstand, continuity, and functional testing before dispatch."
 relatedTestEvidence: true

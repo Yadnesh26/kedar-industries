@@ -218,8 +218,21 @@
     box-shadow: inset 0 -4em 0 0 var(--hover);
   }
 
+  /* Same bottom-up fill for button-like elements that are not .btn,
+     e.g. the "View Details" button inside a product card. */
+  .fill-hover {
+    --hover: var(--color-amber-600);
+    box-shadow: inset 0 0 0 0 var(--hover);
+    transition: box-shadow 0.4s ease-out, color 0.4s ease-out;
+  }
+  .fill-hover:hover,
+  .fill-hover:focus-visible {
+    box-shadow: inset 0 -4em 0 0 var(--hover);
+  }
+
   @media (prefers-reduced-motion: reduce) {
-    .btn {
+    .btn,
+    .fill-hover {
       transition: none;
     }
   }

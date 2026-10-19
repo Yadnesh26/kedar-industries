@@ -1,70 +1,54 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Breadcrumb from '@/components/Breadcrumb.astro';
-import SectionHeading from '@/components/SectionHeading.astro';
 import CTABand from '@/components/CTABand.astro';
 import { Image, Picture } from 'astro:assets';
 import * as icons from '@lucide/astro';
 import { img } from '@/lib/images';
 import company from '@/data/company.json';
 
-// Placeholder facility photos — reused across sections for now, to be
-// replaced with real per-area photography later.
-const facilityImages = [
-  'facility-metal-fabrication-welding-sample.webp',
-  'facility-panel-assembly-workstations-sample.webp',
-  'facility-cabinet-wiring-workstations-sample.webp',
-];
-
 const sections = [
   {
     icon: 'Hammer' as const,
-    image: facilityImages[0],
+    image: 'facility-production-floor-team-02.jpg',
     title: 'Dedicated Fabrication Section',
     description: 'Sheet-metal cutting, bending and structural fabrication for enclosures and busbar supports.',
-    highlights: ['CNC shearing & cutting', 'Hydraulic press brakes', 'Structural fabrication jigs'],
+    highlights: ['CNC shearing & cutting of sheet metal to exact size', 'Hydraulic press brakes for clean, accurate bends', 'Structural fabrication jigs for repeatable assemblies'],
   },
   {
     icon: 'LayoutGrid' as const,
-    image: facilityImages[1],
+    image: 'facility-panel-assembly-testing-area.jpg',
     title: 'Electrical Panel Assembly Area',
     description: 'Component mounting, busbar installation and wiring across the full panel range.',
-    highlights: ['Busbar fabrication & installation', 'Component mounting stations', 'Panel wiring benches'],
+    highlights: ['Busbar fabrication & installation for every panel rating', 'Dedicated component mounting stations for each build', 'Panel wiring benches laid out for neat, traceable wiring'],
   },
   {
     icon: 'Flame' as const,
-    image: facilityImages[2],
+    image: 'facility-soldering-brazing-stations.jpg',
     title: 'Soldering & Brazing Section',
     description: 'Precision soldering and silver brazing for capacitor parts and electrical joints.',
-    highlights: ['Precision soldering stations', 'Silver brazing for high-current joints', 'Capacitor component assembly'],
+    highlights: ['Precision soldering stations with trained operators', 'Silver brazing for strong, low-resistance high-current joints', 'Capacitor component assembly for production orders'],
   },
   {
     icon: 'SearchCheck' as const,
-    image: facilityImages[0],
+    image: 'facility-quality-inspection-height-gauge.jpg',
     title: 'Quality Inspection Area',
     description: 'Dimensional checks, electrical testing and documentation before dispatch clearance.',
-    highlights: ['Dimensional & visual inspection', 'Electrical testing rigs', 'Inspection documentation & traceability'],
+    highlights: ['Dimensional & visual inspection against approved drawings', 'Electrical testing rigs to check every panel before dispatch', 'Inspection documentation & traceability for every order'],
   },
   {
     icon: 'PackageCheck' as const,
-    image: facilityImages[1],
+    image: 'facility-panel-packing-area.jpg',
     title: 'Packing & Dispatch Department',
     description: 'Protective packing and dispatch coordination for safe, on-time delivery.',
-    highlights: ['Protective crating & packing', 'Dispatch scheduling & coordination', 'Logistics documentation'],
-  },
-  {
-    icon: 'Warehouse' as const,
-    image: facilityImages[2],
-    title: 'Material Storage Area',
-    description: 'Organised raw-material and component storage supporting lean production flow.',
-    highlights: ['Racked raw-material storage', 'Component bin organisation', 'Lean inventory flow'],
+    highlights: ['Protective crating & packing to prevent transit damage', 'Dispatch scheduling & coordination with your site team', 'Complete logistics documentation sent with each consignment'],
   },
 ];
 ---
 
 <BaseLayout
   title="Manufacturing Infrastructure | Kedar Industries"
-  description="8,000 sq ft manufacturing facility with 25 ft clear height — dedicated fabrication, panel assembly, soldering & brazing, quality inspection, and dispatch sections, all in-house at Kedar Industries, Nashik."
+  description="Kedar Industries runs an 8,000 sq ft facility in Nashik with a 25 ft clear height. Fabrication, panel assembly, soldering and brazing, quality inspection and dispatch each have their own section, all in-house."
   path="/about/infrastructure/"
 >
   <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'About Us', href: '/about/' }, { label: 'Infrastructure' }]} />
@@ -72,15 +56,15 @@ const sections = [
   <section class="relative bg-ink-900 overflow-hidden">
     <div class="absolute inset-0">
       <Picture
-        src={img('panel-apfc-batch-ready-for-dispatch-3.jpg')}
+        src={img('facility-hero-production-floor.jpg')}
         alt=""
-        widths={[480, 768, 1024, 1440, 1920, 2560]}
+        widths={[480, 768, 1024, 1440]}
         sizes="100vw"
         formats={['avif', 'webp']}
         fallbackFormat="jpg"
         class="w-full h-full object-cover opacity-90 contrast-[1.3] saturate-[1.25]"
       />
-      <div class="absolute inset-0 bg-ink-900/70"></div>
+      <div class="absolute inset-0 bg-ink-900/90"></div>
     </div>
     <div class="container-page relative py-20 sm:py-28 text-center">
       <p class="eyebrow mb-4">Manufacturing facility</p>
@@ -89,14 +73,8 @@ const sections = [
       </h1>
       <p class="mt-6 text-lg text-ink-200 max-w-xl mx-auto leading-relaxed">
         A {company.facility.clearHeightFt} ft clear-height covered shed engineered for panel
-        fabrication end to end — from raw sheet metal to a tested, dispatch-ready panel.
+        fabrication end to end, from raw sheet metal to a tested, dispatch-ready panel.
       </p>
-    </div>
-  </section>
-
-  <section class="section-y pb-0">
-    <div class="container-page">
-      <SectionHeading eyebrow="Layout" title="Six dedicated production areas" lead="Every panel moves through the same disciplined sequence — from raw sheet metal to a tested, dispatch-ready unit." />
     </div>
   </section>
 
@@ -116,8 +94,8 @@ const sections = [
             <Image
               src={img(s.image)}
               alt={s.title}
-              width={640}
-              height={480}
+              width={960}
+              height={600}
               class="rounded-2xl object-cover w-full aspect-[16/10] shadow-lg"
             />
           </div>
@@ -146,19 +124,6 @@ const sections = [
       </section>
     );
   })}
-
-  <section class="section-y bg-ink-100/50">
-    <div class="container-page">
-      <SectionHeading eyebrow="Manufacturing strengths" title="What keeps production reliable" />
-      <div class="flex flex-wrap gap-3">
-        {company.manufacturingStrengths.map((item) => (
-          <span class="px-4 py-2 rounded-full bg-paper border border-ink-100 text-sm font-medium text-ink-900">
-            {item}
-          </span>
-        ))}
-      </div>
-    </div>
-  </section>
 
   <CTABand />
 </BaseLayout>

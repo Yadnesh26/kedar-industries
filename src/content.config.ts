@@ -44,6 +44,7 @@ const parts = defineCollection({
     name: z.string(),
     tagline: z.string(),
     heroImage: z.string(),
+    gallery: z.array(z.string()).default([]),
     overview: z.string(),
     features: z.array(z.string()),
     applications: z.array(z.string()),

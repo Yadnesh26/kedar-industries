@@ -1,5 +1,5 @@
 ---
-import { Image } from 'astro:assets';
+import { Image, getImage } from 'astro:assets';
 import { Expand, X, ChevronLeft, ChevronRight } from '@lucide/astro';
 import { img } from '@/lib/images';
 
@@ -8,23 +8,62 @@ interface Props {
   /** Unique id so multiple lightbox groups can live on one page. */
   groupId: string;
   captionPrefix?: string;
+  /** Grid columns. Defaults to the multi-page report layout. */
+  gridClass?: string;
 }
-const { images, groupId, captionPrefix = 'Page' } = Astro.props;
+const {
+  images,
+  groupId,
+  captionPrefix = 'Page',
+  gridClass = 'grid-cols-2 sm:grid-cols-3 md:grid-cols-4',
+} = Astro.props;
+
+const sources = images.map((file) => img(file));
+
+// Portrait scans (report pages, letters) sit in uniform 3:4 tiles. Landscape ones
+// (e.g. the C&S certificate) would be centre-cropped by that tile, so they keep
+// their own aspect ratio and span two grid columns instead.
+const thumbs = sources.map((src) => {
+  const landscape = src.width > src.height;
+  return landscape
+    ? { landscape, width: 600, height: Math.round((600 / src.width) * src.height) }
+    : { landscape, width: 300, height: 400 };
+});
+
+// The grid thumbnails are small (300-600px). The lightbox needs its own, far larger
+// rendition — scan pages are only legible near their native resolution — and it
+// must keep the source aspect ratio so landscape certificates aren't cropped.
+const fullSizes = await Promise.all(
+  sources.map(async (src) => {
+    const width = Math.min(src.width, 1600);
+    const height = Math.round((width / src.width) * src.height);
+    const generated = await getImage({ src, width, height, format: 'webp', quality: 90 });
+    return { src: generated.src, width, height };
+  })
+);
 ---
 
-<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3" data-lightbox-group={groupId}>
-  {images.map((file, i) => (
+<div class:list={['grid gap-3', gridClass]} data-lightbox-group={groupId}>
+  {images.map((_file, i) => (
     <button
       type="button"
-      class="group relative aspect-[3/4] rounded-md overflow-hidden border border-ink-100 bg-ink-100"
+      class:list={[
+        'group relative rounded-md overflow-hidden border border-ink-100 bg-ink-100',
+        thumbs[i].landscape ? 'col-span-2' : 'aspect-[3/4]',
+      ]}
+      style={thumbs[i].landscape ? `aspect-ratio: ${thumbs[i].width} / ${thumbs[i].height}` : undefined}
       data-lightbox-trigger
       data-index={i}
+      data-full={fullSizes[i].src}
+      data-full-width={fullSizes[i].width}
+      data-full-height={fullSizes[i].height}
     >
       <Image
-        src={img(file)}
+        src={sources[i]}
         alt={`${captionPrefix} ${i + 1}`}
-        width={300}
-        height={400}
+        width={thumbs[i].width}
+        height={thumbs[i].height}
+        densities={[1, 2]}
         class="w-full h-full object-cover"
       />
       <span class="absolute inset-0 bg-ink-900/0 group-hover:bg-ink-900/40 transition-colors flex items-center justify-center">
@@ -36,7 +75,7 @@ const { images, groupId, captionPrefix = 'Page' } = Astro.props;
 
 <dialog
   data-lightbox-dialog={groupId}
-  class="backdrop:bg-ink-900/90 bg-transparent p-0 max-w-none max-h-none w-screen h-screen m-0 open:flex items-center justify-center"
+  class="backdrop:bg-ink-900/90 bg-transparent p-0 max-w-none max-h-none w-screen h-screen m-0 open:flex items-center justify-center select-none"
 >
   <div class="relative w-full h-full flex items-center justify-center p-6">
     <button
@@ -55,7 +94,7 @@ const { images, groupId, captionPrefix = 'Page' } = Astro.props;
     >
       <ChevronLeft class="size-8" />
     </button>
-    <img data-lightbox-img class="max-h-[85vh] max-w-[90vw] object-contain rounded-md" alt="" />
+    <img data-lightbox-img draggable="false" class="max-h-[85vh] max-w-[90vw] object-contain rounded-md" alt="" />
     <button
       type="button"
       data-lightbox-next
@@ -67,21 +106,33 @@ const { images, groupId, captionPrefix = 'Page' } = Astro.props;
   </div>
 </dialog>
 
-<script define:vars={{ groupId, images }}>
+<script define:vars={{ groupId }}>
   const group = document.querySelector(`[data-lightbox-group="${groupId}"]`);
   const dialog = document.querySelector(`[data-lightbox-dialog="${groupId}"]`);
   if (group && dialog) {
     const imgEl = dialog.querySelector('[data-lightbox-img]');
-    // Read the already-optimized <img src> straight from the thumbnail buttons
-    // so the lightbox reuses Astro's generated URLs rather than raw filenames.
-    const fullSrcs = Array.from(group.querySelectorAll('[data-lightbox-trigger] img')).map(
-      (el) => el.getAttribute('src')
-    );
+    // Each trigger carries its own full-resolution rendition in data-full. Do not
+    // fall back to the thumbnail's <img src> — that is a small thumbnail, and blowing
+    // it up to fill the dialog is what made the scanned certificates unreadable.
+    const triggers = Array.from(group.querySelectorAll('[data-lightbox-trigger]'));
+    const fulls = triggers.map((btn) => ({
+      src: btn.dataset.full,
+      width: btn.dataset.fullWidth,
+      height: btn.dataset.fullHeight,
+      alt: btn.querySelector('img')?.getAttribute('alt') ?? '',
+    }));
     let current = 0;
 
     function show(index) {
-      current = (index + fullSrcs.length) % fullSrcs.length;
-      imgEl.setAttribute('src', fullSrcs[current]);
+      current = (index + fulls.length) % fulls.length;
+      const next = fulls[current];
+      imgEl.setAttribute('src', next.src);
+      imgEl.setAttribute('width', next.width);
+      imgEl.setAttribute('height', next.height);
+      imgEl.setAttribute('alt', next.alt);
+      // Rapid arrow clicks register as double/triple clicks and select the whole
+      // dialog, which paints the site's amber ::selection colour over the scan.
+      window.getSelection()?.removeAllRanges();
     }
 
     group.querySelectorAll('[data-lightbox-trigger]').forEach((btn) => {

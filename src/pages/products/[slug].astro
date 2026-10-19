@@ -3,7 +3,6 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import Breadcrumb from '@/components/Breadcrumb.astro';
 import SpecTable from '@/components/SpecTable.astro';
 import FAQAccordion from '@/components/FAQAccordion.astro';
-import ProductCard from '@/components/ProductCard.astro';
 import CTABand from '@/components/CTABand.astro';
 import { Image } from 'astro:assets';
 import { CircleCheck, ArrowRight, FileCheck2 } from '@lucide/astro';
@@ -22,10 +21,6 @@ export async function getStaticPaths() {
 const { product, allProducts } = Astro.props;
 const { data, id } = product;
 const { Content } = await render(product);
-
-const related = allProducts
-  .filter((p) => p.id !== id && p.data.category === data.category)
-  .slice(0, 3);
 
 const relatedProjects = projectsData.filter((p) => p.productType === id).slice(0, 6);
 
@@ -71,8 +66,6 @@ const productSchema = {
               src={img(data.heroImage)}
               alt={data.name}
               width={960}
-              height={720}
-              fit="contain"
               class="max-w-full h-auto max-h-[39rem] w-auto object-contain"
             />
           </div>
@@ -207,19 +200,6 @@ const productSchema = {
       </aside>
     </div>
   </section>
-
-  {related.length > 0 && (
-    <section class="section-y bg-ink-100/50">
-      <div class="container-page">
-        <h2 class="text-2xl sm:text-3xl text-ink-900 mb-8">Related Products</h2>
-        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {related.map((p) => (
-            <ProductCard href={`/products/${p.id}/`} name={p.data.name} tagline={p.data.tagline} heroImage={p.data.heroImage} />
-          ))}
-        </div>
-      </div>
-    </section>
-  )}
 
   <CTABand showCall={false} />
 </BaseLayout>
