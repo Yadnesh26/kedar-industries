@@ -12,9 +12,7 @@ import { CircleCheck, ArrowRight, Building2, ShieldCheck, Factory, Handshake, Ba
 import { img } from '@/lib/images';
 import company from '@/data/company.json';
 import clients from '@/data/clients.json';
-import projects from '@/data/projects.json';
 
-const featuredProjects = projects.filter((p) => p.featured);
 
 const heroSlides = [
   { src: 'facility-panel-assembly-testing-area.jpg', alt: 'Panel assembly and testing area at Kedar Industries' },
@@ -147,34 +145,10 @@ const milestones = [
     </div>
   </section>
 
-  <section class="section-y bg-ink-100/50">
+  <section class="section-y">
     <div class="container-page">
       <SectionHeading eyebrow="Sectors served" title="Trusted across industrial sectors" noWrap />
       <IndustryMarquee industries={clients.industries} />
-    </div>
-  </section>
-
-  <section class="section-y section-diagonal-dark">
-    <div class="section-diagonal-dark__edges" aria-hidden="true">
-      <span></span><span></span><span></span>
-    </div>
-    <div class="container-page relative">
-      <SectionHeading
-        eyebrow="The track record"
-        title={`${projects.length}+ projects delivered`}
-        lead="Named clients, stated ratings."
-        dark
-      />
-      <div class="grid sm:grid-cols-3 gap-6">
-        {featuredProjects.map((p) => (
-          <div class="rounded-md bg-white/5 border border-white/10 p-6">
-            <p class="text-xs eyebrow mb-2">Marquee project</p>
-            <p class="font-display font-bold text-paper text-sm mb-1">{p.client}</p>
-            <p class="text-xs text-ink-200 mb-2">{p.location}</p>
-            <p class="text-sm text-ink-200 leading-relaxed">{p.project}</p>
-          </div>
-        ))}
-      </div>
     </div>
   </section>
 
