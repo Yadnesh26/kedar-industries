@@ -38,7 +38,7 @@ const [heroPortraitAvif, heroPortraitWebp, heroAvif, heroWebp, heroJpg] = await 
 ]);
 
 const certTagClass =
-  'flex items-center gap-1.5 rounded-full border border-white/15 bg-white/[0.06] backdrop-blur-sm px-3.5 py-1.5 text-xs sm:text-sm font-mono-figure text-ink-100 transition duration-150 ease-out hover:border-amber-500/60 hover:bg-white/[0.1] active:scale-[0.96] active:bg-amber-500/15 focus-visible:outline-2 focus-visible:outline-amber-500';
+  'flex items-center gap-1.5 rounded-full border border-white/15 bg-white/[0.06] backdrop-blur-sm px-2.5 py-1 sm:px-3.5 sm:py-1.5 text-xs sm:text-sm font-mono-figure text-ink-100 transition duration-150 ease-out hover:border-amber-500/60 hover:bg-white/[0.1] active:scale-[0.96] active:bg-amber-500/15 focus-visible:outline-2 focus-visible:outline-amber-500';
 
 const heroPhrases =['to standard.', 'by CPRI.', 'at 70 kA.', 'in the field.'];
 
@@ -91,9 +91,9 @@ const infrastructureFeatures = [
           clearly no matter how bright that part of the photo is. */}
       <div class="absolute inset-0 bg-gradient-to-t from-ink-900/85 via-transparent via-35% to-transparent"></div>
     </div>
-    <div class="container-page relative flex flex-col min-h-[640px] sm:min-h-[720px] lg:min-h-[800px] pt-10 pb-5 sm:pt-19 sm:pb-7">
+    <div class="container-page relative flex flex-col justify-center sm:justify-start min-h-[calc(100svh-5rem-1px)] sm:min-h-[720px] lg:min-h-[800px] py-6 sm:pt-19 sm:pb-7">
       <div>
-        <p class="eyebrow mb-4 sm:mb-5">Nashik, Maharashtra &middot; Est. 2019</p>
+        <p class="eyebrow mb-3 sm:mb-5">Nashik, Maharashtra &middot; Est. 2019</p>
         <h1 class="text-paper text-[clamp(1.5rem,7vw,2.25rem)] sm:text-5xl md:text-6xl leading-[1.1] sm:leading-[1.05] max-w-3xl">
           Engineered to perform.<br /> Proven{' '}<span class="sr-only">to standard.</span><span class="hero-rotator" aria-hidden="true">
             {heroPhrases.map((phrase, i) => (
@@ -101,16 +101,16 @@ const infrastructureFeatures = [
             ))}
           </span>
         </h1>
-        <p class="mt-6 text-base sm:text-xl text-ink-200 max-w-xl leading-relaxed">
+        <p class="mt-4 sm:mt-6 text-[0.9375rem] sm:text-xl text-ink-200 max-w-xl leading-relaxed">
           Kedar Industries manufactures electrical control panels, capacitor part fabrication, and
           precision soldering &amp; brazing, engineered to IEC 61439 and independently validated
           by CPRI.
         </p>
-        <div class="mt-9 flex flex-col sm:flex-row sm:flex-wrap gap-3 sm:gap-4">
-          <a href="/products/" class="btn btn-primary justify-center">
+        <div class="mt-6 sm:mt-9 flex flex-row sm:flex-wrap gap-3 sm:gap-4">
+          <a href="/products/" class="btn btn-primary justify-center flex-1 sm:flex-none px-3 sm:px-6 text-sm sm:text-[0.9375rem]">
             Explore Products <ArrowRight class="size-4" />
           </a>
-          <a href="/contact/" class="btn btn-outline-dark justify-center">Request a Quote</a>
+          <a href="/contact/" class="btn btn-outline-dark justify-center flex-1 sm:flex-none px-3 sm:px-6 text-sm sm:text-[0.9375rem]">Request a Quote</a>
         </div>
 
         {/* Certifications, as individual badges rather than a single strip
@@ -118,15 +118,15 @@ const infrastructureFeatures = [
             Split into two explicit rows (4 + 3) instead of one flex-wrap
             line, so on wide screens it doesn't stretch out across the
             machine in the photo. */}
-        <div class="mt-10 flex flex-col gap-2.5">
-          <div class="flex flex-wrap gap-2.5">
+        <div class="mt-6 sm:mt-10 flex flex-wrap sm:flex-col gap-2 sm:gap-2.5 max-sm:[@media(max-height:600px)]:hidden">
+          <div class="contents sm:flex sm:flex-wrap sm:gap-2.5">
             {certifications.certStrip.slice(0, 4).map((cert) => (
               <a href={certHref(cert)} class={certTagClass}>
                 <CircleCheck class="size-3.5 text-amber-500 shrink-0" /> {cert}
               </a>
             ))}
           </div>
-          <div class="flex flex-wrap gap-2.5">
+          <div class="contents sm:flex sm:flex-wrap sm:gap-2.5">
             {certifications.certStrip.slice(4).map((cert) => (
               <a href={certHref(cert)} class={certTagClass}>
                 <CircleCheck class="size-3.5 text-amber-500 shrink-0" /> {cert}
@@ -139,7 +139,7 @@ const infrastructureFeatures = [
       {/* 2. Stat row — plain figures overlaid on the hero photo itself,
           no card or panel of its own; the bottom fade above is what
           keeps it legible. */}
-      <div class="mt-auto pt-16 sm:pt-20">
+      <div class="hidden sm:block mt-auto pt-20">
         <StatBand stats={stats} />
       </div>
     </div>
