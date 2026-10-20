@@ -11,8 +11,10 @@ interface Props {
   logo?: string;
   accentColor?: string;
   logoOffsetY?: number;
+  /** Phones only: slimmer logo strip and a clamped description. */
+  compact?: boolean;
 }
-const { partner, role, scope, validTill, logo, accentColor, logoOffsetY } = Astro.props;
+const { partner, role, scope, validTill, logo, accentColor, logoOffsetY, compact = false } = Astro.props;
 
 const isSvg = logo?.endsWith('.svg');
 const hasRasterLogo = Boolean(logo && !isSvg && hasImg(logo));
@@ -29,9 +31,9 @@ const cardStyle = [
   style={cardStyle}
 >
   <div class="grid sm:grid-cols-[13rem_1fr]">
-    <div class="partner-card__logo-tile rounded-l-md flex items-center justify-center bg-ink-100/60 p-8">
+    <div class:list={['partner-card__logo-tile rounded-l-md flex items-center justify-center bg-ink-100/60', compact ? 'p-4 sm:p-8' : 'p-8']}>
       {isSvg ? (
-        <img src={`/logos/${logo}`} alt={partner} width="120" height="98" class="partner-card__logo max-h-16 sm:max-h-20 w-auto object-contain" />
+        <img src={`/logos/${logo}`} alt={partner} width="120" height="98" class:list={['partner-card__logo sm:max-h-20 w-auto object-contain', compact ? 'max-h-11' : 'max-h-16']} />
       ) : hasRasterLogo ? (
         <Image
           src={img(logo!)}
@@ -39,7 +41,7 @@ const cardStyle = [
           width={160}
           height={160}
           fit="contain"
-          class="partner-card__logo max-h-16 sm:max-h-20 max-w-full w-auto h-auto object-contain"
+          class:list={['partner-card__logo sm:max-h-20 max-w-full w-auto h-auto object-contain', compact ? 'max-h-11' : 'max-h-16']}
         />
       ) : (
         <span class="partner-card__logo flex items-center justify-center h-11 px-4 rounded-md bg-ink-900 text-paper font-display font-bold text-sm tracking-wide">
@@ -48,7 +50,7 @@ const cardStyle = [
       )}
     </div>
 
-    <div class="p-6 sm:p-8 flex flex-col">
+    <div class:list={[compact ? 'p-5' : 'p-6', 'sm:p-8 flex flex-col']}>
       <div class="flex flex-wrap items-start justify-between gap-x-4 gap-y-2">
         <div>
           <h3 class="font-display font-bold text-ink-900 text-lg leading-tight">{partner}</h3>
@@ -58,8 +60,8 @@ const cardStyle = [
           <ShieldCheck class="size-3.5" /> Authorised
         </span>
       </div>
-      <p class="text-sm text-ink-400 leading-relaxed mt-4 flex-1">{scope}</p>
-      <p class="text-xs text-ink-400 font-mono-figure mt-5 pt-4 border-t border-ink-100">
+      <p class:list={['text-sm text-ink-400 leading-relaxed flex-1', compact ? 'mt-3 sm:mt-4 line-clamp-4 sm:line-clamp-none' : 'mt-4']}>{scope}</p>
+      <p class:list={['text-xs text-ink-400 font-mono-figure border-t border-ink-100', compact ? 'mt-4 pt-3 sm:mt-5 sm:pt-4' : 'mt-5 pt-4']}>
         {validTill ? `Valid till ${validTill}` : 'Ongoing partnership'}
       </p>
     </div>

@@ -170,8 +170,8 @@ const infrastructureFeatures = [
         </div>
       </div>
       <div class="reveal order-1 lg:order-2">
-        <SectionHeading eyebrow="About Kedar Industries" title={company.tagline} />
-        <div class="flex flex-col gap-4 mb-8 text-ink-400 leading-relaxed max-w-xl">
+        <SectionHeading eyebrow="About Kedar Industries" title={company.tagline} class="max-sm:!mb-6 max-sm:[&_h2]:text-[1.625rem]" />
+        <div class="flex flex-col gap-3 sm:gap-4 mb-6 sm:mb-8 text-ink-400 leading-relaxed max-w-xl">
           <p>
             Kedar Industries manufactures electrical control panels, and also fabricates capacitor
             parts and carries out precision soldering and brazing for industrial customers.
@@ -181,7 +181,7 @@ const infrastructureFeatures = [
             control, so every product is built to national and international standards.
           </p>
         </div>
-        <ul class="grid sm:grid-cols-2 gap-3 mb-8">
+        <ul class="grid sm:grid-cols-2 gap-2.5 sm:gap-3 mb-6 sm:mb-8">
           {['Design, fabricate & test in-house', 'IEC 61439 & CPRI validated', 'Vishay & C&S authorised partner', 'ISO 9001/14001/45001 + IATF 16949'].map((item) => (
             <li class="flex items-start gap-2 text-sm text-ink-600">
               <CircleCheck class="size-4 text-amber-600 shrink-0 mt-0.5" /> {item}
@@ -207,6 +207,7 @@ const infrastructureFeatures = [
           title="Authorised Technology Partners"
           lead="Kedar Industries holds authorised partner status with two established electrical brands. It is a design-and-manufacture licence, which goes beyond a reseller arrangement."
           dark
+          class="max-sm:!mb-6 max-sm:[&_h2]:text-[1.625rem]"
         />
         <div class="hidden lg:flex flex-col gap-3.5 shrink-0 max-w-xs pb-12">
           {[
@@ -221,9 +222,9 @@ const infrastructureFeatures = [
           ))}
         </div>
       </div>
-      <div class="grid lg:grid-cols-2 gap-6">
+      <div class="grid lg:grid-cols-2 gap-4 sm:gap-6">
         {certifications.partnerships.map((p) => (
-          <PartnerCard partner={p.partner} role={p.role} scope={p.scope} validTill={p.validTill} logo={p.logo} accentColor={p.accentColor} logoOffsetY={p.logoOffsetY} />
+          <PartnerCard partner={p.partner} role={p.role} scope={p.scope} validTill={p.validTill} logo={p.logo} accentColor={p.accentColor} logoOffsetY={p.logoOffsetY} compact />
         ))}
       </div>
     </div>
@@ -232,11 +233,11 @@ const infrastructureFeatures = [
   <!-- 4. Products -->
   <section class="pt-7 pb-7 sm:pt-13 sm:pb-13 lg:pt-19 lg:pb-19 bg-ink-100/50">
     <div class="container-page">
-      <div class="flex flex-wrap items-end justify-between gap-6 mb-12">
+      <div class="flex flex-wrap items-end justify-between gap-4 sm:gap-6 mb-6 sm:mb-12">
         <SectionHeading
           eyebrow="Engineered for safety, efficiency & performance"
           title="Our Electrical Panel Solutions"
-          class="!mb-0"
+          class="!mb-0 max-sm:[&_h2]:text-[1.625rem]"
         />
         <a href="/products/" class="btn btn-primary shrink-0">
           View All Products <ArrowRight class="size-4" />
@@ -263,7 +264,7 @@ const infrastructureFeatures = [
       <span></span><span></span><span></span>
     </div>
     <div class="absolute inset-0 opacity-[0.04] bg-[radial-gradient(circle_at_80%_20%,#FFC629,transparent_50%)]"></div>
-    <div class="container-page relative grid lg:grid-cols-2 gap-[2.55rem] items-center">
+    <div class="container-page relative grid lg:grid-cols-2 gap-6 sm:gap-[2.55rem] items-center">
       <div class="grid grid-cols-[1.4fr_1fr] grid-rows-3 gap-2 rounded-2xl overflow-hidden aspect-[1.5686]">
         <div class="row-span-3">
           <Image
@@ -308,10 +309,11 @@ const infrastructureFeatures = [
           title="8,000 sq ft. Every stage in-house."
           lead="Every panel begins with the right foundation: a facility designed to handle complex requirements with speed, accuracy and zero compromise on quality."
           dark
+          class="max-sm:!mb-6 max-sm:[&_h2]:text-[1.625rem]"
         />
-        <ul class="flex flex-col gap-3 mb-[1.7rem]">
+        <ul class="flex flex-col gap-2 sm:gap-3 mb-6 sm:mb-[1.7rem]">
           {infrastructureFeatures.map((f) => (
-            <li class="flex items-center gap-3 text-sm text-ink-200 bg-white/5 rounded-md px-4 py-3">
+            <li class="flex items-center gap-3 text-sm text-ink-200 bg-white/5 rounded-md px-4 py-2.5 sm:py-3">
               <f.Icon class="size-4 text-amber-500 shrink-0" /> {f.text}
             </li>
           ))}
@@ -325,14 +327,15 @@ const infrastructureFeatures = [
 
   <!-- 6. Quality Assurance (incl. CPRI headline figures) -->
   <section class="pt-5 pb-5 sm:pt-9 sm:pb-9 lg:pt-13 lg:pb-13">
-    <div class="container-page grid lg:grid-cols-2 gap-12 items-center">
+    <div class="container-page grid lg:grid-cols-2 gap-6 sm:gap-12 items-center">
       <div>
         <SectionHeading
           eyebrow="Quality assurance"
           title="Every panel tested. Every standard met."
           lead="We manufacture panels and stand behind their performance. From raw material inspection to final dispatch, independently verified by CPRI per IEC 61439-1 & 2."
+          class="max-sm:!mb-6 max-sm:[&_h2]:text-[1.625rem]"
         />
-        <div class="grid grid-cols-3 gap-3 mb-8">
+        <div class="grid grid-cols-3 gap-2 sm:gap-3 mb-6 sm:mb-8">
           <div class="card p-4 text-center">
             <p class="font-mono-figure text-xl text-amber-600 font-semibold">70 kA</p>
             <p class="text-xs text-ink-400 mt-1">Short-circuit withstand</p>
@@ -373,7 +376,8 @@ const infrastructureFeatures = [
         eyebrow="Our clients"
         title="Trusted Relationships"
         lead={`Registered vendor of ${clients.registeredVendorOf.length} major industrial groups, with ${projects.length}+ projects delivered.`}
-      />
+          class="max-sm:!mb-6 max-sm:[&_h2]:text-[1.625rem]"
+        />
       <LogoWall logos={clients.logos} />
     </div>
   </section>
