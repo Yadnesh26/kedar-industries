@@ -6,7 +6,7 @@ import ProductCard from '@/components/ProductCard.astro';
 import ProductCarousel from '@/components/ProductCarousel.astro';
 import PartnerCard from '@/components/PartnerCard.astro';
 import LogoWall from '@/components/LogoWall.astro';
-import { Image, Picture } from 'astro:assets';
+import { Image, Picture, getImage } from 'astro:assets';
 import { ArrowRight, CircleCheck, Wrench, Flame, Warehouse } from '@lucide/astro';
 import { img } from '@/lib/images';
 import { certHref } from '@/lib/certs';
@@ -21,6 +21,21 @@ import projects from '@/data/projects.json';
 const allProducts = (await getCollection('products')).sort((a, b) => a.data.order - b.data.order);
 
 const heroBg = img('hero-mcc-panel-factory-v5.jpg');
+const heroBgPortrait = img('hero-mcc-panel-factory-portrait.jpg');
+
+// Art direction: phones and iPad in portrait get a taller photo framed for a
+// narrow screen; desktop and iPad landscape (1024px+) keep the wide one.
+// Astro's <Picture> has no per-media sources, so build the srcsets here.
+const heroPortraitMedia = '(max-width: 1023px) and (orientation: portrait)';
+const heroWidths = [480, 768, 1024, 1440, 1920, 2560];
+const heroPortraitWidths = [480, 768, 1080, 1600];
+const [heroPortraitAvif, heroPortraitWebp, heroAvif, heroWebp, heroJpg] = await Promise.all([
+  getImage({ src: heroBgPortrait, widths: heroPortraitWidths, format: 'avif' }),
+  getImage({ src: heroBgPortrait, widths: heroPortraitWidths, format: 'webp' }),
+  getImage({ src: heroBg, widths: heroWidths, format: 'avif' }),
+  getImage({ src: heroBg, widths: heroWidths, format: 'webp' }),
+  getImage({ src: heroBg, widths: heroWidths, format: 'jpg' }),
+]);
 
 const certTagClass =
   'flex items-center gap-1.5 rounded-full border border-white/15 bg-white/[0.06] backdrop-blur-sm px-3.5 py-1.5 text-xs sm:text-sm font-mono-figure text-ink-100 transition duration-150 ease-out hover:border-amber-500/60 hover:bg-white/[0.1] active:scale-[0.96] active:bg-amber-500/15 focus-visible:outline-2 focus-visible:outline-amber-500';
@@ -49,17 +64,24 @@ const infrastructureFeatures = [
   <!-- 1. Hero (extended — carries the stat row at its own bottom edge) -->
   <section class="relative bg-ink-900 overflow-hidden">
     <div class="absolute inset-0">
-      <Picture
-        src={heroBg}
-        alt=""
-        widths={[480, 768, 1024, 1440, 1920, 2560]}
-        sizes="100vw"
-        formats={['avif', 'webp']}
-        fallbackFormat="jpg"
-        loading="eager"
-        fetchpriority="high"
-        class="w-full h-full object-cover object-[72%_center] lg:object-left"
-      />
+      <picture>
+        <source media={heroPortraitMedia} type="image/avif" srcset={heroPortraitAvif.srcSet.attribute} sizes="100vw" />
+        <source media={heroPortraitMedia} type="image/webp" srcset={heroPortraitWebp.srcSet.attribute} sizes="100vw" />
+        <source type="image/avif" srcset={heroAvif.srcSet.attribute} sizes="100vw" />
+        <source type="image/webp" srcset={heroWebp.srcSet.attribute} sizes="100vw" />
+        <img
+          src={heroJpg.src}
+          srcset={heroJpg.srcSet.attribute}
+          sizes="100vw"
+          alt=""
+          width={heroBg.width}
+          height={heroBg.height}
+          loading="eager"
+          fetchpriority="high"
+          decoding="async"
+          class="w-full h-full object-cover object-[72%_center] max-lg:portrait:object-center lg:object-left"
+        />
+      </picture>
       <div class="absolute inset-0 hidden lg:block bg-gradient-to-r from-ink-900/75 via-ink-900/55 via-32% to-ink-900/10 to-46%"></div>
       {/* Below lg the text spans the full width, over the bright panel, so the
           whole photo gets an even dark wash instead of the left-only fade. */}
