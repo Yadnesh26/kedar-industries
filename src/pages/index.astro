@@ -60,7 +60,7 @@ const infrastructureFeatures = [
         fetchpriority="high"
         class="w-full h-full object-cover object-[72%_center] lg:object-left"
       />
-      <div class="absolute inset-0 bg-gradient-to-r from-ink-900/75 via-ink-900/55 via-32% to-ink-900/10 to-46%"></div>
+      <div class="absolute inset-0 hidden lg:block bg-gradient-to-r from-ink-900/75 via-ink-900/55 via-32% to-ink-900/10 to-46%"></div>
       {/* Below lg the text spans the full width, over the bright panel, so the
           whole photo gets an even dark wash instead of the left-only fade. */}
       <div class="absolute inset-0 bg-ink-900/65 lg:hidden"></div>
@@ -69,10 +69,10 @@ const infrastructureFeatures = [
           clearly no matter how bright that part of the photo is. */}
       <div class="absolute inset-0 bg-gradient-to-t from-ink-900/85 via-transparent via-35% to-transparent"></div>
     </div>
-    <div class="container-page relative flex flex-col min-h-[640px] sm:min-h-[720px] lg:min-h-[800px] pt-15 pb-5 sm:pt-19 sm:pb-7">
+    <div class="container-page relative flex flex-col min-h-[640px] sm:min-h-[720px] lg:min-h-[800px] pt-10 pb-5 sm:pt-19 sm:pb-7">
       <div>
-        <p class="eyebrow mb-5">Nashik, Maharashtra &middot; Est. 2019</p>
-        <h1 class="text-paper text-4xl sm:text-5xl md:text-6xl leading-[1.05] max-w-3xl">
+        <p class="eyebrow mb-4 sm:mb-5">Nashik, Maharashtra &middot; Est. 2019</p>
+        <h1 class="text-paper text-[clamp(1.5rem,7vw,2.25rem)] sm:text-5xl md:text-6xl leading-[1.1] sm:leading-[1.05] max-w-3xl">
           Engineered to perform.<br /> Proven{' '}<span class="sr-only">to standard.</span><span class="hero-rotator" aria-hidden="true">
             {heroPhrases.map((phrase, i) => (
               <span class:list={['hero-rotator__word', i === 0 && 'is-active']}>{phrase}</span>
