@@ -378,3 +378,14 @@
     );
   }
 }
+
+/* Long headings that should stay on one line on wide screens only. Below lg
+   they wrap at their normal size; a single line squeezed into a phone width
+   would shrink to an unreadable font size. Unlayered so it beats the text-*
+   utilities it overrides. */
+@media (min-width: 1024px) {
+  .heading-nowrap {
+    white-space: nowrap;
+    font-size: clamp(1.5rem, 3.4vw, 2.75rem);
+  }
+}

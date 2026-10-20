@@ -136,7 +136,18 @@ const productSchema = {
         {relatedProjects.length > 0 && (
           <div>
             <h2 class="text-2xl text-ink-900 mb-4">Related Projects Delivered</h2>
-            <div class="card overflow-hidden">
+            {/* Phones: one stacked card per project; a three-column table is
+                too cramped below 640px. */}
+            <ul class="sm:hidden card divide-y divide-ink-100 overflow-hidden">
+              {relatedProjects.map((p) => (
+                <li class="px-4 py-3.5">
+                  <p class="font-medium text-ink-900 text-sm">{p.client}</p>
+                  <p class="text-xs text-ink-400 mt-0.5">{p.location}</p>
+                  <p class="text-sm text-ink-600 mt-1.5 leading-relaxed">{p.project}</p>
+                </li>
+              ))}
+            </ul>
+            <div class="hidden sm:block card overflow-hidden">
               <table class="w-full text-sm">
                 <tbody>
                   {relatedProjects.map((p, i) => (

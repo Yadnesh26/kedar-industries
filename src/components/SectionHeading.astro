@@ -7,24 +7,26 @@ interface Props {
   dark?: boolean;
   noWrap?: boolean;
   as?: 'h1' | 'h2';
+  /** Extra classes for the wrapper, e.g. '!mb-0' when it sits in a row with a button. */
+  class?: string;
 }
-const { eyebrow, title, lead, align = 'left', dark = false, noWrap = false, as: Tag = 'h2' } = Astro.props;
+const { eyebrow, title, lead, align = 'left', dark = false, noWrap = false, as: Tag = 'h2', class: className } = Astro.props;
 ---
 
-<div class:list={[noWrap ? 'max-w-none' : 'max-w-2xl', 'mb-12', align === 'center' && 'mx-auto text-center']}>
+<div class:list={[noWrap ? 'max-w-2xl lg:max-w-none' : 'max-w-2xl', 'mb-12', align === 'center' && 'mx-auto text-center', className]}>
   {eyebrow && <p class="eyebrow mb-3">{eyebrow}</p>}
   <Tag
     class:list={[
-      noWrap ? 'whitespace-nowrap' : 'text-3xl sm:text-4xl md:text-[2.75rem]',
+      'text-3xl sm:text-4xl md:text-[2.75rem]',
+      noWrap && 'heading-nowrap',
       'leading-[1.1]',
       dark && 'text-paper',
     ]}
-    style={noWrap ? 'font-size: clamp(0.85rem, 4.2vw, 2.75rem);' : undefined}
   >
     {title}
   </Tag>
   {lead && (
-    <p class:list={['mt-4 text-lg leading-relaxed', dark ? 'text-ink-200' : 'text-ink-400']}>
+    <p class:list={['mt-4 text-base sm:text-lg leading-relaxed', dark ? 'text-ink-200' : 'text-ink-400']}>
       {lead}
     </p>
   )}

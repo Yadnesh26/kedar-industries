@@ -36,11 +36,11 @@ const { slides, interval = 4500, label = 'Photo slideshow' } = Astro.props;
   ))}
 
   <div class="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-ink-900/50 to-transparent pointer-events-none"></div>
-  <div class="absolute bottom-3 inset-x-0 flex justify-center gap-2">
+  <div class="absolute bottom-3 inset-x-0 flex justify-center gap-3">
     {slides.map((s, i) => (
       <button
         type="button"
-        class:list={['dot size-2.5 rounded-full bg-white/50 transition-all', i === 0 && 'is-active']}
+        class:list={['dot relative size-2.5 rounded-full bg-white/50 transition-all after:absolute after:-inset-2 after:content-[""]', i === 0 && 'is-active']}
         aria-label={`Show slide ${i + 1} of ${slides.length}`}
         data-index={i}
       ></button>

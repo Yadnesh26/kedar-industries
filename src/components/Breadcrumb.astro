@@ -29,7 +29,7 @@ const jsonLd = {
       <li class="flex items-center gap-2">
         {i > 0 && <ChevronRight class="size-3.5 text-white/25" />}
         {item.href ? (
-          <a href={item.href} class="hover:text-amber-500 transition-colors">{item.label}</a>
+          <a href={item.href} class="inline-block py-2 -my-2 hover:text-amber-500 transition-colors">{item.label}</a>
         ) : (
           <span class="text-paper font-medium">{item.label}</span>
         )}

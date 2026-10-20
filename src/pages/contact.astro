@@ -45,33 +45,33 @@ const parts = (await getCollection('parts')).sort((a, b) => a.data.order - b.dat
           <div class="grid sm:grid-cols-2 gap-5">
             <div>
               <label for="name" class="block text-sm font-medium text-ink-900 mb-1.5">Full Name *</label>
-              <input type="text" id="name" name="name" required autocomplete="name" class="w-full px-4 py-2.5 rounded-md border border-ink-200 text-sm focus:border-amber-500 outline-none" />
+              <input type="text" id="name" name="name" required autocomplete="name" class="w-full px-4 py-2.5 rounded-md border border-ink-200 text-base sm:text-sm focus:border-amber-500 outline-none" />
             </div>
             <div>
               <label for="company" class="block text-sm font-medium text-ink-900 mb-1.5">Company Name *</label>
-              <input type="text" id="company" name="company" required autocomplete="organization" class="w-full px-4 py-2.5 rounded-md border border-ink-200 text-sm focus:border-amber-500 outline-none" />
+              <input type="text" id="company" name="company" required autocomplete="organization" class="w-full px-4 py-2.5 rounded-md border border-ink-200 text-base sm:text-sm focus:border-amber-500 outline-none" />
             </div>
           </div>
 
           <div class="grid sm:grid-cols-2 gap-5">
             <div>
               <label for="phone" class="block text-sm font-medium text-ink-900 mb-1.5">Phone *</label>
-              <input type="tel" id="phone" name="phone" required autocomplete="tel" class="w-full px-4 py-2.5 rounded-md border border-ink-200 text-sm focus:border-amber-500 outline-none" />
+              <input type="tel" id="phone" name="phone" required autocomplete="tel" class="w-full px-4 py-2.5 rounded-md border border-ink-200 text-base sm:text-sm focus:border-amber-500 outline-none" />
             </div>
             <div>
               <label for="email" class="block text-sm font-medium text-ink-900 mb-1.5">Email *</label>
-              <input type="email" id="email" name="email" required autocomplete="email" class="w-full px-4 py-2.5 rounded-md border border-ink-200 text-sm focus:border-amber-500 outline-none" />
+              <input type="email" id="email" name="email" required autocomplete="email" class="w-full px-4 py-2.5 rounded-md border border-ink-200 text-base sm:text-sm focus:border-amber-500 outline-none" />
             </div>
           </div>
 
           <fieldset>
             <legend class="block text-sm font-medium text-ink-900 mb-2">I'm enquiring about</legend>
             <div class="flex gap-6">
-              <label class="flex items-center gap-2 text-sm text-ink-600">
-                <input type="radio" name="enquiry_type" value="Product" checked class="accent-amber-500" /> A product
+              <label class="flex items-center gap-2 py-2 text-sm text-ink-600 cursor-pointer">
+                <input type="radio" name="enquiry_type" value="Product" checked class="accent-amber-500 size-4" /> A product
               </label>
-              <label class="flex items-center gap-2 text-sm text-ink-600">
-                <input type="radio" name="enquiry_type" value="Service" class="accent-amber-500" /> A service
+              <label class="flex items-center gap-2 py-2 text-sm text-ink-600 cursor-pointer">
+                <input type="radio" name="enquiry_type" value="Service" class="accent-amber-500 size-4" /> A service
               </label>
             </div>
           </fieldset>
@@ -79,7 +79,7 @@ const parts = (await getCollection('parts')).sort((a, b) => a.data.order - b.dat
           <div class="grid sm:grid-cols-2 gap-5">
             <div>
               <label for="product" class="block text-sm font-medium text-ink-900 mb-1.5">Product</label>
-              <select id="product" name="product" class="w-full px-4 py-2.5 rounded-md border border-ink-200 text-sm focus:border-amber-500 outline-none bg-paper">
+              <select id="product" name="product" class="w-full px-4 py-2.5 rounded-md border border-ink-200 text-base sm:text-sm focus:border-amber-500 outline-none bg-paper">
                 <option value="">Select a product (optional)</option>
                 {products.map((p) => <option value={p.data.name}>{p.data.name}</option>)}
                 {parts.map((p) => <option value={p.data.name}>{p.data.name} (capacitor part)</option>)}
@@ -87,7 +87,7 @@ const parts = (await getCollection('parts')).sort((a, b) => a.data.order - b.dat
             </div>
             <div>
               <label for="service" class="block text-sm font-medium text-ink-900 mb-1.5">Service</label>
-              <select id="service" name="service" class="w-full px-4 py-2.5 rounded-md border border-ink-200 text-sm focus:border-amber-500 outline-none bg-paper">
+              <select id="service" name="service" class="w-full px-4 py-2.5 rounded-md border border-ink-200 text-base sm:text-sm focus:border-amber-500 outline-none bg-paper">
                 <option value="">Select a service (optional)</option>
                 <option>Precision Soldering</option>
                 <option>Silver Brazing / Electrical Joints Brazing</option>
@@ -101,10 +101,10 @@ const parts = (await getCollection('parts')).sort((a, b) => a.data.order - b.dat
 
           <div>
             <label for="message" class="block text-sm font-medium text-ink-900 mb-1.5">Message</label>
-            <textarea id="message" name="message" rows="4" class="w-full px-4 py-2.5 rounded-md border border-ink-200 text-sm focus:border-amber-500 outline-none resize-y" placeholder="Load requirement, ratings, quantity, timeline..."></textarea>
+            <textarea id="message" name="message" rows="4" class="w-full px-4 py-2.5 rounded-md border border-ink-200 text-base sm:text-sm focus:border-amber-500 outline-none resize-y" placeholder="Load requirement, ratings, quantity, timeline..."></textarea>
           </div>
 
-          <button type="submit" class="btn btn-primary self-start">Submit Enquiry</button>
+          <button type="submit" class="btn btn-primary justify-center w-full sm:w-auto sm:self-start">Submit Enquiry</button>
         </form>
 
         <div class="flex flex-col gap-4">
