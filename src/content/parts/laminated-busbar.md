@@ -1,7 +1,7 @@
 ---
 name: "Laminated Busbar"
 tagline: "Compact, low-inductance laminated busbars for power electronics and capacitor assemblies."
-heroImage: "product-laminated-busbar.jpg"
+heroImage: "product-laminated-busbar-v2.jpg"
 gallery: ["product-laminated-busbar-2.jpg"]
 overview: |
   Laminated busbars connect power semiconductor and capacitor assemblies with minimal stray

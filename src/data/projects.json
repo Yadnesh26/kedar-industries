@@ -26,7 +26,7 @@
   { "client": "Rohini Industries", "location": "Nashik", "project": "250 A PDB panel, 1 set", "productType": "distribution-panel" },
   { "client": "Rafle Engineering", "location": "Nashik", "project": "250 A PDB panel, 1 set", "productType": "distribution-panel" },
   { "client": "Renuka Industries", "location": "Nashik", "project": "2000 A in-feed unit, 1 set", "productType": "custom-panel" },
-  { "client": "TDK India Pvt. Ltd.", "location": "Nashik", "project": "200 A UPS panel, 1 set", "productType": "distribution-panel" },
+  { "client": "TDK India Pvt. Ltd.", "location": "Nashik", "project": "200 A UPS panel, 1 set", "productType": "ups-panel" },
   { "client": "Mahindra & Mahindra", "location": "Nashik", "project": "4000 A in-feed unit, 1 set", "productType": "custom-panel", "featured": true },
   { "client": "Shubhada Polymers Products Pvt. Ltd.", "location": "Nashik", "project": "1000 A in-feed unit, 1 set; heater panels, 3 sets", "productType": "custom-panel" },
   { "client": "Mahindra & Mahindra", "location": "Nashik", "project": "400 A in-feed units, 3 sets", "productType": "custom-panel" },

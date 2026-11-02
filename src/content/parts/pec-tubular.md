@@ -1,7 +1,7 @@
 ---
 name: "PEC Tubular"
 tagline: "Precision-fabricated tubular terminals for capacitor assemblies."
-heroImage: "product-pec-tubular.jpg"
+heroImage: "product-pec-tubular-v2.jpg"
 gallery: ["product-pec-tubular-2.jpg", "product-pec-tubular-3.jpg", "product-pec-tubular-4.jpg", "product-pec-tubular-5.jpg", "product-pec-tubular-6.jpg"]
 overview: |
   PEC tubular components are fabricated to the dimensional and material specifications required

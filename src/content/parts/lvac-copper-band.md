@@ -1,7 +1,7 @@
 ---
 name: "LVAC Copper Band"
 tagline: "Precision copper banding for low-voltage AC capacitor element termination."
-heroImage: "product-lvac-copper-band.jpg"
+heroImage: "product-lvac-copper-band-v2.jpg"
 gallery: ["product-lvac-copper-band-2.jpg", "product-lvac-copper-band-3.jpg"]
 overview: |
   LVAC copper bands terminate and connect capacitor elements with a low-resistance, mechanically

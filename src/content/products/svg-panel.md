@@ -2,7 +2,7 @@
 name: "SVG Panel"
 category: "power-quality"
 tagline: "Static VAR Generator panels for step-less, capacitor-less power factor and load unbalance correction."
-heroImage: "product-svg-panel.jpg"
+heroImage: "product-svg-panel-v2.jpg"
 gallery: []
 overview: |
   A Static VAR Generator (SVG) panel corrects power factor with an IGBT-based inverter instead

@@ -1,7 +1,7 @@
 ---
 name: "Snubber Terminal"
 tagline: "Precision terminal fabrication for snubber circuit connections in power electronics."
-heroImage: "product-snubber-terminal-v2.jpg"
+heroImage: "product-snubber-terminal-v3.jpg"
 overview: |
   Snubber terminals connect snubber capacitor circuits used to protect power semiconductors
   from voltage transients, fabricated to precise dimensional and contact-quality standards.

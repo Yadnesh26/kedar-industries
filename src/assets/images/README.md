@@ -7,10 +7,10 @@
 | `branding/` | 3 | Kedar Industries logo variants |
 | `icons/` | 3 | Decorative icons from the company profile |
 | `products-panels/` | 18 | Electrical control panel photographs |
-| `products-capacitor-parts/` | 8 | Capacitor part fabrication photographs |
+| `products-capacitor-parts/` | 7 | Capacitor part fabrication photographs |
 | `certifications-cpri/` | 12 | CPRI type-test report pages |
 | `partner-certificates/` | 3 | Vishay and C&S Electric partner documents |
-| `client-logos/` | 12 | Customer and association logos |
+| `client-logos/` | 13 | Customer and association logos |
 | `company-events/` | 2 | Vishay supplier meet photographs |
 | `reference-third-party/` | 6 | Other companies' product photos — **not Kedar's own** |
 
@@ -68,13 +68,12 @@ Shop-floor and dispatch photographs:
 | File | Description |
 |---|---|
 | `product-plc-tubular.jpg` | PLC tubular terminal |
-| `product-gli-terminal.jpg` | GLI terminal, threaded boss on formed base |
-| `product-dc-link-busbar.jpg` | DC link busbar with pin tabs |
-| `product-snubber-terminal-v2.jpg` | Set of five snubber terminals |
-| `product-hitachi-busbar.jpg` | Hitachi busbar, white-backdrop product shot |
-| `product-laminated-busbar.jpg` | Laminated busbar |
-| `product-lvac-copper-band.jpg` | LVAC copper band with lead |
-| `product-pec-tubular.jpg` | PEC tubular terminal |
+| `product-gli-terminal-v2.jpg` | GLI terminal, threaded boss on formed base |
+| `product-snubber-terminal-v3.jpg` | Set of five snubber terminals |
+| `product-busbar-v4.jpg` | Busbar with pin terminals (plus `product-busbar-2.jpg`, `-3.jpg` gallery views) |
+| `product-laminated-busbar-v2.jpg` | Laminated busbar |
+| `product-lvac-copper-band-v2.jpg` | LVAC copper band with lead |
+| `product-pec-tubular-v2.jpg` | PEC tubular terminal |
 
 ## certifications-cpri/
 
@@ -94,7 +93,7 @@ Shop-floor and dispatch photographs:
 
 ## client-logos/
 
-Vishay · Bedmutha Group · Shubhada Polymers · Dalmia Polypro · Sonepar India · Vardhman Textiles · Indo Rama Synthetics · Mahindra & Mahindra · Innova Rubbers · TDK · KOSO India · Kimplas Piping Systems
+Vishay · Bedmutha Group · Shubhada Polymers · Dalmia Polypro · Sonepar India · Belrise Industries · Vardhman Textiles · Indo Rama Synthetics · Mahindra & Mahindra · Innova Rubbers · TDK · KOSO India · Kimplas Piping Systems
 
 ## company-events/
 

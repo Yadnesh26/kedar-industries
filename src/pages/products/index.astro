@@ -16,12 +16,13 @@ const categories: Record<string, string> = {
   automation: 'Automation',
   capacitor: 'Capacitor',
   custom: 'Custom Engineering',
+  'ups-backup': 'UPS & Battery Backup',
 };
 ---
 
 <BaseLayout
   title="Electrical Control Panels | Kedar Industries"
-  description="Kedar Industries manufactures PCC, MCC, APFC, RTPFC, hybrid power factor, active harmonic filter, static VAR generator and changeover panels. The panels comply with IEC 61439, and the LT panel design is CPRI type-tested."
+  description="Kedar Industries manufactures PCC, MCC, APFC, RTPFC, hybrid power factor, active harmonic filter, static VAR generator and changeover panels, plus UPS and PDU panels for battery backup. The panels comply with IEC 61439, and the LT panel design is CPRI type-tested."
   path="/products/"
 >
   <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Products' }]} />
@@ -83,9 +84,9 @@ const categories: Record<string, string> = {
         <h2 class="text-2xl sm:text-3xl md:text-[2.25rem] leading-tight text-ink-900">Capacitor Part Fabrication</h2>
         <span class="absolute left-0 -bottom-px h-[3px] w-24 bg-amber-500" aria-hidden="true"></span>
       </div>
-      <div class="flex flex-wrap justify-center gap-6">
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {parts.map((part) => (
-          <div class="w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(25%-1.125rem)]">
+          <div>
             <ProductCard
               href={`/capacitor-parts/${part.id}/`}
               name={part.data.name}

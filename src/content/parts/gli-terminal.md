@@ -1,7 +1,7 @@
 ---
 name: "GLI Terminal"
 tagline: "Precision terminal fabrication for capacitor lead-in connections."
-heroImage: "product-gli-terminal.jpg"
+heroImage: "product-gli-terminal-v2.jpg"
 overview: |
   GLI terminals connect the capacitor element's internal windings to the external circuit,
   fabricated for consistent contact quality and mechanical reliability, including soldering and

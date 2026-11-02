@@ -22,6 +22,7 @@ const products = defineCollection({
       'automation',
       'capacitor',
       'custom',
+      'ups-backup',
     ]),
     tagline: z.string(),
     heroImage: z.string(),

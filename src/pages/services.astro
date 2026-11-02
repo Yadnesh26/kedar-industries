@@ -18,19 +18,57 @@ const coreServices = [
   { image: 'service-spare-parts-store.jpg', title: 'Genuine Spare Parts', description: 'High-quality genuine replacement parts, quickly supplied to avoid interrupted operations.' },
 ];
 
-const whyChoose = [
-  'Experienced technical team',
-  'Cost-effective, transparent pricing',
-  'Integrated end-to-end capability, from design to dispatch',
-  'Compliance with IS/IEC industry safety standards',
-  'Timely execution and dependable support',
-  'Deep application expertise across sectors',
+// UPS, batteries & power backup.
+const upsOfferings = [
+  {
+    image: 'service-ups-systems-v5.jpg',
+    title: 'UPS Systems',
+    points: [
+      'Supply of UPS systems for industrial, commercial and critical power applications.',
+      'Online UPS solutions for sensitive equipment and critical loads.',
+      'Assistance with UPS capacity selection based on load requirements and application needs.',
+      'UPS installation, commissioning, inspection and preventive maintenance.',
+    ],
+  },
+  {
+    image: 'service-ups-batteries.jpg',
+    title: 'Batteries & Battery Bank Solutions',
+    points: [
+      'Supply and replacement of batteries for UPS and backup power systems.',
+      'Battery bank inspection and maintenance.',
+      'Battery health assessment and performance checks.',
+      'Battery replacement planning and support for improving backup reliability.',
+      'Assistance with battery selection based on UPS compatibility, backup time and application requirements.',
+    ],
+  },
+  {
+    image: 'service-ups-amc-v2.jpg',
+    title: 'UPS AMC & Technical Services',
+    points: [
+      'Annual Maintenance Contracts (AMC) for UPS systems and associated battery banks.',
+      'Preventive maintenance and routine system health checks.',
+      'UPS fault diagnosis and troubleshooting.',
+      'Battery inspection, testing and replacement support.',
+      'Breakdown maintenance and technical assistance, subject to service coverage and agreed response terms.',
+      'UPS performance assessment and recommendations for improving system reliability.',
+    ],
+  },
 ];
+
+const upsWhyChoose = [
+  'Application-oriented UPS and battery recommendations',
+  'Product supply and replacement support',
+  'Preventive maintenance and AMC options',
+  'Technical troubleshooting and service assistance',
+  'Solutions tailored to customer requirements',
+  'Support for new installations and existing UPS systems, subject to technical compatibility and service availability',
+];
+
 ---
 
 <BaseLayout
   title="Services | Kedar Industries"
-  description="Kedar Industries offers precision soldering, silver brazing, capacitor component assembly, installation and commissioning, AMC and genuine spares."
+  description="Kedar Industries offers precision soldering, silver brazing, capacitor component assembly, installation and commissioning, AMC, genuine spares, and UPS systems, batteries and power backup services."
   path="/services/"
 >
   <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Services' }]} />
@@ -79,16 +117,86 @@ const whyChoose = [
     </div>
   </section>
 
-  <section class="section-y">
+  <!-- UPS systems, batteries & power backup -->
+  <section id="ups" class="section-y scroll-mt-16">
+    <div class="container-page grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
+      <div>
+        <SectionHeading
+          eyebrow="Reliable power backup. Professional service. Uninterrupted operations."
+          title="UPS Systems, Batteries & Power Backup Solutions"
+          class="!mb-6"
+        />
+        <div class="flex flex-col gap-4 text-ink-400 leading-relaxed">
+          <p>
+            Kedar Industries offers UPS systems, battery solutions and professional power backup services for
+            industrial, commercial and institutional applications. We support customers in selecting suitable power
+            backup solutions, maintaining system reliability and minimising downtime through planned maintenance and
+            responsive technical service.
+          </p>
+          <p>
+            Our solutions are intended to support critical electrical loads, IT infrastructure, industrial equipment,
+            commercial facilities and other applications requiring dependable backup power.
+          </p>
+        </div>
+      </div>
+      <div class="rounded-2xl overflow-hidden shadow-sm">
+        <Image
+          src={img('service-ups-overview.jpg')}
+          alt="Kedar Industries technician servicing a UPS system beside its battery bank"
+          width={1200}
+          height={900}
+          class="w-full aspect-[4/3] object-cover"
+        />
+      </div>
+    </div>
+  </section>
+
+  <section class="section-y section-diagonal-dark">
+    <div class="section-diagonal-dark__edges" aria-hidden="true">
+      <span></span><span></span><span></span>
+    </div>
+    <div class="container-page relative">
+      <SectionHeading eyebrow="Power backup" title="Our Products & Services" dark />
+      <div class="grid md:grid-cols-3 gap-6">
+        {upsOfferings.map((o, i) => (
+          <div class="rounded-md bg-white/5 border border-white/10 overflow-hidden flex flex-col">
+            <Image src={img(o.image)} alt={o.title} width={800} height={600} class="w-full aspect-[4/3] object-cover" />
+            <div class="p-6 flex flex-col gap-4">
+              <div class="flex items-baseline gap-3">
+                <span class="font-mono-figure text-sm font-semibold text-amber-500">{String(i + 1).padStart(2, '0')}</span>
+                <h3 class="font-display font-bold text-paper text-lg leading-snug">{o.title}</h3>
+              </div>
+              <ul class="flex flex-col gap-2.5">
+                {o.points.map((pt) => (
+                  <li class="flex items-start gap-2.5 text-sm text-ink-200 leading-relaxed">
+                    <icons.CircleCheck class="size-4 text-amber-500 shrink-0 mt-0.5" /> {pt}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section-y bg-ink-100/50">
     <div class="container-page">
-      <SectionHeading eyebrow="Why choose our services" title="Built around dependability" />
-      <ul class="grid sm:grid-cols-2 gap-4">
-        {whyChoose.map((item) => (
+      <SectionHeading eyebrow="UPS & power backup" title="Why choose Kedar Industries?" />
+      <ul class="grid sm:grid-cols-2 gap-4 mb-10">
+        {upsWhyChoose.map((item) => (
           <li class="flex items-start gap-3 text-sm text-ink-900 card p-4">
             <icons.CircleCheck class="size-4 text-amber-600 shrink-0 mt-0.5" /> {item}
           </li>
         ))}
       </ul>
+      <div class="rounded-md bg-ink-900 p-6 sm:p-8 flex flex-col md:flex-row md:items-center md:justify-between gap-5">
+        <div>
+          <p class="font-display font-bold text-paper text-lg sm:text-xl">Looking for a UPS, battery replacement or annual maintenance solution?</p>
+          <p class="text-sm text-ink-200 mt-1.5">Contact Kedar Industries to discuss your power backup requirements and receive a suitable technical and commercial proposal.</p>
+        </div>
+        <a href="/contact/" class="btn btn-primary justify-center shrink-0">Contact Us <ArrowRight class="size-4" /></a>
+      </div>
     </div>
   </section>
 

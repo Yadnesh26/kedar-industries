@@ -4,6 +4,7 @@ import SectionHeading from '@/components/SectionHeading.astro';
 import StatBand from '@/components/StatBand.astro';
 import ProductCard from '@/components/ProductCard.astro';
 import ProductCarousel from '@/components/ProductCarousel.astro';
+import ImageSlideshow from '@/components/ImageSlideshow.astro';
 import PartnerCard from '@/components/PartnerCard.astro';
 import LogoWall from '@/components/LogoWall.astro';
 import { Image, Picture, getImage } from 'astro:assets';
@@ -47,6 +48,23 @@ const stats = [
   { value: '8,000+', numericValue: 8000, suffix: '+', label: 'Sq. ft. manufacturing facility' },
   { value: '44+', numericValue: 44, suffix: '+', label: 'Projects executed' },
   { value: '70 kA', numericValue: 70, suffix: ' kA', label: 'CPRI short-circuit withstand' },
+];
+
+const processSteps = [
+  { name: 'CNC Punching', text: 'Sheet metal is punched to exact size and shape straight from the drawing' },
+  { name: 'CNC Bending', text: 'Punched sheets are formed to accurate angles on a CNC press brake' },
+  { name: 'Welding', text: 'Frames and enclosures are welded into rigid, square structures' },
+  { name: 'Powder Coating', text: 'Parts are treated and powder coated for a durable, even finish' },
+  { name: 'Busbar Fabrication', text: 'Copper and aluminium busbars are cut and bent to size' },
+];
+
+const processSlides = [
+  { src: 'process-cnc-punching.jpg', label: 'CNC Punching', alt: 'CNC turret punching machine cutting a sheet-metal panel' },
+  { src: 'process-cnc-bending.jpg', label: 'CNC Bending', alt: 'Operators bending sheet metal on a CNC press brake' },
+  { src: 'process-welding.jpg', label: 'Welding', alt: 'Welders fabricating panel frames in the welding bay' },
+  { src: 'process-powder-coating.jpg', label: 'Powder Coating', alt: 'Powder coating spray booth and treatment line' },
+  { src: 'process-busbar-fabrication.jpg', label: 'Busbar Fabrication', alt: 'Busbar cutting and bending station with copper bars' },
+  { src: 'process-busbar-material-racks.jpg', label: 'Busbar Material Store', alt: 'Racks of copper and aluminium busbar stock beside the busbar machine' },
 ];
 
 const infrastructureFeatures = [
@@ -258,13 +276,38 @@ const infrastructureFeatures = [
     </div>
   </section>
 
-  <!-- 5. Infrastructure -->
-  <section class="pt-[2.55rem] pb-[2.55rem] sm:pt-[3.825rem] sm:pb-[3.825rem] lg:pt-[5.1rem] lg:pb-[5.1rem] section-diagonal-dark">
+  <!-- 4b. Manufacturing process -->
+  <section class="pt-7 pb-7 sm:pt-13 sm:pb-13 lg:pt-19 lg:pb-19 section-diagonal-dark">
     <div class="section-diagonal-dark__edges" aria-hidden="true">
       <span></span><span></span><span></span>
     </div>
-    <div class="absolute inset-0 opacity-[0.04] bg-[radial-gradient(circle_at_80%_20%,#FFC629,transparent_50%)]"></div>
-    <div class="container-page relative grid lg:grid-cols-2 gap-6 sm:gap-[2.55rem] items-center">
+    <div class="container-page relative grid lg:grid-cols-2 gap-6 sm:gap-12 items-stretch">
+      <div class="reveal">
+        <SectionHeading
+          eyebrow="Manufacturing process"
+          title="From sheet metal to finished panel"
+          lead="Every enclosure is cut, formed, welded and finished in-house, so each stage stays under our own quality control."
+          dark
+          class="max-sm:!mb-6 max-sm:[&_h2]:text-[1.625rem]"
+        />
+        <ol class="flex flex-col gap-2.5 sm:gap-3">
+          {processSteps.map((step, i) => (
+            <li class="flex items-baseline gap-4 rounded-md border border-white/10 bg-white/5 px-4 py-3 sm:py-3.5">
+              <span class="font-mono-figure text-sm font-semibold text-amber-500 w-6 shrink-0">{String(i + 1).padStart(2, '0')}</span>
+              <p class="text-sm 2xl:text-base text-ink-200 leading-relaxed"><strong class="font-display font-bold text-paper text-base 2xl:text-[1.0625rem]">{step.name}:</strong> {step.text}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
+      <div class="reveal lg:h-full">
+        <ImageSlideshow label="Kedar Industries manufacturing process" slides={processSlides} interval={3000} bordered={false} fill />
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Infrastructure -->
+  <section class="pt-[2.55rem] pb-[2.55rem] sm:pt-[3.825rem] sm:pb-[3.825rem] lg:pt-[5.1rem] lg:pb-[5.1rem]">
+    <div class="container-page grid lg:grid-cols-2 gap-6 sm:gap-[2.55rem] items-center">
       <div class="grid grid-cols-[1.4fr_1fr] grid-rows-3 gap-2 rounded-2xl overflow-hidden aspect-[1.5686]">
         <div class="row-span-3">
           <Image
@@ -308,13 +351,12 @@ const infrastructureFeatures = [
           eyebrow="Manufacturing facility"
           title="8,000 sq ft. Every stage in-house."
           lead="Every panel begins with the right foundation: a facility designed to handle complex requirements with speed, accuracy and zero compromise on quality."
-          dark
           class="max-sm:!mb-6 max-sm:[&_h2]:text-[1.625rem]"
         />
         <ul class="flex flex-col gap-2 sm:gap-3 mb-6 sm:mb-[1.7rem]">
           {infrastructureFeatures.map((f) => (
-            <li class="flex items-center gap-3 text-sm text-ink-200 bg-white/5 rounded-md px-4 py-2.5 sm:py-3">
-              <f.Icon class="size-4 text-amber-500 shrink-0" /> {f.text}
+            <li class="flex items-center gap-3 text-sm text-ink-900 bg-ink-100/60 rounded-md px-4 py-2.5 sm:py-3">
+              <f.Icon class="size-4 text-amber-600 shrink-0" /> {f.text}
             </li>
           ))}
         </ul>
@@ -326,39 +368,43 @@ const infrastructureFeatures = [
   </section>
 
   <!-- 6. Quality Assurance (incl. CPRI headline figures) -->
-  <section class="pt-5 pb-5 sm:pt-9 sm:pb-9 lg:pt-13 lg:pb-13">
-    <div class="container-page grid lg:grid-cols-2 gap-6 sm:gap-12 items-center">
+  <section class="pt-7 pb-7 sm:pt-13 sm:pb-13 lg:pt-19 lg:pb-19 section-diagonal-dark">
+    <div class="section-diagonal-dark__edges" aria-hidden="true">
+      <span></span><span></span><span></span>
+    </div>
+    <div class="container-page relative grid lg:grid-cols-2 gap-6 sm:gap-12 items-center">
       <div>
         <SectionHeading
           eyebrow="Quality assurance"
           title="Every panel tested. Every standard met."
           lead="We manufacture panels and stand behind their performance. From raw material inspection to final dispatch, independently verified by CPRI per IEC 61439-1 & 2."
+          dark
           class="max-sm:!mb-6 max-sm:[&_h2]:text-[1.625rem]"
         />
         <div class="grid grid-cols-3 gap-2 sm:gap-3 mb-6 sm:mb-8">
-          <div class="card p-4 text-center">
-            <p class="font-mono-figure text-xl text-amber-600 font-semibold">70 kA</p>
-            <p class="text-xs text-ink-400 mt-1">Short-circuit withstand</p>
+          <div class="rounded-md bg-white/5 border border-white/10 p-4 text-center">
+            <p class="font-mono-figure text-xl text-amber-500 font-semibold">70 kA</p>
+            <p class="text-xs text-ink-200 mt-1">Short-circuit withstand</p>
           </div>
-          <div class="card p-4 text-center">
-            <p class="font-mono-figure text-xl text-amber-600 font-semibold">{cpriTests.temperatureRise.maxRiseK} K</p>
-            <p class="text-xs text-ink-400 mt-1">Max. temperature rise</p>
+          <div class="rounded-md bg-white/5 border border-white/10 p-4 text-center">
+            <p class="font-mono-figure text-xl text-amber-500 font-semibold">{cpriTests.temperatureRise.maxRiseK} K</p>
+            <p class="text-xs text-ink-200 mt-1">Max. temperature rise</p>
           </div>
-          <div class="card p-4 text-center">
-            <p class="font-mono-figure text-xl text-amber-600 font-semibold">IP55</p>
-            <p class="text-xs text-ink-400 mt-1">Enclosure protection</p>
+          <div class="rounded-md bg-white/5 border border-white/10 p-4 text-center">
+            <p class="font-mono-figure text-xl text-amber-500 font-semibold">IP55</p>
+            <p class="text-xs text-ink-200 mt-1">Enclosure protection</p>
           </div>
         </div>
         <a href="/about/quality/" class="btn btn-primary">
           Quality &amp; Certification <ArrowRight class="size-4" />
         </a>
       </div>
-      <div class="rounded-2xl overflow-hidden border border-ink-100 shadow-sm">
+      <div class="rounded-2xl overflow-hidden shadow-sm">
         <Image
-          src={img('facility-panel-packing-area.jpg')}
-          alt="Finished panels wrapped, labelled and palletised in the Kedar Industries panel packing area"
-          width={1400}
-          height={875}
+          src={img('home-qa-panel-testing.jpg')}
+          alt="Technician testing panel wiring with a multimeter against a QA checklist"
+          width={1184}
+          height={740}
           fit="cover"
           class="w-full object-cover aspect-[16/10]"
         />
