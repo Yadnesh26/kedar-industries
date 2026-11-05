@@ -116,7 +116,7 @@ const productSchema = {
           </div>
   
           <div>
-            <a href="/contact/" class="btn btn-primary">Request a Quote <ArrowRight class="size-4" /></a>
+            <a href={`/contact/?product=${id}`} class="btn btn-primary">Request a Quote <ArrowRight class="size-4" /></a>
           </div>
         </div>
       </div>
@@ -152,7 +152,7 @@ const productSchema = {
           <p class="text-sm text-ink-400 leading-relaxed mb-6">
             Send us your drawing or sample and the quantity you need, and we will come back with a quote.
           </p>
-          <a href="/contact/" class="btn btn-primary w-full justify-center">Request a Quote</a>
+          <a href={`/contact/?product=${id}`} class="btn btn-primary w-full justify-center">Request a Quote</a>
         </div>
       </aside>
     </div>

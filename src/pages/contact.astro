@@ -33,10 +33,10 @@ const parts = (await getCollection('parts')).sort((a, b) => a.data.order - b.dat
           method="POST"
         >
           <!--
-            TODO before launch: this is the developer's TESTING Web3Forms key (enquiries go to
-            the developer's test inbox). Replace it with a key generated for the client's email.
+            Web3Forms access key for info@kedarindustries.net: every enquiry is emailed there.
+            Public by design; it can only deliver to the address it was created for.
           -->
-          <input type="hidden" name="access_key" value="5ef3f93b-eee6-4683-b88a-ced985d06bfa" />
+          <input type="hidden" name="access_key" value="798551f4-da1e-4ab0-8732-fa286bb63b2a" />
           <input type="hidden" name="subject" value="New enquiry from kedarindustries.net" />
           <input type="hidden" name="from_name" value="Kedar Industries Website" />
           <input type="hidden" name="redirect" value="https://kedarindustries.net/thank-you/" data-redirect />
@@ -81,8 +81,8 @@ const parts = (await getCollection('parts')).sort((a, b) => a.data.order - b.dat
               <label for="product" class="block text-sm font-medium text-ink-900 mb-1.5">Product</label>
               <select id="product" name="product" class="w-full px-4 py-2.5 rounded-md border border-ink-200 text-base sm:text-sm focus:border-amber-500 outline-none bg-paper">
                 <option value="">Select a product (optional)</option>
-                {products.map((p) => <option value={p.data.name}>{p.data.name}</option>)}
-                {parts.map((p) => <option value={p.data.name}>{p.data.name} (capacitor part)</option>)}
+                {products.map((p) => <option value={p.data.name} data-slug={p.id}>{p.data.name}</option>)}
+                {parts.map((p) => <option value={p.data.name} data-slug={p.id}>{p.data.name} (capacitor part)</option>)}
               </select>
             </div>
             <div>
@@ -190,4 +190,30 @@ const parts = (await getCollection('parts')).sort((a, b) => a.data.order - b.dat
   // (testing deployment, localhost, or the live domain).
   const redirect = document.querySelector<HTMLInputElement>('[data-redirect]');
   if (redirect) redirect.value = `${window.location.origin}/thank-you/`;
+
+  // Preselect what the visitor came from: "Request a Quote" on a product or part
+  // page links here with ?product=<slug>, service cards with ?service=<title>.
+  const params = new URLSearchParams(window.location.search);
+  const pickType = (value: string) => {
+    const radio = document.querySelector<HTMLInputElement>(`input[name="enquiry_type"][value="${value}"]`);
+    if (radio) radio.checked = true;
+  };
+  const productSlug = params.get('product');
+  if (productSlug) {
+    const option = document.querySelector<HTMLOptionElement>(`#product option[data-slug="${CSS.escape(productSlug)}"]`);
+    if (option) {
+      option.selected = true;
+      pickType('Product');
+    }
+  }
+  const service = params.get('service');
+  if (service) {
+    const option = Array.from(document.querySelectorAll<HTMLOptionElement>('#service option')).find(
+      (o) => o.textContent?.trim() === service,
+    );
+    if (option) {
+      option.selected = true;
+      pickType('Service');
+    }
+  }
 </script>

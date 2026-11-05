@@ -70,7 +70,7 @@ const productSchema = {
             />
           </div>
           <div class="flex flex-wrap gap-4">
-            <a href="/contact/" class="btn btn-primary">Request a Quote <ArrowRight class="size-4" /></a>
+            <a href={`/contact/?product=${id}`} class="btn btn-primary">Request a Quote <ArrowRight class="size-4" /></a>
             <a href="#specifications" class="btn btn-outline">View Specifications</a>
           </div>
         </div>
@@ -206,7 +206,7 @@ const productSchema = {
               </li>
             ))}
           </ul>
-          <a href="/contact/" class="btn btn-primary w-full justify-center">Request a Quote</a>
+          <a href={`/contact/?product=${id}`} class="btn btn-primary w-full justify-center">Request a Quote</a>
         </div>
       </aside>
     </div>

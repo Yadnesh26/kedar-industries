@@ -93,7 +93,7 @@ const upsWhyChoose = [
       <ProductCarousel>
         {coreServices.map((s) => (
           <div class="w-[85vw] sm:w-[calc((100%-1.5rem)/2)] lg:w-[calc((100%-4.5rem)/4)] shrink-0">
-            <a href="/contact/" class="service-card card group flex flex-col overflow-hidden h-full">
+            <a href={`/contact/?service=${encodeURIComponent(s.title)}`} class="service-card card group flex flex-col overflow-hidden h-full">
               <div class="aspect-[4/3] overflow-hidden">
                 <Image
                   src={img(s.image)}
