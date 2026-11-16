@@ -2,6 +2,7 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Breadcrumb from '@/components/Breadcrumb.astro';
 import CTABand from '@/components/CTABand.astro';
+import ImageSlideshow from '@/components/ImageSlideshow.astro';
 import { Image, Picture } from 'astro:assets';
 import * as icons from '@lucide/astro';
 import { img } from '@/lib/images';
@@ -10,7 +11,15 @@ import company from '@/data/company.json';
 const sections = [
   {
     icon: 'Hammer' as const,
-    image: 'facility-production-floor-team-02.jpg',
+    image: 'process-cnc-punching.jpg',
+    // a quiet crossfade through the fabrication shop: no labels, dots or count
+    slides: [
+      { src: 'process-cnc-punching.jpg', alt: 'CNC turret punching machine cutting a sheet-metal panel' },
+      { src: 'process-cnc-bending.jpg', alt: 'Operators bending sheet metal on a CNC press brake' },
+      { src: 'process-welding.jpg', alt: 'Welders fabricating panel frames in the welding bay' },
+      { src: 'process-powder-coating.jpg', alt: 'Powder coating spray booth and treatment line' },
+      { src: 'process-busbar-fabrication.jpg', alt: 'Busbar cutting and bending station' },
+    ],
     title: 'Dedicated Fabrication Section',
     description: 'Sheet-metal cutting, bending and structural fabrication for enclosures and busbar supports.',
     highlights: ['CNC shearing & cutting of sheet metal to exact size', 'Hydraulic press brakes for clean, accurate bends', 'Structural fabrication jigs for repeatable assemblies'],
@@ -38,7 +47,7 @@ const sections = [
   },
   {
     icon: 'PackageCheck' as const,
-    image: 'facility-panel-packing-area.jpg',
+    image: 'facility-packing-dispatch-loading.jpg',
     title: 'Packing & Dispatch Department',
     description: 'Protective packing and dispatch coordination for safe, on-time delivery.',
     highlights: ['Protective crating & packing to prevent transit damage', 'Dispatch scheduling & coordination with your site team', 'Complete logistics documentation sent with each consignment'],
@@ -91,13 +100,26 @@ const sections = [
         )}
         <div class="container-page relative grid lg:grid-cols-2 gap-10 items-center">
           <div class:list={[!imageFirst && 'lg:order-2']}>
-            <Image
-              src={img(s.image)}
-              alt={s.title}
-              width={960}
-              height={600}
-              class="rounded-2xl object-cover w-full aspect-[16/10] shadow-lg"
-            />
+            {s.slides ? (
+              <ImageSlideshow
+                label={s.title}
+                slides={s.slides}
+                interval={4500}
+                fadeMs={1600}
+                controls={false}
+                bordered={false}
+                aspect="aspect-[16/10]"
+                class="!shadow-lg"
+              />
+            ) : (
+              <Image
+                src={img(s.image)}
+                alt={s.title}
+                width={960}
+                height={600}
+                class="rounded-2xl object-cover w-full aspect-[16/10] shadow-lg"
+              />
+            )}
           </div>
           <div class:list={[!imageFirst && 'lg:order-1']}>
             <p class:list={['eyebrow mb-3', dark && 'text-amber-500']}>Stage 0{i + 1}</p>

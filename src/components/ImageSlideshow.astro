@@ -16,12 +16,30 @@ interface Props {
   bordered?: boolean;
   /** From lg up, stretch to the height of the parent instead of a fixed aspect ratio. */
   fill?: boolean;
+  /** Show the dot navigation and its bottom gradient (on by default). */
+  controls?: boolean;
+  /** Crossfade length in ms. */
+  fadeMs?: number;
+  /** Aspect-ratio utility for the frame. */
+  aspect?: string;
+  class?: string;
 }
-const { slides, interval = 4500, label = 'Photo slideshow', bordered = true, fill = false } = Astro.props;
+const {
+  slides,
+  interval = 4500,
+  label = 'Photo slideshow',
+  bordered = true,
+  fill = false,
+  controls = true,
+  fadeMs = 900,
+  aspect = 'aspect-[1.5686]',
+  class: className,
+} = Astro.props;
 ---
 
 <div
-  class:list={['slideshow relative rounded-2xl overflow-hidden aspect-[1.5686] shadow-sm bg-ink-100', fill && 'lg:aspect-auto lg:h-full lg:min-h-[24rem]', bordered && 'border border-ink-100']}
+  class:list={['slideshow relative rounded-2xl overflow-hidden shadow-sm bg-ink-100', aspect, fill && 'lg:aspect-auto lg:h-full lg:min-h-[24rem]', bordered && 'border border-ink-100', className]}
+  style={`--fade: ${fadeMs}ms`}
   role="region"
   aria-roledescription="carousel"
   aria-label={label}
@@ -46,6 +64,7 @@ const { slides, interval = 4500, label = 'Photo slideshow', bordered = true, fil
     </div>
   ))}
 
+  {controls && (<>
   <div class="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-ink-900/50 to-transparent pointer-events-none"></div>
   <div class="absolute bottom-3 inset-x-0 flex justify-center gap-3">
     {slides.map((s, i) => (
@@ -57,6 +76,7 @@ const { slides, interval = 4500, label = 'Photo slideshow', bordered = true, fil
       ></button>
     ))}
   </div>
+  </>)}
 </div>
 
 <script>
@@ -69,8 +89,12 @@ const { slides, interval = 4500, label = 'Photo slideshow', bordered = true, fil
     let timer: number | undefined;
 
     const show = (n: number) => {
+      const prev = current;
       current = (n + slides.length) % slides.length;
       slides.forEach((s, i) => {
+        // the outgoing slide stays fully opaque underneath while the next one
+        // dissolves in on top, so the background never shows mid-fade
+        s.classList.toggle('is-prev', i === prev && i !== current);
         s.classList.toggle('is-active', i === current);
         s.setAttribute('aria-hidden', i === current ? 'false' : 'true');
       });
@@ -107,10 +131,17 @@ const { slides, interval = 4500, label = 'Photo slideshow', bordered = true, fil
 <style>
   .slide {
     opacity: 0;
-    transition: opacity 900ms ease;
+    z-index: 0;
+    transition: opacity var(--fade, 900ms) ease-in-out;
+  }
+  .slide.is-prev {
+    opacity: 1;
+    z-index: 1;
+    transition: none;
   }
   .slide.is-active {
     opacity: 1;
+    z-index: 2;
   }
   .dot.is-active {
     width: 1.5rem;
