@@ -45,7 +45,7 @@ faqs:
   - q: "Is the panel tested before dispatch?"
     a: "Yes. Insulation resistance, HV withstand, continuity, interlock and functional testing are carried out before dispatch."
 relatedTestEvidence: true
-order: 7
+order: 3
 ---
 
 Kedar Industries builds manual and automatic changeover panels that transfer the load safely

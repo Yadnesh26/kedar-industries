@@ -11,29 +11,45 @@ import company from '@/data/company.json';
 const sections = [
   {
     icon: 'Hammer' as const,
-    image: 'process-cnc-punching.jpg',
-    // a quiet crossfade through the fabrication shop: no labels, dots or count
+    image: 'infra-cnc-punching.jpg',
+    // a crossfade through the manufacturing shop, 4 s per photo, each tagged with its step
     slides: [
-      { src: 'process-cnc-punching.jpg', alt: 'CNC turret punching machine cutting a sheet-metal panel' },
-      { src: 'process-cnc-bending.jpg', alt: 'Operators bending sheet metal on a CNC press brake' },
-      { src: 'process-welding.jpg', alt: 'Welders fabricating panel frames in the welding bay' },
-      { src: 'process-powder-coating.jpg', alt: 'Powder coating spray booth and treatment line' },
-      { src: 'process-busbar-fabrication.jpg', alt: 'Busbar cutting and bending station' },
+      { src: 'infra-cnc-punching.jpg', label: 'CNC Punching', alt: 'CNC turret punching machine cutting a sheet-metal panel' },
+      { src: 'infra-cnc-bending.jpg', label: 'CNC Bending', alt: 'Operators bending sheet metal on a CNC press brake' },
+      { src: 'infra-welding.jpg', label: 'Welding', alt: 'Welders building panel frames in the welding bay' },
+      { src: 'infra-powder-coating.jpg', label: 'Powder Coating', alt: 'Powder coating spray booth and treatment line' },
+      { src: 'infra-busbar-processing.jpg', label: 'Busbar Processing', alt: 'Busbar cutting, bending and punching station' },
     ],
-    title: 'Dedicated Fabrication Section',
-    description: 'Sheet-metal cutting, bending and structural fabrication for enclosures and busbar supports.',
-    highlights: ['CNC shearing & cutting of sheet metal to exact size', 'Hydraulic press brakes for clean, accurate bends', 'Structural fabrication jigs for repeatable assemblies'],
+    title: 'Dedicated Manufacturing Section',
+    description: 'Sheet metal punching, bending, welding and powder coating for enclosure manufacturing, with busbar processing and supports for the electrical wiring.',
+    highlights: [
+      'Equipped with a reputed AMADA CNC Turret Punching Machine for precise and accurate sheet metal cutting and punching operations.',
+      'Equipped with advanced CNC bending machines to ensure precise angles, accurate dimensions and consistent sheet metal forming.',
+      'Advanced welding and assembly processes for strong, accurate and durable electrical panel enclosures.',
+      'Powder Coating: High-quality powder coating for a uniform finish, corrosion resistance and long-lasting protection.',
+      'Aluminium & Copper Busbar Processing: Precision cutting, bending, punching and assembly of aluminium and copper busbars to ensure reliable electrical connections and efficient current distribution.',
+    ],
   },
   {
     icon: 'LayoutGrid' as const,
-    image: 'facility-panel-assembly-testing-area.jpg',
+    image: 'infra-panel-assembly.jpg',
     title: 'Electrical Panel Assembly Area',
     description: 'Component mounting, busbar installation and wiring across the full panel range.',
-    highlights: ['Busbar fabrication & installation for every panel rating', 'Dedicated component mounting stations for each build', 'Panel wiring benches laid out for neat, traceable wiring'],
+    highlights: ['Busbar manufacturing & installation for every panel rating', 'Dedicated component mounting stations for each build', 'Panel wiring benches laid out for neat, traceable wiring'],
+  },
+  {
+    icon: 'Cog' as const,
+    // the presses are photographed portrait, so the two front views sit side by side
+    // in a 3:2 frame, so each machine shows whole, head to feet
+    image: 'infra-power-press-front.jpg',
+    aspect: 'aspect-[3/2]',
+    title: 'Advanced Power Press Section',
+    description: 'Our advanced, high-quality power press machinery ensures precision, consistency and superior manufacturing standards.',
+    highlights: ['C-frame power presses (DNX-35 and DNX-45) with dedicated control panels', 'Precise, repeatable pressing for consistent parts in every batch', 'Safety light curtains guarding the press tool area'],
   },
   {
     icon: 'Flame' as const,
-    image: 'facility-soldering-brazing-stations.jpg',
+    image: 'infra-soldering-brazing.jpg',
     title: 'Soldering & Brazing Section',
     description: 'Precision soldering and silver brazing for capacitor parts and electrical joints.',
     highlights: ['Precision soldering stations with trained operators', 'Silver brazing for strong, low-resistance high-current joints', 'Capacitor component assembly for production orders'],
@@ -57,7 +73,7 @@ const sections = [
 
 <BaseLayout
   title="Manufacturing Infrastructure | Kedar Industries"
-  description="Kedar Industries runs an 8,000 sq ft facility in Nashik with a 25 ft clear height. Fabrication, panel assembly, soldering and brazing, quality inspection and dispatch each have their own section, all in-house."
+  description="Kedar Industries runs an 8,000 sq ft facility in Nashik with a 25 ft clear height. Manufacturing, panel assembly, power press, soldering and brazing, quality inspection and dispatch each have their own section, all in-house."
   path="/about/infrastructure/"
 >
   <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'About Us', href: '/about/' }, { label: 'Infrastructure' }]} />
@@ -82,7 +98,7 @@ const sections = [
       </h1>
       <p class="mt-6 text-lg text-ink-200 max-w-xl mx-auto leading-relaxed">
         A {company.facility.clearHeightFt} ft clear-height covered shed engineered for panel
-        fabrication end to end, from raw sheet metal to a tested, dispatch-ready panel.
+        manufacturing end to end, from raw sheet metal to a tested, dispatch-ready panel.
       </p>
     </div>
   </section>
@@ -104,7 +120,8 @@ const sections = [
               <ImageSlideshow
                 label={s.title}
                 slides={s.slides}
-                interval={4500}
+                interval={4000}
+                pauseOnHover={false}
                 fadeMs={1600}
                 controls={false}
                 bordered={false}
@@ -116,8 +133,8 @@ const sections = [
                 src={img(s.image)}
                 alt={s.title}
                 width={960}
-                height={600}
-                class="rounded-2xl object-cover w-full aspect-[16/10] shadow-lg"
+                height={s.aspect ? 640 : 600}
+                class:list={['rounded-2xl object-cover w-full shadow-lg', s.aspect ?? 'aspect-[16/10]']}
               />
             )}
           </div>
@@ -132,12 +149,16 @@ const sections = [
               {s.highlights.map((h) => (
                 <li
                   class:list={[
-                    'flex items-center gap-3 rounded-md px-4 py-3 text-sm font-medium',
+                    'flex items-start gap-3 rounded-md px-4 py-3 text-sm font-medium leading-relaxed',
                     dark ? 'bg-white/5 text-ink-100' : 'bg-ink-100/60 text-ink-900',
                   ]}
                 >
-                  <icons.CircleCheck class:list={['size-4 shrink-0', dark ? 'text-amber-500' : 'text-amber-600']} />
-                  {h}
+                  <icons.CircleCheck class:list={['size-4 shrink-0 mt-0.5', dark ? 'text-amber-500' : 'text-amber-600']} />
+                  {h.includes(': ') ? (
+                    <span><strong class="font-semibold">{h.slice(0, h.indexOf(': ') + 1)}</strong>{h.slice(h.indexOf(': ') + 1)}</span>
+                  ) : (
+                    <span>{h}</span>
+                  )}
                 </li>
               ))}
             </ul>

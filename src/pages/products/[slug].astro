@@ -8,10 +8,10 @@ import { Image } from 'astro:assets';
 import { CircleCheck, ArrowRight, FileCheck2 } from '@lucide/astro';
 import { img } from '@/lib/images';
 import { getCollection, render } from 'astro:content';
-import projectsData from '@/data/projects.json';
 
 export async function getStaticPaths() {
-  const products = await getCollection('products');
+  // display order, so 'Our Products' in the sidebar matches the product listing
+  const products = (await getCollection('products')).sort((a, b) => a.data.order - b.data.order);
   return products.map((product) => ({
     params: { slug: product.id },
     props: { product, allProducts: products },
@@ -22,7 +22,6 @@ const { product, allProducts } = Astro.props;
 const { data, id } = product;
 const { Content } = await render(product);
 
-const relatedProjects = projectsData.filter((p) => p.productType === id).slice(0, 6);
 
 const productSchema = {
   '@context': 'https://schema.org',
@@ -130,39 +129,6 @@ const productSchema = {
                 See the CPRI reports <ArrowRight class="size-4" />
               </a>
             </div>
-          </div>
-        )}
-
-        {relatedProjects.length > 0 && (
-          <div>
-            <h2 class="text-2xl text-ink-900 mb-4">Related Projects Delivered</h2>
-            {/* Phones: one stacked card per project; a three-column table is
-                too cramped below 640px. */}
-            <ul class="sm:hidden card divide-y divide-ink-100 overflow-hidden">
-              {relatedProjects.map((p) => (
-                <li class="px-4 py-3.5">
-                  <p class="font-medium text-ink-900 text-sm">{p.client}</p>
-                  <p class="text-xs text-ink-400 mt-0.5">{p.location}</p>
-                  <p class="text-sm text-ink-600 mt-1.5 leading-relaxed">{p.project}</p>
-                </li>
-              ))}
-            </ul>
-            <div class="hidden sm:block card overflow-hidden">
-              <table class="w-full text-sm">
-                <tbody>
-                  {relatedProjects.map((p, i) => (
-                    <tr class:list={[i % 2 === 1 && 'bg-ink-100/40']}>
-                      <td class="px-5 py-3 font-medium text-ink-900">{p.client}</td>
-                      <td class="px-5 py-3 text-ink-400">{p.location}</td>
-                      <td class="px-5 py-3 text-ink-600 text-xs">{p.project}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            <a href="/about/" class="inline-flex items-center gap-1.5 text-amber-600 font-semibold text-sm mt-4 hover:gap-2.5 transition-all">
-              View more projects <ArrowRight class="size-4" />
-            </a>
           </div>
         )}
 

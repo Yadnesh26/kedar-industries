@@ -46,7 +46,7 @@ faqs:
   - q: "Is the panel tested before dispatch?"
     a: "Yes. Insulation resistance, HV withstand, continuity and functional testing are carried out on every panel before it leaves the factory."
 relatedTestEvidence: false
-order: 6
+order: 7
 ---
 
 Kedar Industries builds Active Harmonic Filter panels that cancel harmonic currents from VFDs,

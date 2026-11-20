@@ -11,7 +11,7 @@ overview: |
 features:
   - "Punched mounting holes and bent flanges held to drawing tolerance"
   - "Integral pin terminals for direct board or assembly connection"
-  - "Fabricated for export-grade capacitor assemblies (Vishay WECS order, 200 sets)"
+  - "Manufactured for export-grade capacitor assemblies (Vishay WECS order, 200 sets)"
   - "Consistent repeatability across production runs"
 applications:
   - "DC-side capacitor bank interconnection"
@@ -19,4 +19,4 @@ applications:
 order: 6
 ---
 
-Precision-formed busbars with pin terminals, fabricated in-house to customer drawings.
+Precision-formed busbars with pin terminals, manufactured in-house to customer drawings.

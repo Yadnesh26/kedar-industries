@@ -22,6 +22,8 @@ interface Props {
   fadeMs?: number;
   /** Aspect-ratio utility for the frame. */
   aspect?: string;
+  /** Pause while hovered or focused (on by default). Off keeps a fixed rhythm. */
+  pauseOnHover?: boolean;
   class?: string;
 }
 const {
@@ -33,6 +35,7 @@ const {
   controls = true,
   fadeMs = 900,
   aspect = 'aspect-[1.5686]',
+  pauseOnHover = true,
   class: className,
 } = Astro.props;
 ---
@@ -44,6 +47,7 @@ const {
   aria-roledescription="carousel"
   aria-label={label}
   data-interval={interval}
+  data-pause-on-hover={pauseOnHover ? 'true' : 'false'}
 >
   {slides.map((s, i) => (
     <div class:list={['slide absolute inset-0', i === 0 && 'is-active']} aria-hidden={i === 0 ? 'false' : 'true'}>
@@ -57,7 +61,13 @@ const {
         class="w-full h-full object-cover"
       />
       {s.label && (
-        <span class="slide-label absolute left-3 bottom-10 sm:left-5 sm:bottom-12 inline-flex items-center gap-2 rounded-md bg-ink-900/80 backdrop-blur-sm px-3 py-1.5 sm:px-4 sm:py-2 text-sm sm:text-base font-semibold text-paper">
+        <span
+          class:list={[
+            'slide-label absolute left-3 sm:left-5 inline-flex items-center gap-2 rounded-md bg-ink-900/80 backdrop-blur-sm px-3 py-1.5 sm:px-4 sm:py-2 text-sm sm:text-base font-semibold text-paper',
+            // no dots underneath: sit the tag in the corner
+            controls ? 'bottom-10 sm:bottom-12' : 'bottom-3 sm:bottom-5',
+          ]}
+        >
           <span class="h-4 w-1 rounded-full bg-amber-500" aria-hidden="true"></span>{s.label}
         </span>
       )}
@@ -116,10 +126,12 @@ const {
         start();
       })
     );
-    root.addEventListener('mouseenter', stop);
-    root.addEventListener('mouseleave', start);
-    root.addEventListener('focusin', stop);
-    root.addEventListener('focusout', start);
+    if (root.dataset.pauseOnHover !== 'false') {
+      root.addEventListener('mouseenter', stop);
+      root.addEventListener('mouseleave', start);
+      root.addEventListener('focusin', stop);
+      root.addEventListener('focusout', start);
+    }
 
     new IntersectionObserver(
       (entries) => entries.forEach((e) => (e.isIntersecting ? start() : stop())),

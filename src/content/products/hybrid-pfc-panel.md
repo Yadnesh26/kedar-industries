@@ -49,7 +49,7 @@ faqs:
   - q: "Is the panel tested before dispatch?"
     a: "Yes. Insulation resistance, HV withstand, continuity and functional testing are carried out on every panel before it leaves the factory."
 relatedTestEvidence: false
-order: 5
+order: 6
 ---
 
 Kedar Industries builds hybrid power factor correction panels that combine contactor-switched

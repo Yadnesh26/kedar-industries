@@ -53,7 +53,7 @@ faqs:
   - q: "Is after-sales support available?"
     a: "Yes, installation & commissioning, AMC, genuine spares and 24×7 remote technical support are all offered."
 relatedTestEvidence: false
-order: 3
+order: 4
 ---
 
 Kedar Industries, Vishay's authorised Partner and System Integrator, designs, builds and

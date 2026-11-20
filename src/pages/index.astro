@@ -50,7 +50,7 @@ const stats = [
 ];
 
 const infrastructureFeatures = [
-  { Icon: Wrench, text: 'Dedicated fabrication & panel assembly sections' },
+  { Icon: Wrench, text: 'Dedicated manufacturing & panel assembly sections' },
   { Icon: Flame, text: 'In-house precision soldering & silver brazing' },
   { Icon: Warehouse, text: '8,000 sq ft shed, 25 ft clear height, single roof' },
 ];
@@ -58,7 +58,7 @@ const infrastructureFeatures = [
 
 <BaseLayout
   title="Kedar Industries"
-  description="Kedar Industries in Nashik, Maharashtra makes CPRI type-tested electrical control panels (PCC, MCC, APFC and RTPFC) and also does capacitor part fabrication and precision soldering and brazing. Panels are built to IEC 61439, and the company is certified to ISO 9001, ISO 14001, ISO 45001 and IATF 16949."
+  description="Kedar Industries in Nashik, Maharashtra makes CPRI type-tested electrical control panels (PCC, MCC, APFC and RTPFC) and also manufactures capacitor parts and carries out precision soldering and brazing. Panels are built to IEC 61439, and the company is certified to ISO 9001, ISO 14001, ISO 45001 and IATF 16949."
   path="/"
 >
   <!-- 1. Hero (extended — carries the stat row at its own bottom edge) -->
@@ -102,9 +102,9 @@ const infrastructureFeatures = [
           </span>
         </h1>
         <p class="mt-4 sm:mt-6 text-[0.9375rem] sm:text-xl text-ink-200 max-w-xl leading-relaxed">
-          Kedar Industries manufactures electrical control panels, capacitor part fabrication, and
-          precision soldering &amp; brazing, engineered to IEC 61439 and independently validated
-          by CPRI.
+          Kedar Industries manufactures electrical control panels engineered to IEC 61439 and
+          independently validated by CPRI, along with capacitor parts and precision soldering &amp;
+          brazing.
         </p>
         <div class="mt-6 sm:mt-9 flex flex-row sm:flex-wrap gap-3 sm:gap-4">
           <a href="/products/" class="btn btn-primary justify-center flex-1 sm:flex-none px-3 sm:px-6 text-sm sm:text-[0.9375rem]">
@@ -157,7 +157,7 @@ const infrastructureFeatures = [
         <div class="rounded-2xl overflow-hidden border border-ink-100 shadow-sm aspect-[4/3]">
           <video
             class="w-full h-full object-cover"
-            poster="/videos/about-poster.jpg?v=20261116"
+            poster="/videos/about-poster.jpg?v=20261119"
             autoplay
             muted
             loop
@@ -165,25 +165,29 @@ const infrastructureFeatures = [
             disablepictureinpicture
             aria-hidden="true"
           >
-            <source src="/videos/about-placeholder.mp4?v=20261116" type="video/mp4" />
-            <source src="/videos/about-placeholder.webm?v=20261116" type="video/webm" />
+            <source src="/videos/about-placeholder.mp4?v=20261119" type="video/mp4" />
+            <source src="/videos/about-placeholder.webm?v=20261119" type="video/webm" />
           </video>
         </div>
       </div>
       <div class="reveal order-1 lg:order-2">
-        <SectionHeading eyebrow="About Kedar Industries" title={company.tagline} class="max-sm:!mb-6 max-sm:[&_h2]:text-[1.625rem]" />
+        <SectionHeading eyebrow="About Kedar Industries" title="Electrical Control Panels, Engineered & Manufactured In-House" class="max-sm:!mb-6 max-sm:[&_h2]:text-[1.625rem]" />
         <div class="flex flex-col gap-3 sm:gap-4 mb-6 sm:mb-8 text-ink-400 leading-relaxed max-w-xl">
           <p>
-            Kedar Industries manufactures electrical control panels, and also fabricates capacitor
-            parts and carries out precision soldering and brazing for industrial customers.
+            Kedar Industries is an electrical control panel manufacturer. We design, manufacture and
+            test PCC, MCC, changeover, power factor correction, harmonic filter, VFD, UPS and PDU
+            panels, each built to IEC 61439 for domestic, international, commercial &amp; industrial
+            customers.
           </p>
           <p>
-            Our Nashik facility combines modern machinery, skilled technicians and in-house quality
-            control, so every product is built to national and international standards.
+            Our Nashik facility brings sheet metal working, busbar processing, panel assembly and
+            testing under one roof, run by qualified engineers with in-house quality control.
+            Alongside our panels, we manufacture capacitor parts and carry out precision soldering
+            and brazing.
           </p>
         </div>
         <ul class="grid sm:grid-cols-2 gap-2.5 sm:gap-3 mb-6 sm:mb-8">
-          {['Design, fabricate & test in-house', 'IEC 61439 & CPRI validated', 'Vishay & C&S authorised partner', 'ISO 9001/14001/45001 + IATF 16949'].map((item) => (
+          {['Design, manufacture & test in-house', 'PCC, MCC, PFC, VFD & UPS panels', 'IEC 61439 & CPRI validated', 'ISO 9001/14001/45001 + IATF 16949'].map((item) => (
             <li class="flex items-start gap-2 text-sm text-ink-600">
               <CircleCheck class="size-4 text-amber-600 shrink-0 mt-0.5" /> {item}
             </li>

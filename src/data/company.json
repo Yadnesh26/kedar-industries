@@ -7,7 +7,7 @@
   "establishedFull": "June 2019",
   "tagline": "Engineering Excellence through Quality, Innovation & Reliability.",
   "pillars": ["Quality", "Innovation", "Excellence"],
-  "businessActivities": "Manufacturing of Electrical Control Panels, Capacitor Part Fabrication, Precision Soldering & Brazing",
+  "businessActivities": "Manufacturing of Electrical Control Panels, Capacitor Part Manufacturing, Precision Soldering & Brazing",
   "address": {
     "line1": "Plot No. M-20, Siemens Road",
     "line2": "MIDC, Ambad",
@@ -39,18 +39,19 @@
     "saturday": "Closed",
     "schemaOpeningHours": "Su,Mo,Tu,We,Th,Fr 08:00-18:00"
   },
-  "about": "KEDAR INDUSTRIES is a trusted manufacturer of Electrical Control Panels, specializing in Capacitor Part Fabrication and Precision Soldering & Brazing activities. The firm delivers engineering solutions for a range of industrial sectors through innovation, precision, and customer-focused service. The manufacturing facility is equipped with advanced machinery, skilled technicians, and modern quality-control systems, enabling production of reliable and durable products in compliance with national and international standards. As a quality-focused organization, Kedar Industries continuously invests in technology, process improvement, and workforce development for superior performance, safety, and environmental responsibility.",
-  "vision": "To become a leading manufacturer of electrical control panels and precision fabricated components by delivering innovative, reliable, and sustainable engineering solutions.",
+  "about": "KEDAR INDUSTRIES is a trusted manufacturer of Electrical Control Panels, specializing in Capacitor Part Manufacturing and Precision Soldering & Brazing activities. The firm delivers engineering solutions for a range of industrial sectors through innovation, precision, and customer-focused service. The manufacturing facility is equipped with advanced machinery, qualified engineers, and modern quality-control systems, enabling production of reliable and durable products in compliance with national and international standards. As a quality-focused organization, Kedar Industries continuously invests in technology, process improvement, and workforce development for superior performance, safety, and environmental responsibility.",
+  "vision": "To become a leading manufacturer of electrical control panels and precision manufactured components by delivering innovative, reliable, and sustainable engineering solutions.",
   "mission": [
-    "Manufacture superior-quality electrical control panels and fabricated components.",
+    "Manufacture superior-quality electrical control panels and manufactured components.",
     "Achieve complete customer satisfaction through quality, innovation, and timely delivery.",
     "Continually improve manufacturing processes and technology.",
     "Maintain the highest standards of safety, environmental responsibility, and operational excellence.",
     "Build long-term partnerships based on trust, integrity, and performance."
   ],
   "manufacturingAreas": [
-    "Dedicated Fabrication Section",
+    "Dedicated Manufacturing Section",
     "Electrical Panel Assembly Area",
+    "Power Press Section",
     "Soldering & Brazing Section",
     "Quality Inspection Area",
     "Packing & Dispatch Department",

@@ -67,7 +67,6 @@ Shop-floor and dispatch photographs:
 
 | File | Description |
 |---|---|
-| `product-plc-tubular.jpg` | PLC tubular terminal |
 | `product-gli-terminal-v2.jpg` | GLI terminal, threaded boss on formed base |
 | `product-snubber-terminal-v3.jpg` | Set of five snubber terminals |
 | `product-busbar-v4.jpg` | Busbar with pin terminals (plus `product-busbar-2.jpg`, `-3.jpg` gallery views) |

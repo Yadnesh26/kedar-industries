@@ -5,11 +5,11 @@ heroImage: "product-lvac-copper-band-v2.jpg"
 gallery: ["product-lvac-copper-band-2.jpg", "product-lvac-copper-band-3.jpg"]
 overview: |
   LVAC copper bands terminate and connect capacitor elements with a low-resistance, mechanically
-  robust joint. Kedar fabricates these to tight dimensional tolerance for Vishay's continuous
+  robust joint. Kedar manufactures these to tight dimensional tolerance for Vishay's continuous
   capacitor production line, running since FY 2022–23.
 features:
   - "High-conductivity copper for minimal joint resistance"
-  - "Fabricated to tight dimensional tolerance"
+  - "Manufactured to tight dimensional tolerance"
   - "Supplied on a continuous production basis to Vishay Components India"
 applications:
   - "LVAC capacitor element termination"
@@ -17,5 +17,5 @@ applications:
 order: 1
 ---
 
-Precision LVAC copper band fabrication, supplied continuously to Vishay Components India's
+Precision LVAC copper band manufacturing, supplied continuously to Vishay Components India's
 capacitor production line.
