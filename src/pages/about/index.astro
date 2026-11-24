@@ -8,7 +8,7 @@ import ImageSlideshow from '@/components/ImageSlideshow.astro';
 import LogoWall from '@/components/LogoWall.astro';
 import CTABand from '@/components/CTABand.astro';
 import { Image } from 'astro:assets';
-import { CircleCheck, ArrowRight, Building2, ShieldCheck, Factory, Handshake, BadgeCheck, Ruler, Headset } from '@lucide/astro';
+import { CircleCheck, ArrowRight, ShieldCheck, Factory, Handshake, BadgeCheck, Ruler, Headset } from '@lucide/astro';
 import { img } from '@/lib/images';
 import company from '@/data/company.json';
 import clients from '@/data/clients.json';
@@ -149,36 +149,6 @@ const milestones = [
     <div class="container-page">
       <SectionHeading eyebrow="Sectors served" title="Trusted across industrial sectors" noWrap />
       <IndustryMarquee industries={clients.industries} />
-    </div>
-  </section>
-
-  <section class="section-y bg-ink-100/50">
-    <div class="container-page">
-      <SectionHeading
-        eyebrow="Who we work with"
-        title="Clients & Associations"
-        lead={`Registered vendor of ${clients.registeredVendorOf.length} major industrial groups.`}
-      />
-      <div class="grid md:grid-cols-2 gap-10">
-        <div>
-          <h3 class="font-display font-bold text-ink-900 text-lg mb-4 flex items-center gap-2">
-            <Building2 class="size-5 text-amber-600" /> Registered Vendor Of
-          </h3>
-          <ul class="flex flex-col gap-2.5">
-            {clients.registeredVendorOf.map((c) => (
-              <li class="text-sm text-ink-900 py-2.5 px-4 rounded-md bg-paper border border-ink-100">{c}</li>
-            ))}
-          </ul>
-        </div>
-        <div>
-          <h3 class="font-display font-bold text-ink-900 text-lg mb-4">Associated Consultants</h3>
-          <ul class="flex flex-col gap-2.5">
-            {clients.associatedConsultants.map((c) => (
-              <li class="text-sm text-ink-900 py-2.5 px-4 rounded-md bg-paper border border-ink-100">{c}</li>
-            ))}
-          </ul>
-        </div>
-      </div>
     </div>
   </section>
 

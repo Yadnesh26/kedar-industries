@@ -92,11 +92,13 @@ const productSchema = {
         <div class="flex flex-col gap-8">
           <div>
             <h2 class="text-2xl text-ink-900 mb-4">Overview</h2>
-            <p class="text-ink-400 leading-relaxed">{data.overview}</p>
+            <div class="flex flex-col gap-4 text-ink-400 leading-relaxed">
+              {data.overview.trim().split(/\n\s*\n/).map((para: string) => <p>{para}</p>)}
+            </div>
           </div>
   
           <div>
-            <h2 class="text-2xl text-ink-900 mb-4">Features</h2>
+            <h2 class="text-2xl text-ink-900 mb-4">Key Features</h2>
             <ul class="flex flex-col gap-3">
               {data.features.map((f: string) => (
                 <li class="flex items-start gap-2.5 text-sm text-ink-600">

@@ -4,6 +4,7 @@ import SectionHeading from '@/components/SectionHeading.astro';
 import StatBand from '@/components/StatBand.astro';
 import ProductCard from '@/components/ProductCard.astro';
 import ProductCarousel from '@/components/ProductCarousel.astro';
+import ImageSlideshow from '@/components/ImageSlideshow.astro';
 import PartnerCard from '@/components/PartnerCard.astro';
 import LogoWall from '@/components/LogoWall.astro';
 import { Image, Picture, getImage } from 'astro:assets';
@@ -19,6 +20,14 @@ import clients from '@/data/clients.json';
 import projects from '@/data/projects.json';
 
 const allProducts = (await getCollection('products')).sort((a, b) => a.data.order - b.data.order);
+const allParts = (await getCollection('parts')).sort((a, b) => a.data.order - b.data.order);
+
+// 2b. capacitor components, soldering & brazing: a quiet labelled crossfade
+const capacitorSlides = [
+  { src: 'service-precision-soldering-stations.jpg', label: 'Precision Soldering', alt: 'Precision soldering stations for capacitor components' },
+  { src: 'service-copper-connector-brazing-station.jpg', label: 'Silver Brazing', alt: 'Silver brazing station for copper connectors' },
+  { src: 'service-component-assembly-benches.jpg', label: 'Capacitor Component Assembly', alt: 'Capacitor component assembly benches' },
+];
 
 const heroBg = img('hero-mcc-panel-factory-v5.jpg');
 const heroBgPortrait = img('hero-mcc-panel-factory-portrait.jpg');
@@ -174,16 +183,11 @@ const infrastructureFeatures = [
         <SectionHeading eyebrow="About Kedar Industries" title="Electrical Control Panels, Engineered & Manufactured In-House" class="max-sm:!mb-6 max-sm:[&_h2]:text-[1.625rem]" />
         <div class="flex flex-col gap-3 sm:gap-4 mb-6 sm:mb-8 text-ink-400 leading-relaxed max-w-xl">
           <p>
-            Kedar Industries is an electrical control panel manufacturer. We design, manufacture and
-            test PCC, MCC, changeover, power factor correction, harmonic filter, VFD, UPS and PDU
-            panels, each built to IEC 61439 for domestic, international, commercial &amp; industrial
-            customers.
-          </p>
-          <p>
-            Our Nashik facility brings sheet metal working, busbar processing, panel assembly and
-            testing under one roof, run by qualified engineers with in-house quality control.
-            Alongside our panels, we manufacture capacitor parts and carry out precision soldering
-            and brazing.
+            Kedar Industries specializes in the design and manufacturing of high-quality{' '}
+            <strong class="text-ink-900 font-semibold">Electrical Control Panels</strong>, engineered in
+            accordance with <strong class="text-ink-900 font-semibold">IEC 61439 standards and independently
+            validated by CPRI</strong>. We deliver reliable, safe and high-performance electrical solutions
+            tailored to meet diverse domestic, export, industrial and commercial requirements.
           </p>
         </div>
         <ul class="grid sm:grid-cols-2 gap-2.5 sm:gap-3 mb-6 sm:mb-8">
@@ -196,6 +200,46 @@ const infrastructureFeatures = [
         <a href="/about/" class="btn btn-primary">
           Discover Our Story <ArrowRight class="size-4" />
         </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2b. Capacitor components, precision soldering & brazing -->
+  <section class="pt-9 pb-11 sm:pt-11 sm:pb-15 bg-ink-100/50">
+    <div class="container-page grid lg:grid-cols-2 gap-12 items-center">
+      <div class="reveal">
+        <SectionHeading eyebrow="Capacitor components" title="Capacitor Components, Precision Soldering & Brazing" class="max-sm:!mb-6 max-sm:[&_h2]:text-[1.625rem]" />
+        <div class="flex flex-col gap-3 sm:gap-4 mb-6 sm:mb-8 text-ink-400 leading-relaxed max-w-xl">
+          <p>
+            Kedar Industries also specializes in the manufacturing of{' '}
+            <strong class="text-ink-900 font-semibold">capacitor components, precision soldering</strong> and{' '}
+            <strong class="text-ink-900 font-semibold">brazing solutions</strong>, delivering reliable quality,
+            precision and performance to meet diverse domestic, export, industrial and commercial
+            requirements.
+          </p>
+        </div>
+        <ul class="grid sm:grid-cols-2 gap-2.5 sm:gap-3 mb-6 sm:mb-8">
+          {['Capacitor parts to customer drawings', 'Precision soldering', 'Silver brazing', 'Supplying Vishay Components India'].map((item) => (
+            <li class="flex items-start gap-2 text-sm text-ink-600">
+              <CircleCheck class="size-4 text-amber-600 shrink-0 mt-0.5" /> {item}
+            </li>
+          ))}
+        </ul>
+        <a href="/products/#capacitor-parts" class="btn btn-primary">
+          View Capacitor Parts <ArrowRight class="size-4" />
+        </a>
+      </div>
+      <div class="reveal">
+        <ImageSlideshow
+          label="Capacitor components, soldering and brazing"
+          slides={capacitorSlides}
+          interval={4000}
+          fadeMs={1600}
+          controls={false}
+          pauseOnHover={false}
+          bordered={false}
+          aspect="aspect-[4/3]"
+        />
       </div>
     </div>
   </section>
@@ -256,6 +300,34 @@ const infrastructureFeatures = [
               name={product.data.name}
               tagline={product.data.tagline}
               heroImage={product.data.heroImage}
+            />
+          </div>
+        ))}
+      </ProductCarousel>
+    </div>
+  </section>
+
+  <!-- 4b. Capacitor parts (same band as the panels, directly below them) -->
+  <section class="pb-7 sm:pb-13 lg:pb-19 bg-ink-100/50">
+    <div class="container-page">
+      <div class="flex flex-wrap items-end justify-between gap-4 sm:gap-6 mb-6 sm:mb-12">
+        <SectionHeading
+          eyebrow="Precision-manufactured to customer drawings"
+          title="Our Capacitor Parts"
+          class="!mb-0 max-sm:[&_h2]:text-[1.625rem]"
+        />
+        <a href="/products/#capacitor-parts" class="btn btn-primary shrink-0">
+          View All Capacitor Parts <ArrowRight class="size-4" />
+        </a>
+      </div>
+      <ProductCarousel>
+        {allParts.map((part) => (
+          <div class="w-[85vw] sm:w-[calc((100%-1.5rem)/2)] lg:w-[calc((100%-4.5rem)/4)] shrink-0">
+            <ProductCard
+              href={`/capacitor-parts/${part.id}/`}
+              name={part.data.name}
+              tagline={part.data.tagline}
+              heroImage={part.data.heroImage}
             />
           </div>
         ))}
