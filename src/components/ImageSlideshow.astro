@@ -75,8 +75,8 @@ const {
   ))}
 
   {controls && (<>
-  <div class="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-ink-900/50 to-transparent pointer-events-none"></div>
-  <div class="absolute bottom-3 inset-x-0 flex justify-center gap-3">
+  <div class="absolute inset-x-0 bottom-0 z-10 h-16 bg-gradient-to-t from-ink-900/50 to-transparent pointer-events-none"></div>
+  <div class="absolute bottom-3 inset-x-0 z-10 flex justify-center gap-3">
     {slides.map((s, i) => (
       <button
         type="button"
