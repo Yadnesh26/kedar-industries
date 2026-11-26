@@ -24,6 +24,12 @@ const allParts = (await getCollection('parts')).sort((a, b) => a.data.order - b.
 
 // 2b. capacitor components, soldering & brazing: a quiet labelled crossfade
 const capacitorSlides = [
+  // the parts together as one catalogue collage (follows the parts' display order)
+  {
+    label: 'Capacitor Parts',
+    alt: `Capacitor parts manufactured by Kedar Industries: ${allParts.map((p) => p.data.name).join(', ')}`,
+    collage: allParts.map((part) => ({ src: part.data.heroImage, name: part.data.name })),
+  },
   { src: 'service-precision-soldering-stations.jpg', label: 'Precision Soldering', alt: 'Precision soldering stations for capacitor components' },
   { src: 'service-copper-connector-brazing-station.jpg', label: 'Silver Brazing', alt: 'Silver brazing station for copper connectors' },
   { src: 'service-component-assembly-benches.jpg', label: 'Capacitor Component Assembly', alt: 'Capacitor component assembly benches' },
@@ -158,15 +164,16 @@ const infrastructureFeatures = [
   <section class="pt-9 pb-11 sm:pt-11 sm:pb-15">
     <div class="container-page grid lg:grid-cols-2 gap-12 items-center">
       <div class="reveal order-2 lg:order-1">
-        {/* Self-hosted 34s "Amber Line" brand loop (its scene 02 carries the five
-            manufacturing-process steps that used to be their own section here) (source project lives
+        {/* Self-hosted 25s "Amber Line" brand loop, electrical panels only (its scene 02
+            carries the five manufacturing-process steps; the capacitor scenes moved to
+            the 2b slideshow below) (source project lives
             outside the site in ../videos/about-amber-line). Its last frame
             matches its first, so a plain `loop` attribute is seamless — no
             third-party chrome, no JS timer. The poster is frame 0. */}
         <div class="rounded-2xl overflow-hidden border border-ink-100 shadow-sm aspect-[4/3]">
           <video
             class="w-full h-full object-cover"
-            poster="/videos/about-poster.jpg?v=20261119"
+            poster="/videos/about-poster.jpg?v=20261126"
             autoplay
             muted
             loop
@@ -174,8 +181,8 @@ const infrastructureFeatures = [
             disablepictureinpicture
             aria-hidden="true"
           >
-            <source src="/videos/about-placeholder.mp4?v=20261119" type="video/mp4" />
-            <source src="/videos/about-placeholder.webm?v=20261119" type="video/webm" />
+            <source src="/videos/about-placeholder.mp4?v=20261126" type="video/mp4" />
+            <source src="/videos/about-placeholder.webm?v=20261126" type="video/webm" />
           </video>
         </div>
       </div>
